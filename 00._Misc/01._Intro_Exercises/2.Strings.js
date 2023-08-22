@@ -15,7 +15,9 @@ console.log(newNumber);
 const anotherNumberOne = "1.10";
 const anotherNumberTwo = "2.30";
 
-const yetAnotherNumber = (parseInt(anotherNumberOne) + parseInt(anotherNumberTwo)).toFixed(2);
+const yetAnotherNumber = (
+  parseInt(anotherNumberOne) + parseInt(anotherNumberTwo)
+).toFixed(2);
 console.log(yetAnotherNumber);
 
 // --------------------------------------
