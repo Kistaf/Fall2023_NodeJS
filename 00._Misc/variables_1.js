@@ -1,6 +1,6 @@
 const scheduledBreaktime = "15:00";
 let consoleLogCounter = 0;
-console.log(`Let's take a break at ${scheduledBreaktime}`);
+console.log("Let's take a break at:", scheduledBreaktime);
 consoleLogCounter++;
 
 // String, Number, Boolean, Null, Undefined, BigInteger, Object, Symbol
