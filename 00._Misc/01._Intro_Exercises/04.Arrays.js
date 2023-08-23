@@ -15,10 +15,7 @@ const friends = [];
 
 // What a lonely array. Add at least 3 friend objects to it.
 
-friends.push({});
-friends.push({});
-friends.push({});
-
+friends.push({}, {}, {});
 console.log(friends);
 
 // --------------------------------------
