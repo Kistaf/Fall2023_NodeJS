@@ -9,42 +9,42 @@ let mountains = [
         location: "Himalayas, Nepal/China",
         height: 8848
     },
-    // {
-    //     id: 2,
-    //     name: "K2",
-    //     location: "Karakoram, Pakistan/China",
-    //     height: 8611
-    // },
-    // {
-    //     id: 3,
-    //     name: "Kangchenjunga",
-    //     location: "Himalayas, Nepal/India",
-    //     height: 8586
-    // },
-    // {
-    //     id: 4,
-    //     name: "Lhotse",
-    //     location: "Himalayas, Nepal",
-    //     height: 8516
-    // },
-    // {
-    //     id: 5,
-    //     name: "Makalu",
-    //     location: "Himalayas, Nepal",
-    //     height: 8462
-    // },
-    // {
-    //     id: 6,
-    //     name: "Cerro Bonete",
-    //     location: "Andes, Argentina",
-    //     height: 6759
-    // },
-    // {
-    //     id: 7,
-    //     name: "Huayna Potosi",
-    //     location: "Andes, Bolivia",
-    //     height: 6088
-    // }
+    {
+        id: 2,
+        name: "K2",
+        location: "Karakoram, Pakistan/China",
+        height: 8611
+    },
+    {
+        id: 3,
+        name: "Kangchenjunga",
+        location: "Himalayas, Nepal/India",
+        height: 8586
+    },
+    {
+        id: 4,
+        name: "Lhotse",
+        location: "Himalayas, Nepal",
+        height: 8516
+    },
+    {
+        id: 5,
+        name: "Makalu",
+        location: "Himalayas, Nepal",
+        height: 8462
+    },
+    {
+        id: 6,
+        name: "Cerro Bonete",
+        location: "Andes, Argentina",
+        height: 6759
+    },
+    {
+        id: 7,
+        name: "Huayna Potosi",
+        location: "Andes, Bolivia",
+        height: 6088
+    }
 ]
 
 const idMiddleware = (req, res, next) => {
