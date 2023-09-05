@@ -138,6 +138,10 @@ app.patch("/mountains/:id", (req, res) => {
         return res.send({ data: "No mountain with the given id" })
     }
 
+    // preventing ID from being updated,
+    // if it was parsed along in the request body
+    delete req.body.id
+
     Object.assign(mountain, req.body)
     res.send({ message: "The mountain has been updated", data: mountain })
 })
@@ -152,6 +156,10 @@ app.put("/mountains/:id", (req, res) => {
     if (!mountain) {
         return res.send({ data: "No mountain with the given id" })
     }
+
+    // preventing ID from being updated,
+    // if it was parsed along in the request body
+    delete req.body.id
 
     Object.assign(mountain, req.body)
     res.send({ message: "The mountain has been updated", data: mountain })
