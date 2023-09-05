@@ -140,6 +140,13 @@ app.patch("/mountains/:id", idMiddleware, (req, res) => {
         return res.send({ message: "PATCH should only be used to update one field. Use PUT instead." })
     }
 
+    const allowedFields = ["name", "location", "height"]
+    if (!Object.keys(req.body).every(field => allowedFields.includes(field))) {
+        return res.send({
+            message: "Only 'name', 'location' and 'height' are valid fields.",
+        })
+    }
+
     const mountain = req.mountain
 
     // preventing ID from being updated,
@@ -155,6 +162,13 @@ app.put("/mountains/:id", idMiddleware, (req, res) => {
 
     if (fieldsAmount === 0) {
         return res.send({ message: "You must provide at least one field to update." })
+    }
+
+    const allowedFields = ["name", "location", "height"]
+    if (!Object.keys(req.body).every(field => allowedFields.includes(field))) {
+        return res.send({
+            message: "Only 'name', 'location' and 'height' are valid fields.",
+        })
     }
 
     const mountain = req.mountain
