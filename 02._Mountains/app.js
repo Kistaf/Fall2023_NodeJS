@@ -47,6 +47,20 @@ let mountains = [
     }
 ]
 
+const idMiddleware = (req, res, next) => {
+    const { id } = req.params
+    if (!id) {
+        return res.send({ error: "Please specify a mountain id." })
+    }
+
+    const mountain = mountains.find((m) => m.id === Number(id))
+    if (!mountain) {
+        return res.send({ data: "No mountain with the given id." })
+    }
+    req.mountain = mountain
+    next()
+}
+
 app.get("/mountains", (req, res) => {
     const filters = req.query
 
@@ -84,17 +98,8 @@ app.get("/mountains", (req, res) => {
     res.send(filteredMountains)
 })
 
-app.get("/mountains/:id", (req, res) => {
-    const { id } = req.params
-    if (!id) {
-        return res.send({ error: "Please specify a mountain id" })
-    }
-
-    const mountain = mountains.find((m) => m.id === parseInt(id))
-    if (!mountain) {
-        return res.send({ data: "No mountain with the given id" })
-    }
-
+app.get("/mountains/:id", idMiddleware, (req, res) => {
+    const mountain = req.mountain
     res.send(mountain)
 })
 
@@ -111,9 +116,9 @@ app.post("/mountains", (req, res) => {
         return res.send({ message: "This mountain already exists in the resource collection" })
     }
 
-    const id = mountains[mountains.length - 1].id + 1
+    const greatestId = Math.max(...mountains.map(m => m.id))
     const newMountain = {
-        id: id,
+        id: greatestId + 1,
         name: name,
         location: location,
         height: height
@@ -123,20 +128,18 @@ app.post("/mountains", (req, res) => {
     res.send({ message: "The mountain was added to the resource collection", data: newMountain })
 })
 
-app.patch("/mountains/:id", (req, res) => {
-    if (Object.keys(req.body).length > 1) {
-        return res.send({message: "PATCH should only be used to update one field. Use PUT instead."})
+app.patch("/mountains/:id", idMiddleware, (req, res) => {
+    const fieldsAmount = Object.keys(req.body).length
+
+    if (fieldsAmount === 0) {
+        return res.send({ message: "You must provide one field to update." })
     }
 
-    const { id } = req.params
-    if (!id) {
-        return res.send({ error: "Please specify a mountain id" })
+    if (fieldsAmount > 1) {
+        return res.send({ message: "PATCH should only be used to update one field. Use PUT instead." })
     }
 
-    const mountain = mountains.find(m => m.id === parseInt(id))
-    if (!mountain) {
-        return res.send({ data: "No mountain with the given id" })
-    }
+    const mountain = req.mountain
 
     // preventing ID from being updated,
     // if it was parsed along in the request body
@@ -146,16 +149,14 @@ app.patch("/mountains/:id", (req, res) => {
     res.send({ message: "The mountain has been updated", data: mountain })
 })
 
-app.put("/mountains/:id", (req, res) => {
-    const { id } = req.params
-    if (!id) {
-        return res.send({ error: "Please specify a mountain id" })
+app.put("/mountains/:id", idMiddleware, (req, res) => {
+    const fieldsAmount = Object.keys(req.body).length
+
+    if (fieldsAmount === 0) {
+        return res.send({ message: "You must provide at least one field to update." })
     }
 
-    const mountain = mountains.find(m => m.id === parseInt(id))
-    if (!mountain) {
-        return res.send({ data: "No mountain with the given id" })
-    }
+    const mountain = req.mountain
 
     // preventing ID from being updated,
     // if it was parsed along in the request body
@@ -165,21 +166,18 @@ app.put("/mountains/:id", (req, res) => {
     res.send({ message: "The mountain has been updated", data: mountain })
 })
 
-app.delete("/mountains/:id", (req, res) => {
-    const { id } = req.params
-    if (!id) {
-        return res.send({ error: "Please specify a mountain id" })
-    }
-
-    const mountain = mountains.find((m) => m.id === parseInt(id))
-    if (!mountain) {
-        return res.send({ data: "No mountain with the given id" })
-    }
-
+app.delete("/mountains/:id", idMiddleware, (req, res) => {
+    const mountain = req.mountain
     mountains = mountains.filter(currMountain => currMountain.id !== mountain.id)
     res.send({ message: "The mountain has been deleted", data: mountain })
 })
 
 
 const port = 8080
-app.listen(port, () => console.log(`Server started and running at http://localhost:${port}`))
+app.listen(port, (err) => {
+    if (err) {
+        console.log("Server failed to start", err)
+        return
+    }
+    console.log(`Server started and running at http://localhost:${port}`)
+})
