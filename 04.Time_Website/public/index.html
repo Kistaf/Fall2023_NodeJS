@@ -1,0 +1,124 @@
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+</head>
+
+<body class="container mx-auto px-6 w-screen h-screen">
+    <h1 class="flex justify-center mt-20 text-5xl font-bold">Create / View your own timers</h1>
+    <div class="flex flex-row justify-center mt-10 space-x-4">
+        <input id="time" type="datetime-local"
+            class="flex h-10 rounded-md border border-input px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
+        <button id="create-timer"
+            class="bg-blue-500 p-2 text-white hover:bg-blue-500/50 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Create
+            new Timer</button>
+    </div>
+    <div class="space-y-2 mt-12">
+        <h3 class="text-xl font-bold" id="header">Your timers</h3>
+        <div class="w-full grid lg:grid-cols-3 grid-cols-1 gap-3" id="timers"></div>
+    </div>
+    <script>
+        window.onload = () => fetchAndPopulate()
+
+
+        document.getElementById("create-timer").onclick = () => {
+            const time = document.getElementById("time").value
+            if (time === "") return
+            fetch("/timers", {
+                method: "POST",
+                body: JSON.stringify({
+                    "timer": time,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include"
+            })
+                .then((res) => res.json())
+                .then((result) => {
+                    fetchAndPopulate()
+                    const header = document.getElementById("header")
+                    if (header.firstChild.data === "No current timers") {
+                        document.getElementById("header").innerText = "Your timers"
+                    }
+                })
+                .catch()
+        }
+
+
+        function fetchAndPopulate() {
+            const timersElement = document.getElementById("timers")
+            fetch("/timers", {
+                method: "GET",
+                credentials: 'include'
+            })
+                .then((res) => res.json())
+                .then((result) => {
+                    if (result.data.length === 0) {
+                        document.getElementById("header").innerText = "No current timers"
+                        return
+                    }
+                    const sorted = result.data.sort((a, b) => {
+                        return new Date(a.timer).getTime() - new Date(b.timer).getTime()
+                    })
+                    const htmlString = sorted.map((timer, i) => {
+                        const date = new Date(timer.timer)
+                        const timeStr = `${date.getHours()}:${date.getMinutes()}`
+                        return `
+                            <div class="rounded-lg border shadow-sm">
+                                <div class="flex flex-row justify-between p-6">
+                                    <h3 class="text-md font-bold">${date.toLocaleDateString()} - ${timeStr}</h3>
+                                    <label for="check-${i}" id="check-enabled" class="bg-gray-200 cursor-pointer w-10 h-5 rounded-full relative">
+                                        <input type="checkbox" id="check-${i}" data-timer-id="${timer.timerId}" ${timer.enabled ? "checked" : null} class="sr-only peer timer" />
+                                        <span data-timer-id="${timer.timerId}"
+                                            class="w-2/5 h-4/5 bg-rose-300 absolute rounded-full left-1 top-0.5 peer-checked:bg-green-600 peer-checked:left-5 transition-all duration-500"></span>
+                                    </label>
+                                </div>
+                                <div class="mt-2 px-6 pb-6 flex flex-row justify-between">
+                                    <h4 class="text-sm text-gray-400">Created on ${new Date(timer.creationTime).toDateString()}</h4>
+                                    <i data-timer-id="${timer.timerId}" class="bi bi-trash-fill text-red-500 cursor-pointer delete"></i>
+                                </div>
+                            </div>
+                        `
+                    }).join("")
+                    timersElement.innerHTML = DOMPurify.sanitize(htmlString)
+
+                    if (htmlString.length === 0) return
+                    document.querySelectorAll(".timer").forEach((e, i) => {
+                        const timerId = e.dataset.timerId
+                        e.onclick = () => {
+                            fetch(`/timers/${timerId}`, {
+                                method: "PUT",
+                                credentials: "include"
+                            })
+                                .then((res) => res.json())
+                                .then((result) => {
+                                    fetchAndPopulate()
+                                })
+                                .catch()
+                        }
+                    })
+
+                    document.querySelectorAll(".delete").forEach((e, i) => {
+                        e.onclick = () => {
+                            const timerId = e.dataset.timerId
+                            fetch(`/timers/${timerId}`, {
+                                method: "DELETE",
+                                credentials: "include"
+                            })
+                                .then((res) => res.json())
+                                .then((result) => {
+                                    fetchAndPopulate()
+                                })
+                                .catch()
+                        }
+                    })
+                })
+                .catch()
+        }
+    </script>
+</body>
+
+</html>
