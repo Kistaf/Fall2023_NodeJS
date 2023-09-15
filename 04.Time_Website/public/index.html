@@ -10,7 +10,7 @@
     <h1 class="flex justify-center mt-20 text-5xl font-bold">Create / View your own timers</h1>
     <div class="flex flex-row justify-center mt-10 space-x-4">
         <input id="time" type="datetime-local"
-            class="flex h-10 rounded-md border border-input px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
+            class="flex h-10 rounded-md border px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
         <button id="create-timer"
             class="bg-blue-500 p-2 text-white hover:bg-blue-500/50 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Create
             new Timer</button>
@@ -58,7 +58,6 @@
                 .then((result) => {
                     if (result.data.length === 0) {
                         document.getElementById("header").innerText = "No current timers"
-                        return
                     }
                     const sorted = result.data.sort((a, b) => {
                         return new Date(a.timer).getTime() - new Date(b.timer).getTime()
