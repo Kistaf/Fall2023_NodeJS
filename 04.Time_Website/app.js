@@ -4,25 +4,25 @@ const app = express()
 app.use(cookieParser())
 app.use(express.json())
 
-let timers = []
+let alarms = []
 
 app.get("/", (_, res) => {
     res.sendFile(__dirname + "/public/index.html")
 })
 
-app.get("/timers", (req, res) => {
+app.get("/alarms", (req, res) => {
     const creatorId = req.cookies["creatorId"]
     if (!creatorId) {
-        return res.send({ message: "No timers found", data: [] })
+        return res.send({ message: "No alarms found", data: [] })
     }
-    const creatorTimers = timers.filter((timer) => timer.creatorId === creatorId)
-    res.send({ message: "Successfully fetched your timers", data: creatorTimers })
+    const createdAlarms = alarms.filter((alarm) => alarm.creatorId === creatorId)
+    res.send({ message: "Successfully fetched your alarms", data: createdAlarms })
 })
 
-app.post("/timers", (req, res) => {
-    const { timer } = req.body
-    if (!timer) {
-        return res.send({ message: "Please provide 'timer'" })
+app.post("/alarms", (req, res) => {
+    const { alarm } = req.body
+    if (!alarm) {
+        return res.send({ message: "Please provide 'alarm'" })
     }
 
     let creatorId = req.cookies["creatorId"]
@@ -34,49 +34,49 @@ app.post("/timers", (req, res) => {
         })
     }
 
-    const timerId = uniqueId()
-    const newTimer = {
+    const alarmId = uniqueId()
+    const newAlarm = {
         creatorId: creatorId,
-        timer: timer,
+        alarm: alarm,
         creationTime: new Date(),
-        timerId: timerId,
+        alarmId: alarmId,
         enabled: false
     }
-    timers.push(newTimer)
-    res.send({ message: "Timer created", data: newTimer })
+    alarms.push(newAlarm)
+    res.send({ message: "Alarm created", data: newAlarm })
 })
 
-app.put("/timers/:timerId", (req, res) => {
+app.put("/alarms/:alarmId", (req, res) => {
     const creatorId = req.cookies["creatorId"]
     if (!creatorId) {
-        return res.status(400).send({ message: "You have not created any timers yet" })
+        return res.status(400).send({ message: "You have not created any alarms yet" })
     }
-    const { timerId } = req.params
-    if (!timerId) {
-        return res.status(400).send({ message: "Please provide a 'timerId'" })
+    const { alarmId } = req.params
+    if (!alarmId) {
+        return res.status(400).send({ message: "Please provide an 'alarmId'" })
     }
 
-    const index = timers.findIndex((t) => t.timerId === timerId && t.creatorId === creatorId)
-    timers[index].enabled = !timers[index].enabled
-    res.send({ message: "Timer updated" })
+    const index = alarms.findIndex((a) => a.alarmId === alarmId && a.creatorId === creatorId)
+    alarms[index].enabled = !alarms[index].enabled
+    res.send({ message: "Alarm updated" })
 })
 
-app.delete("/timers/:timerId", (req, res) => {
+app.delete("/alarms/:alarmId", (req, res) => {
     const creatorId = req.cookies["creatorId"]
     if (!creatorId) {
-        return res.status(400).send({ message: "You have not created any timers yet" })
+        return res.status(400).send({ message: "You have not created any alarms yet" })
     }
-    const { timerId } = req.params
-    if (!timerId) {
-        return res.status(400).send({ message: "Please provide a 'timerId'" })
+    const { alarmId } = req.params
+    if (!alarmId) {
+        return res.status(400).send({ message: "Please provide an 'alarmId'" })
     }
 
-    const timer = timers.find((t) => t.timerId === timerId && t.creatorId === creatorId)
-    if (!timer) {
-        return res.status(400).send({ message: "No timer with the given id" })
+    const alarm = alarms.find((a) => a.alarmId === alarmId && a.creatorId === creatorId)
+    if (!alarm) {
+        return res.status(400).send({ message: "No alarm with the given id" })
     }
-    timers = timers.filter((t) => t.timerId !== timerId)
-    res.send({ message: "Timer deleted" })
+    alarms = alarms.filter((a) => a.alarmId !== alarmId)
+    res.send({ message: "Alarm deleted" })
 })
 
 const uniqueId = () => {

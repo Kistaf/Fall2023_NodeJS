@@ -7,41 +7,40 @@
 </head>
 
 <body class="container mx-auto px-6 w-screen h-screen">
-    <h1 class="flex justify-center mt-20 text-5xl font-bold">Create / View your own timers</h1>
+    <h1 class="flex justify-center mt-20 text-5xl font-bold">Create / View your own alarms</h1>
     <div class="flex flex-row justify-center mt-10 space-x-4">
-        <input id="time" type="datetime-local"
+        <input id="alarm" type="datetime-local"
             class="flex h-10 rounded-md border px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
-        <button id="create-timer"
+        <button id="create-alarm"
             class="bg-blue-500 p-2 text-white hover:bg-blue-500/50 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Create
-            new Timer</button>
+            new alarm</button>
     </div>
     <div class="space-y-2 mt-12">
-        <h3 class="text-xl font-bold" id="header">Your timers</h3>
-        <div class="w-full grid lg:grid-cols-3 grid-cols-1 gap-3" id="timers"></div>
+        <h3 class="text-xl font-bold" id="header">Your alarms</h3>
+        <div class="w-full grid lg:grid-cols-3 grid-cols-1 gap-3" id="alarms"></div>
     </div>
     <script>
         window.onload = () => fetchAndPopulate()
 
 
-        document.getElementById("create-timer").onclick = () => {
-            const time = document.getElementById("time").value
-            if (time === "") return
-            fetch("/timers", {
+        document.getElementById("create-alarm").onclick = () => {
+            const alarm = document.getElementById("alarm").value
+            if (alarm === "") return
+            fetch("/alarms", {
                 method: "POST",
                 body: JSON.stringify({
-                    "timer": time,
+                    "alarm": alarm,
                 }),
                 headers: {
                     "Content-Type": "application/json",
                 },
                 credentials: "include"
             })
-                .then((res) => res.json())
-                .then((result) => {
+                .then(() => {
                     fetchAndPopulate()
                     const header = document.getElementById("header")
-                    if (header.firstChild.data === "No current timers") {
-                        document.getElementById("header").innerText = "Your timers"
+                    if (header.firstChild.data === "No current alarms") {
+                        document.getElementById("header").innerText = "Your alarms"
                     }
                 })
                 .catch()
@@ -49,66 +48,64 @@
 
 
         function fetchAndPopulate() {
-            const timersElement = document.getElementById("timers")
-            fetch("/timers", {
+            const alarmsElement = document.getElementById("alarms")
+            fetch("/alarms", {
                 method: "GET",
                 credentials: 'include'
             })
                 .then((res) => res.json())
                 .then((result) => {
                     if (result.data.length === 0) {
-                        document.getElementById("header").innerText = "No current timers"
+                        document.getElementById("header").innerText = "No current alarms"
                     }
                     const sorted = result.data.sort((a, b) => {
-                        return new Date(a.timer).getTime() - new Date(b.timer).getTime()
+                        return new Date(a.alarm).getTime() - new Date(b.alarm).getTime()
                     })
-                    const htmlString = sorted.map((timer, i) => {
-                        const date = new Date(timer.timer)
-                        const timeStr = `${date.getHours()}:${date.getMinutes()}`
+                    const htmlString = sorted.map((alarm, i) => {
+                        const date = new Date(alarm.alarm)
+                        const alarmStr = `${date.getHours()}:${date.getMinutes()}`
                         return `
                             <div class="rounded-lg border shadow-sm">
                                 <div class="flex flex-row justify-between p-6">
-                                    <h3 class="text-md font-bold">${date.toLocaleDateString()} - ${timeStr}</h3>
-                                    <label for="check-${i}" id="check-enabled" class="bg-gray-200 cursor-pointer w-10 h-5 rounded-full relative">
-                                        <input type="checkbox" id="check-${i}" data-timer-id="${timer.timerId}" ${timer.enabled ? "checked" : null} class="sr-only peer timer" />
-                                        <span data-timer-id="${timer.timerId}"
+                                    <h3 class="text-md font-bold">${date.toLocaleDateString()} - ${alarmStr}</h3>
+                                    <label for="check-${i}" class="bg-gray-200 cursor-pointer w-10 h-5 rounded-full relative">
+                                        <input type="checkbox" id="check-${i}" data-alarm-id="${alarm.alarmId}" ${alarm.enabled ? "checked" : null} class="sr-only peer alarm" />
+                                        <span data-alarm-id="${alarm.alarmId}"
                                             class="w-2/5 h-4/5 bg-rose-300 absolute rounded-full left-1 top-0.5 peer-checked:bg-green-600 peer-checked:left-5 transition-all duration-500"></span>
                                     </label>
                                 </div>
                                 <div class="mt-2 px-6 pb-6 flex flex-row justify-between">
-                                    <h4 class="text-sm text-gray-400">Created on ${new Date(timer.creationTime).toDateString()}</h4>
-                                    <i data-timer-id="${timer.timerId}" class="bi bi-trash-fill text-red-500 cursor-pointer delete"></i>
+                                    <h4 class="text-sm text-gray-400">Created on ${new Date(alarm.creationTime).toDateString()}</h4>
+                                    <i data-alarm-id="${alarm.alarmId}" class="bi bi-trash-fill text-red-500 cursor-pointer delete"></i>
                                 </div>
                             </div>
                         `
                     }).join("")
-                    timersElement.innerHTML = DOMPurify.sanitize(htmlString)
+                    alarmsElement.innerHTML = DOMPurify.sanitize(htmlString)
 
                     if (htmlString.length === 0) return
-                    document.querySelectorAll(".timer").forEach((e, i) => {
-                        const timerId = e.dataset.timerId
+                    document.querySelectorAll(".alarm").forEach((e, _) => {
+                        const alarmId = e.dataset.alarmId
                         e.onclick = () => {
-                            fetch(`/timers/${timerId}`, {
+                            fetch(`/alarms/${alarmId}`, {
                                 method: "PUT",
                                 credentials: "include"
                             })
-                                .then((res) => res.json())
-                                .then((result) => {
+                                .then(() => {
                                     fetchAndPopulate()
                                 })
                                 .catch()
                         }
                     })
 
-                    document.querySelectorAll(".delete").forEach((e, i) => {
+                    document.querySelectorAll(".delete").forEach((e, _) => {
                         e.onclick = () => {
-                            const timerId = e.dataset.timerId
-                            fetch(`/timers/${timerId}`, {
+                            const alarmId = e.dataset.alarmId
+                            fetch(`/alarms/${alarmId}`, {
                                 method: "DELETE",
                                 credentials: "include"
                             })
-                                .then((res) => res.json())
-                                .then((result) => {
+                                .then(() => {
                                     fetchAndPopulate()
                                 })
                                 .catch()
