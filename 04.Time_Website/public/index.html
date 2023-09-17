@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
@@ -8,7 +9,7 @@
 
 <body class="container mx-auto px-6 w-screen h-screen">
     <h1 class="flex justify-center mt-20 text-5xl font-bold">Create / View your own alarms</h1>
-    <div class="flex flex-row justify-center mt-10 space-x-4">
+    <div class="flex flex-col lg:flex-row justify-center mt-10 lg:space-x-4 space-y-4 lg:space-y-0">
         <input id="alarm" type="datetime-local"
             class="flex h-10 rounded-md border px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
         <button id="create-alarm"
@@ -17,7 +18,7 @@
     </div>
     <div class="space-y-2 mt-12">
         <h3 class="text-xl font-bold" id="header">Your alarms</h3>
-        <div class="w-full grid lg:grid-cols-3 grid-cols-1 gap-3" id="alarms"></div>
+        <div class="w-full grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-3" id="alarms"></div>
     </div>
     <script>
         window.onload = () => fetchAndPopulate()
