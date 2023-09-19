@@ -4,7 +4,7 @@ const app = express();
 app.use(express.static("public"));
 
 app.get("/", (_, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "/public/home.html");
 });
 
 app.get("/second", (_, res) => {
