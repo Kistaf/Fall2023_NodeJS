@@ -1,8 +1,11 @@
-const express = require("express");
+import path from "path";
+import express from "express";
 const app = express();
 
+app.use(express.static("public"));
+
 app.get("/", (_, res) => {
-  res.send("Hello world");
+  res.sendFile(path.resolve("./public/frontpage.html"));
 });
 
 const PORT = 8080;
