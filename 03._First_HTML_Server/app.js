@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.static("public"));
 
-const { getWelcomeMessage } = require("./Util/welcomeMessageUtil");
+const { getWelcomeMessage } = require("./util/welcomeMessageUtil");
 
 app.get("/", (_, res) => {
   res.sendFile(__dirname + "/public/home.html");
