@@ -6,7 +6,7 @@ export const subjects = [
     `,
     code: {
       snippet: `
-        import express from express;
+        import express from express; // requires "type": "module" in package.json
         const app = express();
         const PORT = 8080
 
