@@ -46,6 +46,25 @@ app.get("/commands", (_, res) => {
 app.get("/express", (_, res) => {
   res.sendFile(path.resolve("./public/topics/express/express.html"));
 });
+
+app.get("/data-types", (_, res) => {
+  res.sendFile(path.resolve("./public/topics/data-types/data_types.html"));
+});
+
+app.get("/rest", (_, res) => {
+  res.sendFile(path.resolve("./public/topics/rest/rest.html"));
+});
+
+app.get("/import-export", (_, res) => {
+  res.sendFile(
+    path.resolve("./public/topics/import-export/import_export.html")
+  );
+});
+
+app.get("/redirection", (_, res) => {
+  res.sendFile(path.resolve("./public/topics/redirection/redirection.html"));
+});
+
 const PORT = 8080;
 app.listen(PORT, (err) => {
   if (err) {

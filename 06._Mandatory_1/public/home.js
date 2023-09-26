@@ -21,6 +21,22 @@ const topics = [
     topic: "Express",
     link: "express",
   },
+  {
+    topic: "Data types",
+    link: "data-types",
+  },
+  {
+    topic: "Rest",
+    link: "rest",
+  },
+  {
+    topic: "Import & Export",
+    link: "import-export",
+  },
+  {
+    topic: "Server- & Clientside redirection",
+    link: "redirection",
+  },
 ];
 
 (() => {

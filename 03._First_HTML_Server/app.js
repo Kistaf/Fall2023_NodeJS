@@ -19,6 +19,14 @@ app.get("/welcomeMessage", (req, res) => {
   res.send({ data: message });
 });
 
+app.get("/doorman/:key", (req, res) => {
+  const { key } = req.params;
+  if (key === "correctKey") {
+    return res.redirect("/welcomeMessage");
+  }
+  res.send({ data: "Wrong key" });
+});
+
 const PORT = 8080;
 app.listen(PORT, (err) => {
   if (err) {
