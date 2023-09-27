@@ -1,15 +1,21 @@
+const themeLink = (theme) => {
+  return `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-${theme}.min.css`;
+};
+
 const toggleTheme = (themeButton) => {
   const theme = localStorage.getItem("theme");
   const body = document.getElementsByTagName("body")[0];
   body.classList.remove(theme);
-  if (theme === "dark") {
-    const newTheme = "light";
-    body.classList.add(newTheme);
-    localStorage.setItem("theme", newTheme);
-  } else if (theme === "light") {
-    const newTheme = "dark";
-    body.classList.add(newTheme);
-    localStorage.setItem("theme", newTheme);
+
+  let newTheme;
+  newTheme = theme === "dark" ? "light" : "dark";
+
+  body.classList.add(newTheme);
+  localStorage.setItem("theme", newTheme);
+
+  const codeTheme = document.getElementById("code-theme");
+  if (codeTheme) {
+    codeTheme.href = themeLink(newTheme);
   }
   renderThemeButton(themeButton);
 };
@@ -29,13 +35,19 @@ const renderThemeButton = (themeButton) => {
 
 export const initTheme = (themeButton) => {
   const theme = localStorage.getItem("theme");
-  const defaultTheme = "light";
   const body = document.getElementsByTagName("body")[0];
+  let newTheme;
+
   if (theme) {
-    body.classList.add(theme);
-  } else {
-    body.classList.add(defaultTheme);
-    localStorage.setItem("theme", defaultTheme);
+    newTheme = theme;
+  } else newTheme = "dark";
+
+  body.classList.add(newTheme);
+  localStorage.setItem("theme", newTheme);
+
+  const codeTheme = document.getElementById("code-theme");
+  if (codeTheme) {
+    codeTheme.href = themeLink(newTheme);
   }
   renderThemeButton(themeButton);
   themeButton.onclick = () => toggleTheme(themeButton);

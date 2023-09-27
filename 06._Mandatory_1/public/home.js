@@ -26,7 +26,7 @@ const topics = [
     link: "data-types",
   },
   {
-    topic: "Rest",
+    topic: "Rest architecture",
     link: "rest",
   },
   {
@@ -36,6 +36,34 @@ const topics = [
   {
     topic: "Server- & Clientside redirection",
     link: "redirection",
+  },
+  {
+    topic: "Common array methods",
+    link: "array-methods",
+  },
+  {
+    topic: "Client / Server model",
+    link: "client-server",
+  },
+  {
+    topic: "Fetch",
+    link: "fetch",
+  },
+  {
+    topic: "Misc",
+    link: "misc",
+  },
+  {
+    topic: "Primary datastructures",
+    link: "primary-datastructures",
+  },
+  {
+    topic: "REPL",
+    link: "repl",
+  },
+  {
+    topic: "Project structure",
+    link: "project-structure",
   },
 ];
 
