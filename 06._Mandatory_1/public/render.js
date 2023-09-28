@@ -11,11 +11,17 @@ export const render = (target, subject) => {
                   subject.description
                 }</p>
             </div>
-            <pre>
-                <code class="${subject.code.lang} rounded-md">
-                    ${subject.code.snippet}
-                </code>
-            </pre>
+            ${
+              subject.code
+                ? `
+                    <pre>
+                        <code class="${subject.code.lang} rounded-md">
+                            ${subject.code.snippet}
+                        </code>
+                    </pre>
+                  `
+                : ""
+            }
             ${subject.extra ? `${extraElements(subject.extra)}` : ""}
         </div>
     `

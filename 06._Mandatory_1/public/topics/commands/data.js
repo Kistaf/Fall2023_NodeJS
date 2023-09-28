@@ -12,6 +12,12 @@ export const subjects = [
         `,
       lang: "language-bash",
     },
+    extra: [
+      {
+        subtitle: "Version",
+        text: "En specifik version kan indikeres ved at benytte @version efter package-navet.",
+      },
+    ],
   },
   {
     title: "npm init",
