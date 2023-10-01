@@ -185,4 +185,36 @@ export const subjects = [
       lang: "language-js",
     },
   },
+  {
+    title: "HTML",
+    description: `
+      Hvis man påtœnker at bygge en applikation, som kan serve HTML-sider,
+      så vil det vœre en god ide, at sœtte en folder-struktur for sin applikation.
+      Derfor vil alle static-filer placeres i et public-directory.
+      Herfra kan man sende filen som et response med en absolute path til filen.
+    `,
+    code: {
+      snippet: `
+        import path frm "path"
+
+        app.get("/admin", (req, res) => {
+          res.sendFile(path.resolve("./public/admin.html"));
+        })
+      `,
+      lang: "language-js",
+    },
+  },
+  {
+    title: "Static files",
+    description: `
+      For at static filer som css og js kan tilgåes,
+      skal man tilføje følgende middleware til sin app.js
+    `,
+    code: {
+      snippet: `
+        app.use(express.static("public"))
+      `,
+      lang: "language-js",
+    },
+  },
 ];
