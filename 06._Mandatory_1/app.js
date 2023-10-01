@@ -65,26 +65,12 @@ app.get("/array-methods", (_, res) => {
   res.sendFile(path.resolve("./public/topics/array-methods/array.html"));
 });
 
-app.get("/client-server", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/client-server/clientserver.html"));
-});
-
 app.get("/fetch", (_, res) => {
   res.sendFile(path.resolve("./public/topics/fetch/fetch.html"));
 });
 
 app.get("/misc", (_, res) => {
   res.sendFile(path.resolve("./public/topics/misc/misc.html"));
-});
-
-app.get("/primary-datastructures", (_, res) => {
-  res.sendFile(
-    path.resolve("./public/topics/primary-datastructures/datastructures.html")
-  );
-});
-
-app.get("/project-structure", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/project-structure/project.html"));
 });
 
 app.get("/repl", (_, res) => {

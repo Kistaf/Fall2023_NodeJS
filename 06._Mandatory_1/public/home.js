@@ -42,10 +42,6 @@ const topics = [
     link: "array-methods",
   },
   {
-    topic: "Client / Server model",
-    link: "client-server",
-  },
-  {
     topic: "Fetch",
     link: "fetch",
   },
@@ -54,16 +50,8 @@ const topics = [
     link: "misc",
   },
   {
-    topic: "Primary datastructures",
-    link: "primary-datastructures",
-  },
-  {
     topic: "REPL",
     link: "repl",
-  },
-  {
-    topic: "Project structure",
-    link: "project-structure",
   },
 ];
 

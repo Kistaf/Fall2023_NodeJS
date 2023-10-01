@@ -69,4 +69,28 @@ export const subjects = [
       },
     ],
   },
+  {
+    title: "node version",
+    description: `
+      Tjek hvilken version den nuvœrende NodeJS instans kører på.
+    `,
+    code: {
+      snippet: `
+        node --version
+        node -v
+      `,
+    },
+  },
+  {
+    title: "node",
+    description: `
+      Tilgå NodeJS' REPL miljø.
+    `,
+    code: {
+      snippet: `
+        node
+      `,
+      lang: "language-bash",
+    },
+  },
 ];
