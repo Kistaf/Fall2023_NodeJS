@@ -106,7 +106,7 @@ export const subjects = [
   {
     title: "pwd",
     description: `
-      Lister stien for ens nuvœrende directory.
+      Udskriver den absolutte sti til ens nuvœrende directory.
     `,
     code: {
       snippet: `

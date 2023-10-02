@@ -27,6 +27,12 @@ export const subjects = [
     `,
       lang: "language-js",
     },
+    extra: [
+      {
+        subtitle: "OBS",
+        text: "Der kan kun redirectes fra serveren, hvis der er tale om en GET request.",
+      },
+    ],
   },
   {
     title: "Client - location",

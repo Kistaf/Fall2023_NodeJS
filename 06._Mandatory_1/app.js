@@ -2,6 +2,7 @@ import path from "path";
 import express from "express";
 const app = express();
 
+app.use(express.json());
 app.use(express.static("public"));
 app.use(express.static("public/topics"));
 
@@ -9,17 +10,54 @@ app.get("/", (_, res) => {
   res.sendFile(path.resolve("./public/home.html"));
 });
 
-app.get("/login", (req, res) => {
-  if (req.body === undefined) {
-    return res.sendFile(path.resolve("./public/login.html"));
-  }
+const users = [];
+
+app.get("/signup", (_, res) => {
+  res.sendFile(path.resolve("./public/signup/signup.html"));
+});
+
+app.get("/login", (_, res) => {
+  res.sendFile(path.resolve("./public/login/login.html"));
+});
+
+app.post("/signup", (req, res) => {
   const { username, password } = req.body;
 
-  // hardcoded values for now
-  if (username !== "Hello" || password !== "World") {
+  if (!username || !password) {
+    return res.status(404).send({ message: "Missing credentials" });
+  }
+
+  if (!users.every((user) => user.username !== username)) {
+    return res.status(400).send({ message: "User already exists" });
+  }
+
+  const user = {
+    username,
+    password,
+  };
+  users.push(user);
+
+  res.send({ status: 200, redirect: "/login" });
+});
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(404).send({ message: "Missing credentials" });
+  }
+
+  const user = users.find((user) => user.username === username);
+
+  if (!user) {
+    return res.status(404).send({ message: "No such user found" });
+  }
+
+  if (user.password !== password) {
     return res.status(404).send({ message: "Incorrect credentials" });
   }
-  res.redirect("/admin");
+
+  res.send({ status: 200, redirect: "/admin" });
 });
 
 app.get("/admin", (_, res) => {
@@ -69,8 +107,8 @@ app.get("/fetch", (_, res) => {
   res.sendFile(path.resolve("./public/topics/fetch/fetch.html"));
 });
 
-app.get("/misc", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/misc/misc.html"));
+app.get("/mix", (_, res) => {
+  res.sendFile(path.resolve("./public/topics/mix/mix.html"));
 });
 
 app.get("/repl", (_, res) => {

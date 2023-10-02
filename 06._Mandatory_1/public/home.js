@@ -46,8 +46,8 @@ const topics = [
     link: "fetch",
   },
   {
-    topic: "Misc",
-    link: "misc",
+    topic: "Mixed",
+    link: "mix",
   },
   {
     topic: "REPL",
