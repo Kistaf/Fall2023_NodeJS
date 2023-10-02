@@ -16,7 +16,7 @@ export const subjects = [
     extra: [
       {
         subtitle: "Hoisting",
-        text: "Hoisting gælder for standard funktioner. Derfor er det underordnet om funktionen er deklareret forinden i filen før den bliver kaldt.",
+        text: "Hoisting gælder for standard funktioner. Derfor er det underordnet om funktionen er deklareret forinden i filen, før den bliver kaldt.",
       },
     ],
   },
@@ -37,7 +37,7 @@ export const subjects = [
     extra: [
       {
         subtitle: "Hoisting",
-        text: "Hoisting gælder ikke for anonymous functions. Derfor skal de enten være importeret eller deklareret forinden i filen før de bliver kaldt.",
+        text: "Hoisting gælder ikke for anonymous functions. Derfor skal de enten være importeret eller deklareret forinden i filen, før de bliver kaldt.",
       },
     ],
   },
@@ -60,7 +60,7 @@ export const subjects = [
     extra: [
       {
         subtitle: "Hoisting",
-        text: "Hoisting gælder ikke for arrow functions. Derfor skal de enten være importeret eller deklareret forinden i filen før de bliver kaldt.",
+        text: "Hoisting gælder ikke for arrow functions. Derfor skal de enten være importeret eller deklareret forinden i filen, før de bliver kaldt.",
       },
     ],
   },

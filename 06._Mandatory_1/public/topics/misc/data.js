@@ -108,15 +108,35 @@ export const subjects = [
     },
   },
   {
-    title: "Client server model",
+    title: "Klient- servermodellen",
     description: `
-      Client server model
+      Klient-servermodellen omhandler kommunikationen mellem to enheder over
+      internettet. Klienten sender en request til serveren, og serveren melder
+      tilbage med et svar. Selve navnet kan vœre lidt misvisende, da man let kan tro,
+      at dette fx. kun er tilfœldet for en frontend til en backend. Faktum er dog,
+      at det ligeså godt kunne vœre en backend til en backend. Pointen med modellen er
+      at tydeliggøre, at en part sender en request, og den anden part svarer på requesten.
     `,
   },
   {
     title: "Type coercion",
     description: `
-      Type coercion
+      Type coercion handler om, at Javascript prøver at fortolke og konvertere
+      vœrdier fra en datatype til en anden. Det kan ske af to processer. En implicit
+      og en eksplicit proces. Den implicitte proces er den, som automatisk bliver foretaget
+      af Javascript, hvis man prøver at lœgge et number til en string. Den eksplicitte
+      er den process, som man manuelt kalder i form af String(), Number(), boolean() osv,
+      hvis man fx. ønsker at konvertere en string til number.
     `,
+    code: {
+      snippet: `
+        // implicit
+        2 + "2" // "22"
+
+        // explicit
+        2 + Number("2") // 4
+      `,
+      lang: "language-js",
+    },
   },
 ];
