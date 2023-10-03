@@ -4,20 +4,21 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static("public"));
-app.use(express.static("public/topics"));
+
+import * as pages from "./util/prepare-pages.js";
 
 app.get("/", (_, res) => {
-  res.sendFile(path.resolve("./public/home.html"));
+  res.send(pages.frontpagePage);
 });
 
 const users = [];
 
 app.get("/signup", (_, res) => {
-  res.sendFile(path.resolve("./public/signup/signup.html"));
+  res.sendFile(path.resolve("./public/pages/signup/signup.html"));
 });
 
 app.get("/login", (_, res) => {
-  res.sendFile(path.resolve("./public/login/login.html"));
+  res.sendFile(path.resolve("./public/pages/login/login.html"));
 });
 
 app.post("/signup", (req, res) => {
@@ -61,62 +62,60 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/admin", (_, res) => {
-  res.sendFile(path.resolve("./public/admin.html"));
+  res.sendFile(path.resolve("./public/pages/admin/admin.html"));
 });
 
 // topic pages
 app.get("/functions", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/functions/functions.html"));
+  res.send(pages.functionsPage);
 });
 
 app.get("/variables", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/variables/variables.html"));
+  res.send(pages.variablesPage);
 });
 
 app.get("/terminal", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/terminal/terminal.html"));
+  res.send(pages.terminalPage);
 });
 
 app.get("/commands", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/commands/commands.html"));
+  res.send(pages.nodeCommandsPage);
 });
 
 app.get("/express", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/express/express.html"));
+  res.send(pages.expressPage);
 });
 
 app.get("/data-types", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/data-types/data_types.html"));
+  res.send(pages.dataTypesPage);
 });
 
 app.get("/rest", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/rest/rest.html"));
+  res.send(pages.restPage);
 });
 
 app.get("/import-export", (_, res) => {
-  res.sendFile(
-    path.resolve("./public/topics/import-export/import_export.html")
-  );
+  res.send(pages.importExportPage);
 });
 
 app.get("/array-methods", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/array-methods/array.html"));
+  res.send(pages.arrayMethodsPage);
 });
 
 app.get("/fetch", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/fetch/fetch.html"));
+  res.send(pages.fetchPage);
 });
 
 app.get("/mix", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/mix/mix.html"));
+  res.send(pages.mixPage);
 });
 
 app.get("/repl", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/repl/repl.html"));
+  res.send(pages.replPage);
 });
 
 app.get("/redirection", (_, res) => {
-  res.sendFile(path.resolve("./public/topics/redirection/redirection.html"));
+  res.send(pages.redirectionPage);
 });
 
 const PORT = 8080;
