@@ -139,4 +139,12 @@ export const subjects = [
       lang: "language-js",
     },
   },
+  {
+    title: "Serverside rendering",
+    description: ``,
+  },
+  {
+    title: "Environment variables",
+    description: ``,
+  },
 ];
