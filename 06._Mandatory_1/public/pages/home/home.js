@@ -53,6 +53,10 @@ const topics = [
     topic: "REPL",
     link: "repl",
   },
+  {
+    topic: "Git",
+    link: "git",
+  },
 ];
 
 (() => {

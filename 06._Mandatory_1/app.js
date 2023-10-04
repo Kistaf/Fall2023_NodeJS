@@ -78,6 +78,10 @@ app.get("/redirection", (_, res) => {
   res.send(pages.redirectionPage);
 });
 
+app.get("/git", (_, res) => {
+  res.send(pages.gitPage);
+});
+
 app.post("/signup", (req, res) => {
   const { username, password } = req.body;
 

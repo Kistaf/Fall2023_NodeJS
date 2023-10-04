@@ -71,3 +71,6 @@ const variables = readPage(
   "Variables & Scope"
 );
 export const variablesPage = renderPage(variables);
+
+const git = readPage("./public/pages/topics/git/git.html", "Git");
+export const gitPage = renderPage(git);
