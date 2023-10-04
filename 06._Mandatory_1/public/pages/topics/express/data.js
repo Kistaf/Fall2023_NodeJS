@@ -195,7 +195,7 @@ export const subjects = [
     `,
     code: {
       snippet: `
-        import path frm "path"
+        import path from "path"
 
         app.get("/admin", (req, res) => {
           res.sendFile(path.resolve("./public/admin.html"));

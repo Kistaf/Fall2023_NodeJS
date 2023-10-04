@@ -118,7 +118,7 @@ app.get("/redirection", (_, res) => {
   res.send(pages.redirectionPage);
 });
 
-const PORT = 8080;
+const PORT = Number(process.env.PORT) ?? 8080;
 app.listen(PORT, (err) => {
   if (err) {
     console.log("Server failed to start", err);

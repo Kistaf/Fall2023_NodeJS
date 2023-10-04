@@ -11,7 +11,7 @@ export const arrayMethodsPage = renderPage(arrayMethods);
 
 const nodeCommands = readPage(
   "./public/pages/topics/commands/commands.html",
-  "Node commands"
+  "NodeJS commands"
 );
 export const nodeCommandsPage = renderPage(nodeCommands);
 

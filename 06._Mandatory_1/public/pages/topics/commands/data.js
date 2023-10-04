@@ -17,12 +17,24 @@ export const subjects = [
         subtitle: "Version",
         text: "En specifik version kan indikeres ved at benytte @version efter package-navet.",
       },
+      {
+        subtitle: "Flags",
+        text: "Man kan specificere flag ved installation. Dette kunne fx. vœre -g, -D osv.",
+      },
     ],
   },
   {
     title: "npm init",
     description: `
-      Initialiser en ny package.json
+      Initialiserer en ny package.json. En package.json er nœrmest hjertet af et NodeJS projekt.
+      Filen indeholder alt fra metadata om projektet til script og dependencies.
+      Metadata tœller informationer som projektnavn, version, beskrivelse, forfatter osv.
+      Scripts er forudbestemte processer, som man kan køre, og de kan indeholde at, 
+      som man selv kan skrive i terminalen. Typisk vil man fx. definere startup-scripts 
+      for production og development, migration scripts til for ens database same test-scripts.
+      Dependencies lister alle de packages, som man har installeret for projektet. En gren
+      af dependencies er devDependencies, hvor man kan specificere dependencies, som kun
+      vil vœre installeret i development og ikke i produktion.
     `,
     code: {
       snippet: `
@@ -54,11 +66,13 @@ export const subjects = [
   {
     title: "node <file>",
     description: `
-      Kør den angiven fil.
+      Kør den angiven fil. Man kan ligeledes tilknytte miljøvariabler til en applikation ved startup.
     `,
     code: {
       snippet: `
-        node hello_world.js
+        node app.js
+        
+        PORT=8080 node app.js # with variables
       `,
       lang: "language-bash",
     },

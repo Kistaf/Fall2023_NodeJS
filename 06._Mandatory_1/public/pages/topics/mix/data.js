@@ -141,10 +141,40 @@ export const subjects = [
   },
   {
     title: "Serverside rendering",
-    description: ``,
+    description: `
+      Ideen i serverside rendering er, at man gerne vil generere og rendere
+      HTML-sider på serveren, sådan at den load bliver taget af klienten. Dette
+      kan vœre med at at gøre brugeroplevelsen bedre for brugeren på klientsiden,
+      da man bl.a. kan mindske loadtime ved SSR. Nogle andre goder ved serverside
+      rendering (SSR) tœller også SEO optimization og adgang til server-side resourcer som 
+      en databaseadgang osv. I og med, at det er en fuldt ud renderet HTML-side,
+      som klienten modtager, så er det lettere at crawle og indeksere siden, og derved
+      vil man opnå SEO optimization. Alt efter om siden er static eller dynamic,
+      kan SSR også vœre med til at spare på resourcer, da man kan
+      generere og rendere HTML-siden ved server start og derefter returnere
+      den uden yderlige resourceforbrug, da den ikke vil skulle genereres og renderes igen.
+    `,
   },
   {
     title: "Environment variables",
-    description: ``,
+    description: `
+      Environment variables (miljøvariabler) er variabler i key-value form. Det vil sige,
+      at de består af en nøgle og dens tilsvarende vœrdi. De er smarte at anvende i en
+      applikation, da de giver mulighed for at adskille vise sensitive eller 
+      situationsbestemte informationer fra applikationen.
+      Det kunne vœre API-Keys, database-informationer, porte osv. Man kan definere
+      miljøvariabler på forskellige niveauer. Alt fra på selve systemet som en systemsmiljøvariabel,
+      i filformat eller for en specifik proces. Man kan tilgå miljøvariabler igennem Javascript
+      via process.env.
+    `,
+    code: {
+      snippet: `
+        PORT=8080 node app.js // specific process
+
+        process.env.PORT // 8080
+        process.env.KEY // undefined
+      `,
+      lang: "language-js",
+    },
   },
 ];

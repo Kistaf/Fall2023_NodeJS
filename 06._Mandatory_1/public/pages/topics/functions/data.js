@@ -3,7 +3,8 @@ export const subjects = [
     title: "Standard Function",
     description: `
       Dette er standard-metoden at skrive en funktion på, og nok også den,
-      som de fleste kan nikke ja til at genkende.
+      som de fleste kan nikke ja til at genkende. Der er ikke noget
+      videre specielt over den, udover hvad man normalt kan forvente af en funktion.
     `,
     code: {
       snippet: `
@@ -46,7 +47,7 @@ export const subjects = [
     description: `
       Arrow functions bliver mere og mere almindelige at bruge. De er smarte
       til one-liners og er et trait fra functional programming. Derfor
-      bruges de også i indbygget funktioner på objekter. Disse funktioner
+      bruges de også i indbygget funktioner på arrays. Disse funktioner
       tæller map, filter, reduce, forEach, any etc.
     `,
     code: {
@@ -67,9 +68,10 @@ export const subjects = [
   {
     title: "Callbacks",
     description: `
-      Callbacks er nyttige, da vi kan parse funktioner videre til andre
-      funktioner således, at callback-funktionen fx kan blive kørt ved
-      bestemte parametre eller med forskellige værdier.
+      Callbacks er nyttige, da man kan parse funktioner videre til andre
+      funktioner således, at callback-funktionen fx. kan blive kørt ved
+      bestemte parametre eller med forskellige værdier - alt sammen bestemt
+      af en anden funktion.
     `,
     code: {
       snippet: `
@@ -85,7 +87,7 @@ export const subjects = [
           }
         }
 
-        genericGenerator(foobarGenerator, 11)
+        genericGenerator(foobarGenerator, 11) // "foo"
       `,
       lang: "language-js",
     },
