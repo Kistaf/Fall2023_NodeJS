@@ -21,46 +21,6 @@ app.get("/login", (_, res) => {
   res.sendFile(path.resolve("./public/pages/login/login.html"));
 });
 
-app.post("/signup", (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(404).send({ message: "Missing credentials" });
-  }
-
-  if (!users.every((user) => user.username !== username)) {
-    return res.status(400).send({ message: "User already exists" });
-  }
-
-  const user = {
-    username,
-    password,
-  };
-  users.push(user);
-
-  res.send({ status: 200, redirect: "/login" });
-});
-
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(404).send({ message: "Missing credentials" });
-  }
-
-  const user = users.find((user) => user.username === username);
-
-  if (!user) {
-    return res.status(404).send({ message: "No such user found" });
-  }
-
-  if (user.password !== password) {
-    return res.status(404).send({ message: "Incorrect credentials" });
-  }
-
-  res.send({ status: 200, redirect: "/admin" });
-});
-
 app.get("/admin", (_, res) => {
   res.sendFile(path.resolve("./public/pages/admin/admin.html"));
 });
@@ -116,6 +76,46 @@ app.get("/repl", (_, res) => {
 
 app.get("/redirection", (_, res) => {
   res.send(pages.redirectionPage);
+});
+
+app.post("/signup", (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(404).send({ message: "Missing credentials" });
+  }
+
+  if (!users.every((user) => user.username !== username)) {
+    return res.status(400).send({ message: "User already exists" });
+  }
+
+  const user = {
+    username,
+    password,
+  };
+  users.push(user);
+
+  res.send({ status: 200, redirect: "/login" });
+});
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(404).send({ message: "Missing credentials" });
+  }
+
+  const user = users.find((user) => user.username === username);
+
+  if (!user) {
+    return res.status(404).send({ message: "No such user found" });
+  }
+
+  if (user.password !== password) {
+    return res.status(404).send({ message: "Incorrect credentials" });
+  }
+
+  res.send({ status: 200, redirect: "/admin" });
 });
 
 const PORT = Number(process.env.PORT) ?? 8080;
