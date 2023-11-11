@@ -20,7 +20,7 @@
   <h1 class="text-6xl text-red-500">Private page</h1>
   <h4>Hello {$authService.user?.email ?? "Unable to fetch email"}</h4>
 
-  <Button on:click={authService.logout} isLoading={$authService.isLoading}>
+  <Button intent="destructive" on:click={authService.logout} isLoading={$authService.isLoading}>
     Logout
   </Button>
 
