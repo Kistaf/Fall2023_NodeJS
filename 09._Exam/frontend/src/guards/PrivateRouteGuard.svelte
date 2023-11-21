@@ -1,11 +1,16 @@
 <script lang="ts">
-  import { useNavigate, useLocation, useFocus } from "svelte-navigator";
+  import {
+    useNavigate,
+    useLocation,
+    useFocus,
+    navigate,
+  } from "svelte-navigator";
   import { onMount } from "svelte";
   import { user } from "../stores/authState";
   import socket from "../lib/sockets";
+  import { checkSession } from "../api/auth";
 
   let isChecking = true;
-  const navigate = useNavigate();
   const location = useLocation();
   const registerFocus = useFocus();
 
@@ -22,14 +27,7 @@
 
   onMount(async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/checkSession`,
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
-
+      const response = await checkSession();
       if (!response.ok) {
         throw new Error("UnAuthorized");
       } else {

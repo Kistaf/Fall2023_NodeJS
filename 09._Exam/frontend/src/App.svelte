@@ -1,7 +1,10 @@
 <script lang="ts">
   import { QueryClientProvider, QueryClient } from "@tanstack/svelte-query";
   import { Route, Router } from "svelte-navigator";
-  import Test from "./pages/Test.svelte";
+  import SignIn from "./pages/SignIn.svelte";
+  import SignUp from "./pages/SignUp.svelte";
+  import PrivateRoute from "./routes/auth/PrivateRoute.svelte";
+  import Conversations from "./pages/authenticated/Conversations.svelte";
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,8 +17,10 @@
 
 <QueryClientProvider client={queryClient}>
   <Router>
-    <Route path="/">
-      <Test />
-    </Route>
+    <Route component={SignIn} />
+    <Route path="/signup" component={SignUp} />
+    <PrivateRoute path="/conversations">
+      <Conversations />
+    </PrivateRoute>
   </Router>
 </QueryClientProvider>
