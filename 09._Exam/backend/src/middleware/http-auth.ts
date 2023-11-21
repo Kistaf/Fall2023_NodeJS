@@ -6,13 +6,16 @@ export const isAuth = async (
   response: Response,
   next: NextFunction
 ) => {
-  const session = request.cookies.session;
+  const session = request.cookies.session || "";
   if (!session) {
     return response.status(400).send("Missing session");
   }
 
   const verified = await admin.auth().verifySessionCookie(session);
 
-  if (verified) return next();
+  if (verified) {
+    request.userId = verified.uid;
+    return next();
+  }
   return response.status(404).send("Unauthorized");
 };

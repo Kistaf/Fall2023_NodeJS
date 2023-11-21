@@ -1,12 +1,7 @@
 <script lang="ts">
   import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-  import socket from "../lib/sockets";
   import { auth } from "../lib/firebase";
-
-  socket.connect();
-  socket.on("connect_error", (error) => {
-    console.log(error.message);
-  });
+  import { user } from "../stores/authState";
 </script>
 
 <button
@@ -36,6 +31,10 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
+      });
+      user.set({
+        loggedIn: false,
+        userId: null,
       });
     });
   }}>Log out</button

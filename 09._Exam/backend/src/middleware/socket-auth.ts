@@ -9,12 +9,12 @@ const socketAuthMiddleware = async (
 ) => {
   try {
     if (!socket.handshake.headers.cookie) {
-      throw new Error("Missing session cookie");
+      throw new Error("Missing cookies");
     }
     const session = getCookies(socket.handshake.headers.cookie)["session"];
 
     if (!session) {
-      throw new Error("Not authorized");
+      throw new Error("No session cookie present");
     }
 
     const verified = await admin.auth().verifySessionCookie(session);
@@ -25,7 +25,6 @@ const socketAuthMiddleware = async (
       return next();
     }
   } catch (error) {
-    socket.disconnect();
     return next(error);
   }
 };

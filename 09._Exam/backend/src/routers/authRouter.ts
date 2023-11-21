@@ -1,13 +1,16 @@
-import type { Request, Response } from "express";
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { authService } from "../services/authService.ts";
 import { isAuth } from "../middleware/http-auth.ts";
 
 const router: Router = Router();
 
-router.get("/auth/checkSession", isAuth, (_, response: Response) => {
-  response.send("Authorized");
-});
+router.get(
+  "/auth/checkSession",
+  isAuth,
+  (request: Request, response: Response) => {
+    return authService.checkSession(request, response);
+  }
+);
 
 router.post(
   "/auth/sessionLogin",

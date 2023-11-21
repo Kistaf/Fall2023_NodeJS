@@ -32,4 +32,8 @@ export const authService = {
         response.send("Logged out");
       });
   },
+  checkSession: (request: Request, response: Response) => {
+    const userId = request.userId;
+    response.send({ userId: userId });
+  },
 };
