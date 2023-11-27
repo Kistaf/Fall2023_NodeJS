@@ -1,26 +1,17 @@
 <script lang="ts">
-  import { QueryClientProvider, QueryClient } from "@tanstack/svelte-query";
   import { Route, Router } from "svelte-navigator";
-  import SignIn from "./pages/SignIn.svelte";
-  import SignUp from "./pages/SignUp.svelte";
+  import SignIn from "./pages/_non-authorized/SignIn.svelte";
+  import SignUp from "./pages/_non-authorized/SignUp.svelte";
   import PrivateRoute from "./routes/auth/PrivateRoute.svelte";
-  import Conversations from "./pages/authenticated/Conversations.svelte";
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
+  import Chatting from "./pages/_authorized/Chatting.svelte";
+  import { Toaster } from "svelte-french-toast";
 </script>
 
-<QueryClientProvider client={queryClient}>
-  <Router>
-    <Route component={SignIn} />
-    <Route path="/signup" component={SignUp} />
-    <PrivateRoute path="/conversations">
-      <Conversations />
-    </PrivateRoute>
-  </Router>
-</QueryClientProvider>
+<Router>
+  <Toaster />
+  <Route component={SignIn} />
+  <Route path="/signup" component={SignUp} />
+  <PrivateRoute path="/chatting">
+    <Chatting />
+  </PrivateRoute>
+</Router>

@@ -22,10 +22,11 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
-    "@tanstack/svelte-query": "^5.8.4",
     "firebase": "^10.6.0",
+    "lucide-svelte": "^0.292.0",
     "prettier-plugin-svelte": "^3.1.0",
     "socket.io-client": "^4.7.2",
+    "svelte-french-toast": "^1.2.0",
     "svelte-navigator": "^3.2.2"
   }
 }

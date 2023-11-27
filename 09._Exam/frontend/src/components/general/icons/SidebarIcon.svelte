@@ -1,0 +1,23 @@
+<script lang="ts">
+  import type { PageState } from "../../../utils/types";
+  import pageState from "../../../stores/sectionState";
+
+  export let notifications: number | undefined = undefined;
+  export let section: PageState;
+</script>
+
+<button
+  class={`flex justify-center hover:bg-activeChats relative py-5 ${
+    section === $pageState ? "bg-activeChats" : ""
+  }`}
+  on:click={() => pageState.setSectionAndURL(section)}
+>
+  <slot />
+  {#if notifications}
+    <div
+      class="absolute w-4 h-4 rounded-full bg-red-600/90 left-10 top-3 flex justify-center items-center"
+    >
+      <div class=" text-white text-xs px-2 font-bold">{notifications}</div>
+    </div>
+  {/if}
+</button>

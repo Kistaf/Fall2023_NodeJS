@@ -1,14 +1,10 @@
 <script lang="ts">
-  import {
-    useNavigate,
-    useLocation,
-    useFocus,
-    navigate,
-  } from "svelte-navigator";
+  import { useLocation, useFocus, navigate } from "svelte-navigator";
   import { onMount } from "svelte";
   import { user } from "../stores/authState";
   import socket from "../lib/sockets";
-  import { checkSession } from "../api/auth";
+  import { checkSession } from "../utils/api";
+  import NavSidebar from "../components/general/Sidebar.svelte";
 
   let isChecking = true;
   const location = useLocation();
@@ -36,7 +32,7 @@
         socket.on("connect", () => {
           socket.emit("user:add", {
             socketId: socket.id,
-            userId: data.userId,
+            userId: data.user.id,
           });
         });
         socket.on("connect_error", (error) => {
@@ -44,7 +40,10 @@
         });
         user.set({
           loggedIn: true,
-          userId: data.userId,
+          user: {
+            id: data.user.id,
+            avatarURL: data.user.avatarURL,
+          },
         });
       }
     } catch {
@@ -60,7 +59,12 @@
 </script>
 
 {#if !isChecking && $user.loggedIn}
-  <slot {registerFocus} />
+  <div class="dark bg-background w-screen h-screen flex flex-row">
+    <NavSidebar />
+    <div class="flex-1">
+      <slot {registerFocus} />
+    </div>
+  </div>
 {/if}
 
 {#if isChecking}

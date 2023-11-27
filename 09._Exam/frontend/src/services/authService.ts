@@ -1,11 +1,11 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
-import type { AuthService, Credentials } from "../types/authService";
+import type { AuthService, Credentials } from "../utils/types";
 import { user } from "../stores/authState";
 import { navigate } from "svelte-navigator";
-import { fetchSessionLogin, fetchSessionLogout } from "../api/auth";
+import { fetchSessionLogin, fetchSessionLogout } from "../utils/api";
 
-function createAuthService(): AuthService {
+const createAuthService = (): AuthService => {
   const loginWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -13,7 +13,9 @@ function createAuthService(): AuthService {
         return result.user.getIdToken().then(async (idToken) => {
           const response = await fetchSessionLogin(idToken);
           if (response.ok) {
-            return navigate("/conversations", { replace: true });
+            return navigate("/chatting?section=conversations", {
+              replace: true,
+            });
           }
         });
       })
@@ -31,7 +33,7 @@ function createAuthService(): AuthService {
         if (response.ok) {
           user.set({
             loggedIn: false,
-            userId: null,
+            user: null,
           });
           navigate("/", { replace: true });
         }
@@ -48,6 +50,6 @@ function createAuthService(): AuthService {
     registerWithCredentials,
     logout,
   };
-}
+};
 
 export default createAuthService();

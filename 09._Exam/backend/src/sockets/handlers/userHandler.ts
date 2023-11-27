@@ -1,11 +1,10 @@
 import type { Socket } from "socket.io";
-import type { Connection } from "../../types/sockets.ts";
-import { connections } from "../sockets.ts";
+import socketRepository from "../../repositories/socketRepository.ts";
+import { IO, SocketConnection } from "../../types/general.ts";
 
-export default (socket: Socket) => {
-  const addUser = (payload: Connection) => {
-    if (!connections.some((conn) => conn.socketId === payload.socketId))
-      connections.push(payload);
+export default (socket: Socket, io: IO) => {
+  const addUser = (payload: SocketConnection) => {
+    const conn = socketRepository.addConnection(payload);
   };
 
   socket.on("user:add", addUser);

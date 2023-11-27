@@ -5,18 +5,21 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@tanstack/svelte-query':
-    specifier: ^5.8.4
-    version: 5.8.4(svelte@4.2.5)
   firebase:
     specifier: ^10.6.0
     version: 10.6.0
+  lucide-svelte:
+    specifier: ^0.292.0
+    version: 0.292.0(svelte@4.2.5)
   prettier-plugin-svelte:
     specifier: ^3.1.0
     version: 3.1.0(prettier@3.1.0)(svelte@4.2.5)
   socket.io-client:
     specifier: ^4.7.2
     version: 4.7.2
+  svelte-french-toast:
+    specifier: ^1.2.0
+    version: 1.2.0(svelte@4.2.5)
   svelte-navigator:
     specifier: ^3.2.2
     version: 3.2.2(svelte@4.2.5)(typescript@5.2.2)
@@ -963,19 +966,6 @@ packages:
       - supports-color
     dev: true
 
-  /@tanstack/query-core@5.8.3:
-    resolution: {integrity: sha512-SWFMFtcHfttLYif6pevnnMYnBvxKf3C+MHMH7bevyYfpXpTMsLB9O6nNGBdWSoPwnZRXFNyNeVZOw25Wmdasow==}
-    dev: false
-
-  /@tanstack/svelte-query@5.8.4(svelte@4.2.5):
-    resolution: {integrity: sha512-fi2F26949letA+l8i51tqrBEdjsckWgkpeRgrx5DnVdY6oq8iKUEKwo3dMoUwirFVPCGaepxWGF5Ymzt3IzTaw==}
-    peerDependencies:
-      svelte: '>=3 <5'
-    dependencies:
-      '@tanstack/query-core': 5.8.3
-      svelte: 4.2.5
-    dev: false
-
   /@tsconfig/svelte@5.0.2:
     resolution: {integrity: sha512-BRbo1fOtyVbhfLyuCWw6wAWp+U8UQle+ZXu84MYYWzYSEB28dyfnRBIE99eoG+qdAC0po6L2ScIEivcT07UaMA==}
     dev: true
@@ -1521,6 +1511,14 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /lucide-svelte@0.292.0(svelte@4.2.5):
+    resolution: {integrity: sha512-bnTpg9pbm6pQDc+YiLK2yxtRFk2Cc+hbzwjAPaV85k56x10CJ9LsXjon6wRrlNTSdxJR7GOsRjz0A5ZNu3Z7dg==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      svelte: 4.2.5
+    dev: false
+
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
     engines: {node: '>=12'}
@@ -1998,6 +1996,15 @@ packages:
       - sugarss
     dev: true
 
+  /svelte-french-toast@1.2.0(svelte@4.2.5):
+    resolution: {integrity: sha512-5PW+6RFX3xQPbR44CngYAP1Sd9oCq9P2FOox4FZffzJuZI2mHOB7q5gJBVnOiLF5y3moVGZ7u2bYt7+yPAgcEQ==}
+    peerDependencies:
+      svelte: ^3.57.0 || ^4.0.0
+    dependencies:
+      svelte: 4.2.5
+      svelte-writable-derived: 3.1.0(svelte@4.2.5)
+    dev: false
+
   /svelte-hmr@0.15.3(svelte@4.2.5):
     resolution: {integrity: sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
@@ -2065,6 +2072,14 @@ packages:
       svelte: 4.2.5
       typescript: 5.2.2
     dev: true
+
+  /svelte-writable-derived@3.1.0(svelte@4.2.5):
+    resolution: {integrity: sha512-cTvaVFNIJ036vSDIyPxJYivKC7ZLtcFOPm1Iq6qWBDo1fOHzfk6ZSbwaKrxhjgy52Rbl5IHzRcWgos6Zqn9/rg==}
+    peerDependencies:
+      svelte: ^3.2.1 || ^4.0.0-next.1
+    dependencies:
+      svelte: 4.2.5
+    dev: false
 
   /svelte2tsx@0.1.193(svelte@4.2.5)(typescript@5.2.2):
     resolution: {integrity: sha512-vzy4YQNYDnoqp2iZPnJy7kpPAY6y121L0HKrSBjU/IWW7DQ6T7RMJed2VVHFmVYm0zAGYMDl9urPc6R4DDUyhg==}

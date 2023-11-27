@@ -1,16 +1,13 @@
 import type { Express } from "express";
 import { createServer } from "http";
 import socketAuthMiddleware from "../middleware/socket-auth.ts";
-import type { Socket } from "socket.io";
 import { Server } from "socket.io";
 import {
-  registerConversationHandlers,
+  registerChatHandlers,
   registerNotificationHandlers,
   registerUserHandlers,
 } from "./handlers/index.ts";
-import { Connection } from "../types/sockets.ts";
-
-export let connections: Connection[] = [];
+import socketRepository from "../repositories/socketRepository.ts";
 
 export const socketServer = (app: Express) => {
   const server = createServer(app);
@@ -24,13 +21,11 @@ export const socketServer = (app: Express) => {
   io.use(socketAuthMiddleware);
 
   io.on("connection", (socket) => {
-    registerConversationHandlers(socket);
-    registerUserHandlers(socket);
-    registerNotificationHandlers(socket);
+    registerChatHandlers(socket, io);
+    registerUserHandlers(socket, io);
+    registerNotificationHandlers(socket, io);
 
-    socket.on("disconnect", () => {
-      connections = connections.filter((conn) => conn.socketId !== socket.id);
-    });
+    socket.on("discconect", () => socketRepository.removeConnection(socket.id));
   });
 
   return server;
