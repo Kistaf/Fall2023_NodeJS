@@ -2,6 +2,7 @@
   import { MessagesSquare, User, Settings, LogOut } from "lucide-svelte";
   import SidebarIcon from "./icons/SidebarIcon.svelte";
   import authService from "../../services/authService";
+  import friendsStore from "../../stores/friendsStore";
 </script>
 
 <div
@@ -11,7 +12,10 @@
     <SidebarIcon section="conversations" notifications={2}>
       <MessagesSquare size={24} color={"white"} />
     </SidebarIcon>
-    <SidebarIcon section="friends" notifications={8}>
+    <SidebarIcon
+      section="friends"
+      notifications={$friendsStore.received.length}
+    >
       <User size={24} color={"white"} />
     </SidebarIcon>
     <SidebarIcon section="settings">

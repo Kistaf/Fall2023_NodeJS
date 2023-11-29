@@ -1,9 +1,22 @@
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { auth } from "../lib/firebase";
-import type { AuthService, Credentials } from "../utils/types";
-import { user } from "../stores/authState";
+import type { Credentials } from "../utils/types";
+import user from "../stores/authState";
 import { navigate } from "svelte-navigator";
-import { fetchSessionLogin, fetchSessionLogout } from "../utils/api";
+import api from "../utils/api";
+import socket from "../lib/sockets/sockets";
+
+export type AuthService = {
+  loginWithGoogle: () => void;
+  loginWithCredentials: (data: Credentials) => Promise<string>;
+  registerWithCredentials: (data: Credentials) => Promise<string>;
+  logout: () => void;
+};
 
 const createAuthService = (): AuthService => {
   const loginWithGoogle = () => {
@@ -11,7 +24,7 @@ const createAuthService = (): AuthService => {
     signInWithPopup(auth, provider)
       .then((result) => {
         return result.user.getIdToken().then(async (idToken) => {
-          const response = await fetchSessionLogin(idToken);
+          const response = await api.auth.fetchSessionLogin(idToken);
           if (response.ok) {
             return navigate("/chatting?section=conversations", {
               replace: true,
@@ -24,22 +37,55 @@ const createAuthService = (): AuthService => {
         console.log(error);
       });
   };
-  const loginWithCredentials = (data: Credentials) => {};
-  const registerWithCredentials = (data: Credentials) => {};
+  const loginWithCredentials = async (data: Credentials) => {
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
+
+      if (!result) return Promise.reject("Failed to signin");
+
+      const idToken = await result.user.getIdToken();
+      const res = await api.auth.fetchSessionLogin(idToken);
+      if (!res.ok) return Promise.reject("Failed to signin");
+
+      navigate("/chatting?section=conversations", {
+        replace: true,
+      });
+
+      return Promise.resolve("Successfully signed in");
+    } catch (error) {
+      return Promise.reject("Failed to signin");
+    }
+  };
+
+  const registerWithCredentials = async (
+    data: Credentials,
+  ): Promise<string> => {
+    try {
+      const res = await api.auth.signInCredentials(data);
+      if (!res.ok) return Promise.reject("Failed to signup");
+      await loginWithCredentials(data);
+      return Promise.resolve("User created");
+    } catch (error) {
+      return Promise.reject("Something went wrong");
+    }
+  };
+
   const logout = () => {
     signOut(auth)
       .then(async () => {
-        const response = await fetchSessionLogout();
+        socket.disconnect();
+        const response = await api.auth.fetchSessionLogout();
         if (response.ok) {
-          user.set({
-            loggedIn: false,
-            user: null,
-          });
           navigate("/", { replace: true });
         }
       })
       .catch((error) => {
         // display toast
+        socket.connect();
         console.log(error);
       });
   };

@@ -1,10 +1,7 @@
 declare global {
   namespace Express {
     export interface Request {
-      user: {
-        id: string;
-        avatarURL: string;
-      };
+      userId: string;
     }
   }
   namespace NodeJS {

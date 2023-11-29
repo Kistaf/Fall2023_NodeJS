@@ -6,7 +6,10 @@ import { Friend } from "../types/entities.ts";
 
 type FriendRepository = {
   getFriends: (userId: string) => Promise<Friend[]>;
-  addFriend: (userId: string, friendEmail: string) => Promise<void>;
+  requestFriend: (
+    userId: string,
+    friendEmail: string
+  ) => Promise<{ error?: string; success?: string; friend?: Friend }>;
   updateFriend: (
     userId: string,
     friendId: string,
@@ -23,16 +26,59 @@ const createFriendRepository = (): FriendRepository => {
     return queriedFriends;
   };
 
-  const addFriend = async (userId: string, friendEmail: string) => {
+  // TODO: Move logic out of repository and into service
+  const requestFriend = async (
+    userId: string,
+    friendEmail: string
+  ): Promise<{ error?: string; success?: string; friend?: Friend }> => {
     const userFriend = await db.query.users.findFirst({
       where: eq(users.email, friendEmail),
     });
 
-    await db.insert(friends).values({
-      id: nanoid(),
-      senderId: userId,
-      receiverId: userFriend.id,
+    if (!userFriend) {
+      return {
+        error: "No user with the given email",
+      };
+    }
+    if (userFriend.id === userId) {
+      return {
+        error: "You cannot add yourself as friend",
+      };
+    }
+
+    const alreadyFriends = await db.query.friends.findFirst({
+      where: or(
+        and(
+          eq(friends.senderId, userId),
+          eq(friends.receiverId, userFriend.id)
+        ),
+        and(eq(friends.senderId, userFriend.id), eq(friends.receiverId, userId))
+      ),
     });
+
+    if (alreadyFriends) {
+      return {
+        error:
+          alreadyFriends.status === "ACCEPTED"
+            ? "You are already friends with this user"
+            : "You already have a pending friend request with this user",
+      };
+    }
+
+    const friendRequest = await db
+      .insert(friends)
+      .values({
+        id: nanoid(),
+        senderId: userId,
+        receiverId: userFriend.id,
+        status: "REQUESTED",
+      })
+      .returning();
+
+    return {
+      success: "Friend request sent",
+      friend: friendRequest[0],
+    };
   };
 
   const updateFriend = async (
@@ -67,7 +113,7 @@ const createFriendRepository = (): FriendRepository => {
 
   return {
     getFriends,
-    addFriend,
+    requestFriend,
     updateFriend,
     removeFriend,
   };

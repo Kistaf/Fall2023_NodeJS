@@ -1,10 +1,3 @@
-export type AuthService = {
-  loginWithGoogle: () => void;
-  loginWithCredentials: (data: Credentials) => void;
-  registerWithCredentials: (data: Credentials) => void;
-  logout: () => void;
-};
-
 export type Credentials = {
   email: string;
   password: string;
@@ -12,10 +5,13 @@ export type Credentials = {
 
 export type AuthState = {
   loggedIn: boolean;
-  user: {
-    id: string;
-    avatarURL: string;
-  } | null;
+  userId: string | null;
+};
+
+export type FriendsStore = {
+  sent: Friend[];
+  received: Friend[];
+  friends: Friend[];
 };
 
 export type Message = {
@@ -26,6 +22,15 @@ export type Message = {
     publishedAt: Date;
     message: string;
   };
+};
+
+export type Friend = {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: "REQUESTED" | "DENIED" | "ACCEPTED";
 };
 
 export type PageState = "conversations" | "friends" | "settings";

@@ -7,7 +7,7 @@ type SocketRepository = {
   connByUserId: (userId: string) => SocketConnection;
   connBySocketId: (socketId: string) => SocketConnection;
   addConnection: (data: SocketConnection) => SocketConnection;
-  removeConnection: (userId: string) => SocketConnection;
+  removeConnection: (userId: string) => void;
 };
 
 const createSocketRepository = (): SocketRepository => {
@@ -29,9 +29,7 @@ const createSocketRepository = (): SocketRepository => {
   };
 
   const removeConnection = (socketId: string) => {
-    const conn = connections.find((conn) => conn.socketId === socketId);
     connections = connections.filter((conn) => conn.socketId !== socketId);
-    return conn;
   };
 
   return {

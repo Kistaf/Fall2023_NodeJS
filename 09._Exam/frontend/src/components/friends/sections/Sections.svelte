@@ -1,23 +1,30 @@
 <script lang="ts">
+  import friendsStore from "../../../stores/friendsStore";
   import Section from "./Section.svelte";
-
-  const outgoingFriendRequests = [];
-  const incomingFriendRequests = [];
-  const friends = ["1"];
 </script>
 
 <div class="space-y-8">
-  {#if outgoingFriendRequests.length > 0}
-    <Section sectionName="Outgoing friend requests">
-      <div class="text-white">Test</div>
+  {#if $friendsStore.received.length > 0}
+    <Section sectionName="Received friend requests">
+      {#each $friendsStore.received as friend}
+        <div class="text-white">{friend.id}</div>
+      {/each}
     </Section>
   {/if}
 
-  {#if incomingFriendRequests.length > 0}
-    <Section sectionName="Incoming friend requests"></Section>
+  {#if $friendsStore.sent.length > 0}
+    <Section sectionName="Sent friend requests">
+      {#each $friendsStore.sent as friend}
+        <div class="text-white">{friend.id}</div>
+      {/each}
+    </Section>
   {/if}
 
-  {#if friends.length > 0}
-    <Section sectionName="Friends"></Section>
+  {#if $friendsStore.friends.length > 0}
+    <Section sectionName="Friends">
+      {#each $friendsStore.friends as friend}
+        <div class="text-white">{friend.id}</div>
+      {/each}
+    </Section>
   {/if}
 </div>

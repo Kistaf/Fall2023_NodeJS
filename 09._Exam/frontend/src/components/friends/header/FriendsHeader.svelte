@@ -1,11 +1,26 @@
 <script lang="ts">
   import type { KeyEvent } from "../../../utils/types";
+  import friendService from "../../../services/friendService";
+  import toast from "svelte-french-toast";
 
   const handleKeyDown = (e: KeyEvent) => {
-    if (e.code === "Enter") {
-      console.log("Send friend request");
-    }
+    if (e.code !== "Enter") return;
+    toast
+      .promise(
+        friendService.requestFriend(email),
+        {
+          loading: "Friend request is being processed...",
+          success: (success) => success,
+          error: (error) => error,
+        },
+        { duration: 5000 },
+      )
+      .finally(() => {
+        email = "";
+      });
   };
+
+  let email: string;
 </script>
 
 <div class="mb-6">
@@ -17,6 +32,7 @@
       </p>
     </div>
     <input
+      bind:value={email}
       on:keydown={handleKeyDown}
       class="w-full bg-message-inputField flex-none rounded-md text-message-inputText px-6 py-2 focus:outline-none placeholder:text-primary-foreground"
       placeholder="emilie@gmail.com"

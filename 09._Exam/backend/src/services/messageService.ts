@@ -11,7 +11,7 @@ const createMessageService = (): MessageService => {
 
   const getMessagesByChatId = async (req: Request, res: Response) => {
     const chatId = req.params.chatId;
-    const userId = req.user.id;
+    const userId = req.userId;
     const messages = await messageRepository.messagesByChatIdWithUser(
       chatId,
       userId

@@ -15,10 +15,7 @@ export const isAuth = async (
 
   if (verified) {
     const user = await admin.auth().getUser(verified.uid);
-    request.user = {
-      id: user.uid,
-      avatarURL: user.photoURL,
-    };
+    request.userId = user.uid;
     return next();
   }
   return response.status(404).send("Unauthorized");

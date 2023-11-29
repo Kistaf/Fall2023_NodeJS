@@ -1,5 +1,5 @@
 <script>
-  import { user } from "../../../../stores/authState";
+  import user from "../../../../stores/authState";
   import Message from "./Message.svelte";
 </script>
 
@@ -10,7 +10,7 @@
         <Message
           message={{
             id: "1",
-            publisherId: $user.user?.id ?? "",
+            publisherId: $user.userId ?? "",
             content: {
               message: "Hello world".repeat(50),
               publishedAt: new Date(),

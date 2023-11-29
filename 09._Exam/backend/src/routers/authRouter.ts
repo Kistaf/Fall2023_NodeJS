@@ -12,6 +12,10 @@ router.get(
   }
 );
 
+router.post("/auth/signup/credentials", (req: Request, res: Response) => {
+  return authService.registerCredentials(req, res);
+});
+
 router.post(
   "/auth/sessionLogin",
   async (request: Request, response: Response) => {

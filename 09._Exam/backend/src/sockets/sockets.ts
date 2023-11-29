@@ -7,11 +7,14 @@ import {
   registerNotificationHandlers,
   registerUserHandlers,
 } from "./handlers/index.ts";
+import { IO } from "../types/general.ts";
 import socketRepository from "../repositories/socketRepository.ts";
+
+export let io: IO;
 
 export const socketServer = (app: Express) => {
   const server = createServer(app);
-  const io = new Server(server, {
+  io = new Server(server, {
     cors: {
       origin: `${process.env.ALLOWED_URL}`,
       credentials: true,
@@ -25,7 +28,7 @@ export const socketServer = (app: Express) => {
     registerUserHandlers(socket, io);
     registerNotificationHandlers(socket, io);
 
-    socket.on("discconect", () => socketRepository.removeConnection(socket.id));
+    socket.on("disconnect", () => socketRepository.removeConnection(socket.id));
   });
 
   return server;

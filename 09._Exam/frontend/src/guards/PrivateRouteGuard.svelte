@@ -1,9 +1,8 @@
 <script lang="ts">
   import { useLocation, useFocus, navigate } from "svelte-navigator";
   import { onMount } from "svelte";
-  import { user } from "../stores/authState";
-  import socket from "../lib/sockets";
-  import { checkSession } from "../utils/api";
+  import user from "../stores/authState";
+  import api from "../utils/api";
   import NavSidebar from "../components/general/Sidebar.svelte";
 
   let isChecking = true;
@@ -23,29 +22,15 @@
 
   onMount(async () => {
     try {
-      const response = await checkSession();
+      const response = await api.auth.fetchCheckSession();
       if (!response.ok) {
         throw new Error("UnAuthorized");
-      } else {
-        const data = await response.json();
-        socket.connect();
-        socket.on("connect", () => {
-          socket.emit("user:add", {
-            socketId: socket.id,
-            userId: data.user.id,
-          });
-        });
-        socket.on("connect_error", (error) => {
-          throw new Error("Failed to authorize to the socket server");
-        });
-        user.set({
-          loggedIn: true,
-          user: {
-            id: data.user.id,
-            avatarURL: data.user.avatarURL,
-          },
-        });
       }
+      const data = await response.json();
+      user.setUser({
+        loggedIn: true,
+        userId: data.userId,
+      });
     } catch {
       navigateToLogin();
     } finally {
