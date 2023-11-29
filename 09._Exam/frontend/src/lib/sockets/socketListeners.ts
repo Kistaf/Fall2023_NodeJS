@@ -6,7 +6,7 @@ import sectionState from "../../stores/sectionState";
 import type { FriendFull } from "../../utils/types";
 
 export function registerListeners(socket: Socket) {
-  socket.on("friend:add", (payload: FriendFull) => {
+  socket.on("friend:request", (payload: FriendFull) => {
     const currentSection = get(sectionState);
     if (currentSection !== "friends") {
       toast("New friend request", {
@@ -15,5 +15,13 @@ export function registerListeners(socket: Socket) {
     }
 
     friendsStore.addFriend(payload);
+  });
+
+  socket.on("friend:remove", (payload: { id: string }) => {
+    friendsStore.removeFriend(payload.id);
+  });
+
+  socket.on("friend:accept", (payload: { friend: FriendFull }) => {
+    friendsStore.acceptFriend(payload.friend);
   });
 }

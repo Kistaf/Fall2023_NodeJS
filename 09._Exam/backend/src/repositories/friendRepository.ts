@@ -67,44 +67,41 @@ const createFriendRepository = () => {
     return friend;
   };
 
-  const deleteFriendById = async (friendId: string) => {
-    await db.delete(friends).where(eq(friends.id, friendId));
+  const deleteFriendById = async (
+    friendId: string
+  ): Promise<Friend | undefined> => {
+    try {
+      const deletedFriend = await db
+        .delete(friends)
+        .where(eq(friends.id, friendId))
+        .returning();
+      return deletedFriend[0];
+    } catch (error) {
+      return undefined;
+    }
   };
 
   const updateFriend = async (
-    userId: string,
     friendId: string,
-    status: "REQUESTED" | "ACCEPTED" | "DENIED"
-  ) => {
-    await db
-      .update(friends)
-      .set({
-        status: status,
-        updatedAt: new Date(),
-      })
-      .where(
-        or(
-          and(eq(friends.senderId, userId), eq(friends.receiverId, friendId)),
-          and(eq(friends.senderId, friendId), eq(friends.receiverId, userId))
-        )
-      );
-  };
-
-  const removeFriend = async (userId: string, friendId: string) => {
-    await db
-      .delete(friends)
-      .where(
-        or(
-          and(eq(friends.senderId, userId), eq(friends.receiverId, friendId)),
-          and(eq(friends.senderId, friendId), eq(friends.receiverId, userId))
-        )
-      );
+    status: "REQUESTED" | "ACCEPTED"
+  ): Promise<boolean | undefined> => {
+    try {
+      await db
+        .update(friends)
+        .set({
+          status: status,
+          updatedAt: new Date(),
+        })
+        .where(eq(friends.id, friendId));
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   return {
     getFriends,
     updateFriend,
-    removeFriend,
     createFriend,
     isFriends,
     deleteFriendById,

@@ -15,6 +15,12 @@ export default {
           content: "rgb(var(--message-content))",
           date: "rgb(var(--message-date))",
         },
+        button: {
+          primary: "rgb(var(--button))",
+          "primary-hover": "rgb(var(--button-hover))",
+          "primary-dark": "rgb(var(--button-dark))",
+          "primary-dark-hover": "rgb(var(--button-dark-hover))",
+        },
         sidebar: "rgb(var(--background-sidebar))",
         activeChats: "rgb(var(--background-active-chats))",
         primary: {

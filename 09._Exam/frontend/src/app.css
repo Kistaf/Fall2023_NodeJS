@@ -21,7 +21,9 @@
 
   .dark {
     --background: 11, 11, 12;
-    --background-sidebar: 15, 15, 16;
+    /* --background-sidebar: 15, 15, 16; */
+    /* --background-sidebar: 24, 24, 26; */
+    --background-sidebar: 22, 22, 24;
     --background-active-chats: 12, 12, 13;
 
     --border: 23, 23, 23;
@@ -35,5 +37,12 @@
 
     --primary: 16, 16, 18;
     --primary-text: 126, 126, 126;
+
+    /* --button: 255, 255, 255; */
+    --button: 225, 225, 225;
+    --button-hover: 190, 190, 202;
+
+    --button-dark: 32, 32, 41;
+    --button-dark-hover: 20, 20, 22;
   }
 }

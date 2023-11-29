@@ -4,7 +4,7 @@ export type Friend = {
   receiverId: string;
   createdAt: Date;
   updatedAt: Date;
-  status: "REQUESTED" | "DENIED" | "ACCEPTED";
+  status: "REQUESTED" | "ACCEPTED";
 };
 
 export type User = {

@@ -1,17 +1,13 @@
 import { z } from "zod";
 import api from "../utils/api";
 import type { FriendsStore } from "../utils/types";
-
-type FriendService = {
-  getFriends: () => Promise<FriendsStore>;
-  requestFriend: (friendEmail: string) => Promise<string>;
-};
+import toast from "svelte-french-toast";
 
 const FriendAddSchema = z.object({
   email: z.string().min(1).email(),
 });
 
-const createFriendService = (): FriendService => {
+const createFriendService = () => {
   const getFriends = async () => {
     const res = await api.friends.fetchFriends();
     const data = await res.json();
@@ -36,9 +32,31 @@ const createFriendService = (): FriendService => {
     }
   };
 
+  const acceptFriendRequest = async (frqId: string) => {
+    const res = await api.friends.acceptFriend(frqId);
+    const data = await res.json();
+
+    if (!res.ok) {
+      return Promise.reject(data.error);
+    }
+    return Promise.resolve(data.success);
+  };
+
+  const deleteFriendRequest = async (frqId: string) => {
+    const res = await api.friends.deleteFriend(frqId);
+    const data = await res.json();
+
+    if (!res.ok) {
+      return Promise.reject(data.error);
+    }
+    return Promise.resolve(data.success);
+  };
+
   return {
     getFriends,
     requestFriend,
+    acceptFriendRequest,
+    deleteFriendRequest,
   };
 };
 

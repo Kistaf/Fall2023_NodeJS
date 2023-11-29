@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import friendRepository from "../repositories/friendRepository.ts";
 import { io } from "../sockets/sockets.ts";
-import socketRepository from "../repositories/socketRepository.ts";
 import userRepository from "../repositories/userRepository.ts";
+import { findActiveReceivers } from "../utils/sockets.ts";
 
 const createFriendsService = () => {
   const getFriends = async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ const createFriendsService = () => {
     try {
       const otherUserExists = await userRepository.userByEmail(friendEmail);
       if (!otherUserExists) {
-        throw new Error("No user with the given eamil");
+        throw new Error("No user with the given email");
       }
 
       if (otherUserExists.id === userId) {
@@ -57,11 +57,12 @@ const createFriendsService = () => {
 
       const senderUserId = friendRequest.senderId;
       const receiverUserId = friendRequest.receiverId;
-      const receivers = [senderUserId, receiverUserId]
-        .map((id) => socketRepository.connByUserId(id)?.socketId)
-        .filter((entry) => entry !== undefined);
+      const activeReceivers = findActiveReceivers([
+        senderUserId,
+        receiverUserId,
+      ]);
 
-      io.to(receivers).emit("friend:add", friendRequest);
+      io.to(activeReceivers).emit("friend:request", friendRequest);
 
       return res.send({
         success: "Friend request sent",
@@ -72,9 +73,48 @@ const createFriendsService = () => {
     }
   };
 
+  const acceptFriend = async (req: Request, res: Response) => {
+    const friendId = req.params.id;
+    const updatedFriend = await friendRepository.updateFriend(
+      friendId,
+      "ACCEPTED"
+    );
+    if (!updatedFriend) {
+      return res.status(400).send({ error: "Failed to delete friend" });
+    }
+
+    const friend = await friendRepository.getFriendById(friendId);
+
+    const senderUserId = friend.senderId;
+    const receiverUserId = friend.receiverId;
+    const activeReceivers = findActiveReceivers([senderUserId, receiverUserId]);
+
+    io.to(activeReceivers).emit("friend:accept", { friend });
+
+    res.send({ success: "Successfully deleted friend" });
+  };
+
+  const deleteFriend = async (req: Request, res: Response) => {
+    const friendId = req.params.id;
+    const deletedFriend = await friendRepository.deleteFriendById(friendId);
+    if (!deletedFriend) {
+      return res.status(400).send({ error: "Failed to delete friend" });
+    }
+
+    const senderUserId = deletedFriend.senderId;
+    const receiverUserId = deletedFriend.receiverId;
+    const activeReceivers = findActiveReceivers([senderUserId, receiverUserId]);
+
+    io.to(activeReceivers).emit("friend:remove", { id: deletedFriend.id });
+
+    res.send({ success: "Successfully deleted friend" });
+  };
+
   return {
     getFriends,
     requestFriend,
+    acceptFriend,
+    deleteFriend,
   };
 };
 

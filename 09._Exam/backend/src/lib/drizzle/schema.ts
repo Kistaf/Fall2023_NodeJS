@@ -22,7 +22,7 @@ export const friends = pgTable("friends", {
   updatedAt: timestamp("updated_at").defaultNow(),
   senderId: varchar("sender_id").references(() => users.id),
   receiverId: varchar("receiver_id").references(() => users.id),
-  status: text("status", { enum: ["REQUESTED", "DENIED", "ACCEPTED"] }),
+  status: text("status", { enum: ["REQUESTED", "ACCEPTED"] }),
 });
 
 export const messages = pgTable("messages", {

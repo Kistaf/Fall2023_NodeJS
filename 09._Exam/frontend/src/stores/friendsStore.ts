@@ -33,8 +33,37 @@ function createFriendsStore() {
         });
       }
     },
-    // removeFriend: (friendId: string) =>
-    //   update((prev) => prev.filter((friend) => friend.id !== friendId)),
+    removeFriend: (friendId: string) => {
+      update((prev) => {
+        const userId = get(user).userId ?? "";
+        return {
+          sent: prev.sent.filter(
+            (entry) =>
+              entry.id !== friendId &&
+              entry.senderId === userId &&
+              entry.status === "REQUESTED",
+          ),
+          received: prev.received.filter(
+            (entry) =>
+              entry.id !== friendId &&
+              entry.receiverId === userId &&
+              entry.status === "REQUESTED",
+          ),
+          friends: prev.friends.filter(
+            (entry) => entry.id !== friendId && entry.status === "ACCEPTED",
+          ),
+        };
+      });
+    },
+    acceptFriend: (friend: FriendFull) => {
+      update((prev) => {
+        return {
+          sent: prev.sent.filter((entry) => entry.id !== friend.id),
+          received: prev.received.filter((entry) => entry.id !== friend.id),
+          friends: [...prev.friends, friend],
+        };
+      });
+    },
   };
 }
 

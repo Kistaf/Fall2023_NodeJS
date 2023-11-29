@@ -49,6 +49,18 @@ const createApi = () => {
     });
   };
 
+  const acceptFriend = async (frqId: string) => {
+    return await fetch(`${import.meta.env.VITE_API_URL}/friends/${frqId}`, {
+      ...apiOptions("POST"),
+    });
+  };
+
+  const deleteFriend = async (frqId: string) => {
+    return await fetch(`${import.meta.env.VITE_API_URL}/friends/${frqId}`, {
+      ...apiOptions("DELETE"),
+    });
+  };
+
   const fetchFriends = async () => {
     return await fetch(
       `${import.meta.env.VITE_API_URL}/friends`,
@@ -66,6 +78,8 @@ const createApi = () => {
     friends: {
       requestFriend,
       fetchFriends,
+      acceptFriend,
+      deleteFriend,
     },
   };
 };

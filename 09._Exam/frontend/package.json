@@ -22,6 +22,8 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "dayjs": "^1.11.10",
     "firebase": "^10.6.0",
     "lucide-svelte": "^0.292.0",
     "prettier-plugin-svelte": "^3.1.0",
