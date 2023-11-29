@@ -1,84 +1,74 @@
 import { nanoid } from "nanoid";
-import { friends, users } from "../lib/drizzle/schema.ts";
+import { friends } from "../lib/drizzle/schema.ts";
 import { db } from "../lib/drizzle/db.ts";
 import { and, eq, or } from "drizzle-orm";
 import { Friend } from "../types/entities.ts";
 
-type FriendRepository = {
-  getFriends: (userId: string) => Promise<Friend[]>;
-  requestFriend: (
-    userId: string,
-    friendEmail: string
-  ) => Promise<{ error?: string; success?: string; friend?: Friend }>;
-  updateFriend: (
-    userId: string,
-    friendId: string,
-    status: "REQUESTED" | "ACCEPTED" | "DENIED"
-  ) => void;
-  removeFriend: (userId: string, friendId: string) => void;
-};
-
-const createFriendRepository = (): FriendRepository => {
-  const getFriends = async (userId: string) => {
+const createFriendRepository = () => {
+  const getFriends = async (userId: string, full: boolean = false) => {
     const queriedFriends = await db.query.friends.findMany({
       where: or(eq(friends.senderId, userId), eq(friends.receiverId, userId)),
+      with: full
+        ? { sender: true, receiver: true }
+        : {
+            sender: {
+              columns: {
+                id: true,
+                email: true,
+              },
+            },
+            receiver: {
+              columns: {
+                id: true,
+                email: true,
+              },
+            },
+          },
     });
     return queriedFriends;
   };
 
-  // TODO: Move logic out of repository and into service
-  const requestFriend = async (
-    userId: string,
-    friendEmail: string
-  ): Promise<{ error?: string; success?: string; friend?: Friend }> => {
-    const userFriend = await db.query.users.findFirst({
-      where: eq(users.email, friendEmail),
-    });
-
-    if (!userFriend) {
-      return {
-        error: "No user with the given email",
-      };
-    }
-    if (userFriend.id === userId) {
-      return {
-        error: "You cannot add yourself as friend",
-      };
-    }
-
-    const alreadyFriends = await db.query.friends.findFirst({
-      where: or(
-        and(
-          eq(friends.senderId, userId),
-          eq(friends.receiverId, userFriend.id)
-        ),
-        and(eq(friends.senderId, userFriend.id), eq(friends.receiverId, userId))
-      ),
-    });
-
-    if (alreadyFriends) {
-      return {
-        error:
-          alreadyFriends.status === "ACCEPTED"
-            ? "You are already friends with this user"
-            : "You already have a pending friend request with this user",
-      };
-    }
-
-    const friendRequest = await db
+  const createFriend = async (userId: string, otherUserId: string) => {
+    const friend = await db
       .insert(friends)
       .values({
         id: nanoid(),
         senderId: userId,
-        receiverId: userFriend.id,
+        receiverId: otherUserId,
         status: "REQUESTED",
       })
       .returning();
+    return friend[0].id;
+  };
 
-    return {
-      success: "Friend request sent",
-      friend: friendRequest[0],
-    };
+  const isFriends = async (
+    userId: string,
+    otherUserId: string
+  ): Promise<Friend> => {
+    const friend = await db.query.friends.findFirst({
+      where: or(
+        and(eq(friends.senderId, userId), eq(friends.receiverId, otherUserId)),
+        and(eq(friends.senderId, otherUserId), eq(friends.receiverId, userId))
+      ),
+    });
+    return friend;
+  };
+
+  const getFriendById = async (friendId: string, full: boolean = false) => {
+    const friend = await db.query.friends.findFirst({
+      where: eq(friends.id, friendId),
+      with: full
+        ? { receiver: true, sender: true }
+        : {
+            receiver: { columns: { id: true, email: true } },
+            sender: { columns: { id: true, email: true } },
+          },
+    });
+    return friend;
+  };
+
+  const deleteFriendById = async (friendId: string) => {
+    await db.delete(friends).where(eq(friends.id, friendId));
   };
 
   const updateFriend = async (
@@ -113,9 +103,12 @@ const createFriendRepository = (): FriendRepository => {
 
   return {
     getFriends,
-    requestFriend,
     updateFriend,
     removeFriend,
+    createFriend,
+    isFriends,
+    deleteFriendById,
+    getFriendById,
   };
 };
 

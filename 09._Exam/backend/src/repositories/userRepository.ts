@@ -1,12 +1,13 @@
 import { users } from "../lib/drizzle/schema.ts";
 import { db } from "../lib/drizzle/db.ts";
 import { User } from "../types/entities.ts";
+import { eq } from "drizzle-orm";
 
-type UserRepository = {
-  createUser: (uid: string, email: string) => Promise<User | undefined>;
-};
+// type UserRepository = {
+//   createUser: (uid: string, email: string) => Promise<User | undefined>;
+// };
 
-const createUserRepository = (): UserRepository => {
+const createUserRepository = () => {
   const createUser = async (
     uid: string,
     email: string
@@ -26,8 +27,16 @@ const createUserRepository = (): UserRepository => {
     }
   };
 
+  const userByEmail = async (email: string) => {
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    });
+    return user;
+  };
+
   return {
     createUser,
+    userByEmail,
   };
 };
 

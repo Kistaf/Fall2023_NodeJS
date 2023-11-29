@@ -1,5 +1,5 @@
 import { get, writable } from "svelte/store";
-import type { Friend, FriendsStore } from "../utils/types";
+import type { FriendFull, FriendsStore } from "../utils/types";
 import user from "./authState";
 
 function createFriendsStore() {
@@ -12,7 +12,7 @@ function createFriendsStore() {
   return {
     subscribe,
     setFriends: (friends: FriendsStore) => set(friends),
-    addFriend: (friend: Friend) => {
+    addFriend: (friend: FriendFull) => {
       const userId = get(user).userId ?? "";
       if (friend.status === "REQUESTED") {
         if (friend.senderId === userId) {

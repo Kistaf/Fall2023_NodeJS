@@ -33,6 +33,8 @@ export type UserMessages = User & { messages: Message[] };
 export type UserFriends = User & { friends: Friend[] };
 export type UserConversations = User & { conversations: Conversation[] };
 
+export type FriendFull = Friend & { sender: User; receiver: User };
+
 export type UserFull = User & {
   conversations: Conversation[];
   messages: Message[];

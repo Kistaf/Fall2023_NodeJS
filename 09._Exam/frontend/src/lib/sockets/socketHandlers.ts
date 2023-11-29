@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
-import socket from "./sockets";
 import user from "../../stores/authState";
+import { socket } from "./sockets";
 
 export const emitAddUser = () => {
   const userId = get(user).userId;

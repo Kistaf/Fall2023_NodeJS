@@ -9,7 +9,7 @@
   import { onMount } from "svelte";
   import friendService from "../../services/friendService";
   import friendsStore from "../../stores/friendsStore";
-  import socket from "../../lib/sockets/sockets";
+  import { socket } from "../../lib/sockets/sockets";
 
   const location = useLocation();
 

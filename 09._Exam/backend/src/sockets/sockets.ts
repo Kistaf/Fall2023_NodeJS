@@ -3,10 +3,10 @@ import { createServer } from "http";
 import socketAuthMiddleware from "../middleware/socket-auth.ts";
 import { Server } from "socket.io";
 import {
-  registerChatHandlers,
-  registerNotificationHandlers,
-  registerUserHandlers,
-} from "./handlers/index.ts";
+  registerConversationListeners,
+  registerNotificationListeners,
+  registerUserListeners,
+} from "./listeners/index.ts";
 import { IO } from "../types/general.ts";
 import socketRepository from "../repositories/socketRepository.ts";
 
@@ -24,9 +24,9 @@ export const socketServer = (app: Express) => {
   io.use(socketAuthMiddleware);
 
   io.on("connection", (socket) => {
-    registerChatHandlers(socket, io);
-    registerUserHandlers(socket, io);
-    registerNotificationHandlers(socket, io);
+    registerConversationListeners(socket, io);
+    registerUserListeners(socket, io);
+    registerNotificationListeners(socket, io);
 
     socket.on("disconnect", () => socketRepository.removeConnection(socket.id));
   });

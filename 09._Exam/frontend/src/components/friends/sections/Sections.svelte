@@ -7,7 +7,7 @@
   {#if $friendsStore.received.length > 0}
     <Section sectionName="Received friend requests">
       {#each $friendsStore.received as friend}
-        <div class="text-white">{friend.id}</div>
+        <div class="text-white">{friend.sender.email}</div>
       {/each}
     </Section>
   {/if}
@@ -15,7 +15,7 @@
   {#if $friendsStore.sent.length > 0}
     <Section sectionName="Sent friend requests">
       {#each $friendsStore.sent as friend}
-        <div class="text-white">{friend.id}</div>
+        <div class="text-white">{friend.sender.email}</div>
       {/each}
     </Section>
   {/if}

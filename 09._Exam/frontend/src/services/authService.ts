@@ -9,7 +9,7 @@ import type { Credentials } from "../utils/types";
 import user from "../stores/authState";
 import { navigate } from "svelte-navigator";
 import api from "../utils/api";
-import socket from "../lib/sockets/sockets";
+import { socket } from "../lib/sockets/sockets";
 
 export type AuthService = {
   loginWithGoogle: () => void;

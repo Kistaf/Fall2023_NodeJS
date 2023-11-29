@@ -9,9 +9,9 @@ export type AuthState = {
 };
 
 export type FriendsStore = {
-  sent: Friend[];
-  received: Friend[];
-  friends: Friend[];
+  sent: FriendFull[];
+  received: FriendFull[];
+  friends: FriendFull[];
 };
 
 export type Message = {
@@ -24,6 +24,11 @@ export type Message = {
   };
 };
 
+export type User = {
+  id: string;
+  email: string;
+};
+
 export type Friend = {
   id: string;
   senderId: string;
@@ -32,6 +37,8 @@ export type Friend = {
   updatedAt: Date;
   status: "REQUESTED" | "DENIED" | "ACCEPTED";
 };
+
+export type FriendFull = Friend & { sender: User; receiver: User };
 
 export type PageState = "conversations" | "friends" | "settings";
 
