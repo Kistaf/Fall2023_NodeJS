@@ -7,8 +7,8 @@
 </script>
 
 <button
-  class={`flex justify-center hover:bg-activeChats relative py-5 ${
-    section === $pageState ? "bg-activeChats" : ""
+  class={`flex justify-center hover:bg-background relative py-5 ${
+    section === $pageState ? "bg-background" : ""
   }`}
   on:click={() => pageState.setSectionAndURL(section)}
 >

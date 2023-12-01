@@ -23,7 +23,7 @@
     </SidebarIcon>
   </div>
   <button
-    class="flex justify-center hover:bg-activeChats py-5"
+    class="flex justify-center hover:bg-background py-5"
     on:click={authService.logout}
   >
     <LogOut size={24} color={"white"} />

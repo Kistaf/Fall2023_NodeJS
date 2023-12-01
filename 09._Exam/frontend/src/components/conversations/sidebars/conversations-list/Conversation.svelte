@@ -15,12 +15,7 @@
 
   $: latestMessage = (): Message | undefined => {
     if (conversation.messages.length === 0) return undefined;
-    return conversation.messages.reduce((acc, curr) => {
-      if (!acc || curr.createdAt > acc.createdAt) {
-        acc = curr;
-      }
-      return acc;
-    }, conversation.messages[0]);
+    return conversation.messages[conversation.messages.length - 1];
   };
 
   $: formattedTime = () => dayjs(latestMessage()?.createdAt).fromNow();
@@ -47,7 +42,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div
   class={`w-full flex flex-row justify-between items-center px-2 py-1 cursor-pointer ${
-    isSelected() ? "bg-button-primary-dark rounded-md" : ""
+    isSelected() ? "bg-message-inputField rounded-md" : ""
   }`}
   role={"button"}
   tabindex={0}

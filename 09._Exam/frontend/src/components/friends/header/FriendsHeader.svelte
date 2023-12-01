@@ -34,7 +34,7 @@
     <input
       bind:value={email}
       on:keydown={handleKeyDown}
-      class="w-full bg-message-inputField flex-none rounded-md text-message-inputText px-6 py-2 focus:outline-none placeholder:text-primary-foreground"
+      class="w-full bg-message-inputField flex-none rounded-md text-message-inputText px-6 py-3 focus:outline-none placeholder:text-primary-foreground"
       placeholder="emilie@gmail.com"
     />
   </div>

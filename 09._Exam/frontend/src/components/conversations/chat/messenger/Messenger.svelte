@@ -16,6 +16,6 @@
     bind:value={message}
     on:keydown={handleKeydown}
     class="w-full h-[53px] bg-message-inputField flex-none rounded-lg text-message-inputText px-6 focus:outline-none placeholder:text-primary-foreground"
-    placeholder="Message Emilie"
+    placeholder="Send message"
   />
 </div>

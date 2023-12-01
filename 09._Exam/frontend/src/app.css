@@ -20,25 +20,24 @@
   }
 
   .dark {
-    --background: 11, 11, 12;
-    /* --background-sidebar: 15, 15, 16; */
-    /* --background-sidebar: 24, 24, 26; */
-    --background-sidebar: 22, 22, 24;
-    --background-active-chats: 12, 12, 13;
+    --background: 19, 19, 19;
+    --background-sidebar: 23, 23, 24;
+    --background-active-chats: 19, 19, 19;
 
     --border: 23, 23, 23;
     --avatar: 39, 39, 42;
 
-    --message-input-field: 12, 12, 12;
+    --message-input-field: 39, 38, 38;
     --message-input-text: 200, 200, 200;
     --message-username: 175, 175, 175;
     --message-date: 78, 77, 77;
     --message-content: 126, 126, 126;
 
-    --primary: 16, 16, 18;
+    --primary: 23, 23, 23;
     --primary-text: 126, 126, 126;
 
-    /* --button: 255, 255, 255; */
+    --primary: 23, 23, 23;
+
     --button: 225, 225, 225;
     --button-hover: 190, 190, 202;
 

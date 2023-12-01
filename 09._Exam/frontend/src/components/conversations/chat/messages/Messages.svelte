@@ -5,15 +5,15 @@
 
   let element: HTMLDivElement;
 
-  $: sortedMessages = () =>
-    $conversationsStore.selectedConversation?.messages.sort((a, b) => {
-      if (a.createdAt < b.createdAt) {
-        return -1;
-      } else if (a.createdAt > b.createdAt) {
-        return 1;
-      }
-      return 0;
-    });
+  // $: sortedMessages = () =>
+  //   $conversationsStore.selectedConversation?.messages.sort((a, b) => {
+  //     if (a.createdAt < b.createdAt) {
+  //       return -1;
+  //     } else if (a.createdAt > b.createdAt) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   });
 
   const scrollToBottom = (node: HTMLDivElement) => {
     const scroll = () => {
@@ -35,7 +35,7 @@
 <div class="flex-1 overflow-y-auto hide-native-scrollbar" bind:this={element}>
   <div class="w-full h-full flex flex-col-reverse justify-end">
     <div class="space-y-4">
-      {#each sortedMessages() ?? [] as message}
+      {#each $conversationsStore?.selectedConversation?.messages ?? [] as message}
         <Message {message} />
       {/each}
     </div>

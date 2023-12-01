@@ -7,10 +7,10 @@
 </script>
 
 <div
-  class="flex flex-row w-full h-[90px] justify-between items-center rounded-lg px-6 py-4 text-white bg-activeChats"
+  class="flex flex-row w-full h-[90px] justify-between items-center rounded-lg px-6 py-4 text-white bg-primary"
 >
   <div class="flex flex-row space-x-4">
-    <div class="w-12 h-12 rounded-full bg-primary" />
+    <div class="w-12 h-12 rounded-full bg-background" />
     <div class="flex flex-col justify-center">
       <h3 class="text-message-username">{email}</h3>
       <p class="text-sm text-message-date">Since {formattedCreateDate()}</p>

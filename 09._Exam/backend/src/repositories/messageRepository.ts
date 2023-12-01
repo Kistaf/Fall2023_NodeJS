@@ -1,7 +1,7 @@
 import { messages } from "../lib/drizzle/schema.ts";
 import { db } from "../lib/drizzle/db.ts";
 import { nanoid } from "nanoid";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 const createMessageRepository = () => {
   const saveMessage = async (
@@ -32,6 +32,7 @@ const createMessageRepository = () => {
           },
         },
       },
+      orderBy: desc(messages.createdAt),
     });
     return message;
   };

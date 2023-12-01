@@ -1,1 +1,1 @@
-<div class="w-full h-screen bg-primary">Settings</div>
+<div class="w-full h-screen">Settings</div>
