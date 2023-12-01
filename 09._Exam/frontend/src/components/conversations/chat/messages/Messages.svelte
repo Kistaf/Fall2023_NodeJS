@@ -1,23 +1,42 @@
-<script>
-  import user from "../../../../stores/authState";
+<script lang="ts">
+  import { afterUpdate, onMount } from "svelte";
+  import conversationsStore from "../../../../stores/conversationsStore";
   import Message from "./Message.svelte";
+
+  let element: HTMLDivElement;
+
+  $: sortedMessages = () =>
+    $conversationsStore.selectedConversation?.messages.sort((a, b) => {
+      if (a.createdAt < b.createdAt) {
+        return -1;
+      } else if (a.createdAt > b.createdAt) {
+        return 1;
+      }
+      return 0;
+    });
+
+  const scrollToBottom = (node: HTMLDivElement) => {
+    const scroll = () => {
+      node.scroll({
+        top: node.scrollHeight,
+        behavior: "instant",
+      });
+    };
+    scroll();
+
+    return { update: scroll };
+  };
+
+  afterUpdate(() => {
+    scrollToBottom(element);
+  });
 </script>
 
-<div class="flex-1 overflow-y-auto hide-native-scrollbar">
-  <div class="w-full h-full">
+<div class="flex-1 overflow-y-auto hide-native-scrollbar" bind:this={element}>
+  <div class="w-full h-full flex flex-col-reverse justify-end">
     <div class="space-y-4">
-      {#each { length: 4 } as _, i}
-        <Message
-          message={{
-            id: "1",
-            publisherId: $user.userId ?? "",
-            content: {
-              message: "Hello world".repeat(50),
-              publishedAt: new Date(),
-              publisherUsername: "Kistaf",
-            },
-          }}
-        />
+      {#each sortedMessages() ?? [] as message}
+        <Message {message} />
       {/each}
     </div>
   </div>

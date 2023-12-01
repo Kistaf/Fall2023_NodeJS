@@ -1,6 +1,10 @@
 <script lang="ts">
   import { useLocation } from "svelte-navigator";
-  import type { FriendsStore, PageState } from "../../utils/types";
+  import type {
+    Conversation,
+    FriendsStore,
+    PageState,
+  } from "../../utils/types";
   import sectionState from "../../stores/sectionState";
   import Conversations from "../../components/conversations/Conversations.svelte";
   import Friends from "../../components/friends/Friends.svelte";
@@ -10,6 +14,8 @@
   import friendService from "../../services/friendService";
   import friendsStore from "../../stores/friendsStore";
   import { socket } from "../../lib/sockets/sockets";
+  import conversationService from "../../services/conversationService";
+  import conversationsStore from "../../stores/conversationsStore";
 
   const location = useLocation();
 
@@ -17,6 +23,10 @@
     socket.connect();
     const friends: FriendsStore = await friendService.getFriends();
     friendsStore.setFriends(friends);
+
+    const conversations: Conversation[] =
+      await conversationService.getConversations();
+    conversationsStore.setConversations(conversations);
   });
 
   $: {

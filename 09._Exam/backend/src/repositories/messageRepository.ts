@@ -1,62 +1,44 @@
-import { ChatMessagePayload } from "../types/payload.ts";
+import { messages } from "../lib/drizzle/schema.ts";
+import { db } from "../lib/drizzle/db.ts";
+import { nanoid } from "nanoid";
+import { eq } from "drizzle-orm";
 
-type MessageRepository = {
-  saveMessage: (data: ChatMessagePayload) => Promise<boolean>;
-  messagesByChatIdWithUser: (
-    chatId: string,
-    userId: string
-  ) => Promise<[] | null>;
-};
-
-const createMessageRepository = (): MessageRepository => {
-  const saveMessage = async (data: ChatMessagePayload): Promise<boolean> => {
-    // update Redis
-
-    // update Database
-
-    return true;
+const createMessageRepository = () => {
+  const saveMessage = async (
+    userId: string,
+    message: string,
+    convId: string
+  ) => {
+    const createdMessage = await db
+      .insert(messages)
+      .values({
+        id: nanoid(),
+        authorId: userId,
+        content: message,
+        conversationId: convId,
+      })
+      .returning();
+    return createdMessage[0].id;
   };
 
-  const messagesByChatIdWithUser = async (
-    chatId: string,
-    userId: string
-  ): Promise<[] | null> => {
-    // https://github.com/drizzle-team/drizzle-orm/discussions/1152
-
-    // const conversation = await drizzleDb.query.conversations.findFirst({
-    //   where: eq(conversations.id, chatId),
-    //   with: {
-    //     users: true,
-    //     messages: true,
-    //   },
-    // });
-
-    // if (conversation.users.filter((user) => user.id === userId).length > 0)
-    //   return conversation.messages;
-
-    // return [];
-
-    // const chat = await db.chat.findUnique({
-    //   where: {
-    //     id: chatId,
-    //     users: {
-    //       some: {
-    //         id: userId,
-    //       },
-    //     },
-    //   },
-    //   include: {
-    //     messages: true,
-    //   },
-    // });
-
-    // return chat.messages;
-    return [];
+  const getMessageById = async (id: string) => {
+    const message = await db.query.messages.findFirst({
+      where: eq(messages.id, id),
+      with: {
+        author: {
+          columns: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+    });
+    return message;
   };
 
   return {
     saveMessage,
-    messagesByChatIdWithUser,
+    getMessageById,
   };
 };
 

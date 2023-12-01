@@ -27,6 +27,8 @@ export type Conversation = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
+  participantAId: string;
+  participantBId: string;
 };
 
 export type UserMessages = User & { messages: Message[] };

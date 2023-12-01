@@ -14,14 +14,28 @@ export type FriendsStore = {
   friends: FriendFull[];
 };
 
+export type ConversationsStore = {
+  conversations: Conversation[];
+  selectedConversation: Conversation | null;
+};
+
+export type Conversation = {
+  id: string;
+  participantAId: string;
+  participantBId: string;
+  participantA: User;
+  participantB: User;
+  messages: Message[];
+};
+
 export type Message = {
   id: string;
-  publisherId: string;
-  content: {
-    publisherUsername: string;
-    publishedAt: Date;
-    message: string;
-  };
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+  author: User;
+  content: string;
+  conversationId: string;
 };
 
 export type User = {
@@ -42,6 +56,10 @@ export type FriendFull = Friend & { sender: User; receiver: User };
 
 export type PageState = "conversations" | "friends" | "settings";
 
-export type KeyEvent = KeyboardEvent & {
+export type KeyEventInput = KeyboardEvent & {
   currentTarget: EventTarget & HTMLInputElement;
+};
+
+export type KeyEventDiv = KeyboardEvent & {
+  currentTarget: EventTarget & HTMLDivElement;
 };

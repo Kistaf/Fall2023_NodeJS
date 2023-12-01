@@ -1,27 +1,46 @@
 import { Request, Response } from "express";
 import messageRepository from "../repositories/messageRepository.ts";
+import conversationRepository from "../repositories/conversationRepository.ts";
+import { findActiveReceivers } from "../utils/sockets.ts";
+import { io } from "../sockets/sockets.ts";
 
-type MessageService = {
-  saveMessage: (req: Request, res: Response) => void;
-  getMessagesByChatId: (req: Request, res: Response) => void;
-};
-
-const createMessageService = (): MessageService => {
-  const saveMessage = (req: Request, res: Response) => {};
-
-  const getMessagesByChatId = async (req: Request, res: Response) => {
-    const chatId = req.params.chatId;
+const createMessageService = () => {
+  const saveMessage = async (req: Request, res: Response) => {
     const userId = req.userId;
-    const messages = await messageRepository.messagesByChatIdWithUser(
-      chatId,
-      userId
+    const { message, convId } = req.body;
+    if (!message || !convId) {
+      return res
+        .status(400)
+        .send({ error: "Missing required fields: message or convId" });
+    }
+
+    const createdMessageId = await messageRepository.saveMessage(
+      userId,
+      message,
+      convId
     );
-    return res.send(messages);
+
+    if (!createdMessageId) {
+      return res
+        .status(500)
+        .send({ error: "Something went wrong trying to create the message" });
+    }
+
+    const msg = await messageRepository.getMessageById(createdMessageId);
+    const conversation = await conversationRepository.getConversationByConvId(
+      convId
+    );
+
+    const receivers = findActiveReceivers([
+      conversation.participantAId,
+      conversation.participantBId,
+    ]);
+
+    io.to(receivers).emit("message:new", msg);
   };
 
   return {
     saveMessage,
-    getMessagesByChatId,
   };
 };
 

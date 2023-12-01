@@ -1,4 +1,8 @@
 <script lang="ts">
+  import dayjs from "dayjs";
+
+  const formattedDate = () => dayjs(publishedAt).format("MMMM D, YYYY H:mm A");
+
   export let publisherUsername: string;
   export let publishedAt: Date;
 </script>
@@ -8,6 +12,6 @@
     {publisherUsername}
   </h3>
   <p class="text-xs text-message-date font-medium">
-    {publishedAt.toLocaleDateString()}
+    {formattedDate()}
   </p>
 </div>

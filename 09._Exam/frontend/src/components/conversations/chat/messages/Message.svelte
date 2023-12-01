@@ -12,9 +12,9 @@
   <MessageAvatar />
   <MessageBody>
     <MessageHeader
-      publishedAt={message.content.publishedAt}
-      publisherUsername={message.content.publisherUsername}
+      publishedAt={message.createdAt}
+      publisherUsername={message.author.email}
     />
-    <MessageContent content={message.content.message} />
+    <MessageContent content={message.content} />
   </MessageBody>
 </div>

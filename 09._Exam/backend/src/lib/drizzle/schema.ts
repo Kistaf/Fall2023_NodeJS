@@ -14,15 +14,25 @@ export const conversations = pgTable("conversations", {
   id: varchar("id", { length: 64 }).primaryKey().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  participantAId: varchar("participant_a_id")
+    .references(() => users.id)
+    .notNull(),
+  participantBId: varchar("participant_b_id")
+    .references(() => users.id)
+    .notNull(),
 });
 
 export const friends = pgTable("friends", {
   id: varchar("id", { length: 64 }).primaryKey().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-  senderId: varchar("sender_id").references(() => users.id),
-  receiverId: varchar("receiver_id").references(() => users.id),
-  status: text("status", { enum: ["REQUESTED", "ACCEPTED"] }),
+  senderId: varchar("sender_id")
+    .references(() => users.id)
+    .notNull(),
+  receiverId: varchar("receiver_id")
+    .references(() => users.id)
+    .notNull(),
+  status: text("status", { enum: ["REQUESTED", "ACCEPTED"] }).notNull(),
 });
 
 export const messages = pgTable("messages", {
@@ -56,10 +66,20 @@ export const messagesRelations = relations(messages, ({ one }) => ({
   }),
 }));
 
-export const conversationsRelations = relations(conversations, ({ many }) => ({
-  messages: many(messages),
-  users: many(users),
-}));
+export const conversationsRelations = relations(
+  conversations,
+  ({ many, one }) => ({
+    messages: many(messages),
+    participantA: one(users, {
+      fields: [conversations.participantAId],
+      references: [users.id],
+    }),
+    participantB: one(users, {
+      fields: [conversations.participantBId],
+      references: [users.id],
+    }),
+  })
+);
 
 export const friendsRelations = relations(friends, ({ one }) => ({
   sender: one(users, {

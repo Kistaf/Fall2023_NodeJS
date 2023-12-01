@@ -1,3 +1,4 @@
 export { default as authRouter } from "./authRouter.ts";
 export { default as messageRouter } from "./messageRouter.ts";
 export { default as friendsRouter } from "./friendsRouter.ts";
+export { default as conversationsRouter } from "./conversationRouter.ts";

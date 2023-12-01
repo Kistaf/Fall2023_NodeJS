@@ -4,8 +4,8 @@ import messageService from "../services/messageService.ts";
 
 const router: Router = Router();
 
-router.get("/messages/:chatId", isAuth, async (req: Request, res: Response) => {
-  return messageService.getMessagesByChatId(req, res);
+router.post("/messages", isAuth, async (req: Request, res: Response) => {
+  return messageService.saveMessage(req, res);
 });
 
 export default router;

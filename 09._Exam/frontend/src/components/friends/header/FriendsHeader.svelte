@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { KeyEvent } from "../../../utils/types";
+  import type { KeyEventInput } from "../../../utils/types";
   import friendService from "../../../services/friendService";
   import toast from "svelte-french-toast";
 
-  const handleKeyDown = (e: KeyEvent) => {
+  const handleKeyDown = (e: KeyEventInput) => {
     if (e.code !== "Enter") return;
     toast
       .promise(

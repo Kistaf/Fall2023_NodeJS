@@ -68,6 +68,23 @@ const createApi = () => {
     );
   };
 
+  const fetchConversations = async () => {
+    return await fetch(
+      `${import.meta.env.VITE_API_URL}/conversations`,
+      apiOptions("GET"),
+    );
+  };
+
+  const sendMessage = async (message: string, convId: string) => {
+    return await fetch(`${import.meta.env.VITE_API_URL}/messages`, {
+      ...apiOptions("POST"),
+      body: JSON.stringify({
+        message: message,
+        convId: convId,
+      }),
+    });
+  };
+
   return {
     auth: {
       signInCredentials,
@@ -80,6 +97,12 @@ const createApi = () => {
       fetchFriends,
       acceptFriend,
       deleteFriend,
+    },
+    conversations: {
+      fetchConversations,
+    },
+    messages: {
+      sendMessage,
     },
   };
 };
