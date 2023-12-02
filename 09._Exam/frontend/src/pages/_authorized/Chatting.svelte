@@ -5,7 +5,7 @@
     FriendsStore,
     PageState,
   } from "../../utils/types";
-  import sectionState from "../../stores/sectionState";
+  import sectionStore from "../../stores/sectionStore";
   import Conversations from "../../components/conversations/Conversations.svelte";
   import Friends from "../../components/friends/Friends.svelte";
   import Settings from "../../components/settings/Settings.svelte";
@@ -34,16 +34,16 @@
     const pathname = $location.pathname.split("/")[1];
     if (searchParams.has("section") && pathname === "chatting") {
       const pageSection = searchParams.get("section") as PageState;
-      sectionState.setSection(pageSection);
+      sectionStore.setSection(pageSection);
     }
   }
 </script>
 
-{#if $sectionState === "conversations"}
+{#if $sectionStore === "conversations"}
   <Conversations />
-{:else if $sectionState === "friends"}
+{:else if $sectionStore === "friends"}
   <Friends />
-{:else if $sectionState === "settings"}
+{:else if $sectionStore === "settings"}
   <Settings />
 {:else}
   <NotFound />

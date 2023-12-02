@@ -2,14 +2,14 @@ import type { Socket } from "socket.io-client";
 import toast from "svelte-french-toast";
 import { get } from "svelte/store";
 import friendsStore from "../../stores/friendsStore";
-import sectionState from "../../stores/sectionState";
+import sectionStore from "../../stores/sectionStore";
 import type { FriendFull, Message } from "../../utils/types";
 import conversationsStore from "../../stores/conversationsStore";
-import authState from "../../stores/authState";
+import authStore from "../../stores/authStore";
 
 export function registerListeners(socket: Socket) {
   socket.on("friend:request", (payload: FriendFull) => {
-    const currentSection = get(sectionState);
+    const currentSection = get(sectionStore);
     if (currentSection !== "friends") {
       toast("New friend request", {
         icon: "🙋🏼‍♂️",
@@ -29,7 +29,7 @@ export function registerListeners(socket: Socket) {
 
   socket.on("message:new", (payload: Message) => {
     const selectedConv = get(conversationsStore).selectedConversation;
-    const userId = get(authState).userId;
+    const userId = get(authStore).userId;
     const isReceiver = payload.authorId !== userId ? true : false;
 
     if (

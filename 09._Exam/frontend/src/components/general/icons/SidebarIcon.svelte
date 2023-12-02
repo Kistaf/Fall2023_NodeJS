@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { PageState } from "../../../utils/types";
-  import pageState from "../../../stores/sectionState";
+  import pageState from "../../../stores/sectionStore";
 
   export let notifications: number | undefined = undefined;
   export let section: PageState;

@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import user from "../../stores/authState";
+import user from "../../stores/authStore";
 import { socket } from "./sockets";
 
 export const emitAddUser = () => {

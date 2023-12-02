@@ -3,7 +3,7 @@ export type Credentials = {
   password: string;
 };
 
-export type AuthState = {
+export type AuthStore = {
   loggedIn: boolean;
   userId: string | null;
 };

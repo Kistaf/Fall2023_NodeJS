@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import type { Credentials } from "../utils/types";
-import user from "../stores/authState";
+import user from "../stores/authStore";
 import { navigate } from "svelte-navigator";
 import api from "../utils/api";
 import { socket } from "../lib/sockets/sockets";

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { MoreVertical } from "lucide-svelte";
   import friendService from "../../../services/friendService";
-  import authState from "../../../stores/authState";
+  import authStore from "../../../stores/authStore";
   import friendsStore from "../../../stores/friendsStore";
   import Button from "../../general/Button.svelte";
   import FriendCard from "../cards/FriendCard.svelte";
@@ -9,7 +9,7 @@
   import toast from "svelte-french-toast";
 
   const filterSenderReceiver = (senderId: string) =>
-    senderId === $authState.userId ? "receiver" : "sender";
+    senderId === $authStore.userId ? "receiver" : "sender";
 
   const handleDeleteFriendRequest = (frqId: string) => {
     toast.promise(friendService.deleteFriendRequest(frqId), {

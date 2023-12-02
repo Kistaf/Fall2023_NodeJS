@@ -10,7 +10,11 @@
 >
   <div class="w-full h-screen flex flex-col px-6 py-4">
     {#if !$conversationsStore.selectedConversation}
-      <div>No conversation selected</div>
+      <div
+        class="w-full h-full flex justify-center items-center text-message-content font-semibold"
+      >
+        No conversation selected
+      </div>
     {:else}
       <Topbar />
       <Messages />

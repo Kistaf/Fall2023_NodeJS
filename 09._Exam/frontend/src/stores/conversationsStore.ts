@@ -38,7 +38,7 @@ const createConversationsStore = () => {
         };
       });
     },
-    setSelectedConversation: (conversation: Conversation) =>
+    setSelectedConversation: (conversation: Conversation | null) =>
       update((prev) => {
         return {
           ...prev,

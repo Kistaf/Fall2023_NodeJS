@@ -1,10 +1,10 @@
 <script lang="ts">
-  import ConversationsList from "./sidebars/conversations-list/ConversationsList.svelte";
+  import ConversationsPanel from "./sidebars/conversations-panel/ConversationsPanel.svelte";
   import Chat from "./chat/Chat.svelte";
 </script>
 
 <div class="flex flex-row">
-  <ConversationsList />
+  <ConversationsPanel />
   <Chat />
   <!-- <ConversationOverview /> -->
 </div>

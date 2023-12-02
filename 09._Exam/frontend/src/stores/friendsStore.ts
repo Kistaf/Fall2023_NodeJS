@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
 import type { FriendFull, FriendsStore } from "../utils/types";
-import user from "./authState";
+import user from "./authStore";
 
 function createFriendsStore() {
   const { subscribe, set, update } = writable<FriendsStore>({

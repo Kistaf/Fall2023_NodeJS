@@ -1,12 +1,12 @@
 <script lang="ts">
   import conversationsStore from "../../../../stores/conversationsStore";
-  import authState from "../../../../stores/authState";
+  import authStore from "../../../../stores/authStore";
 
   $: otherPart = () => {
     if (!$conversationsStore.selectedConversation) return undefined;
     const key =
       $conversationsStore.selectedConversation?.participantAId ===
-      $authState.userId
+      $authStore.userId
         ? "participantB"
         : "participantA";
     return $conversationsStore.selectedConversation[key];

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { useLocation, useFocus, navigate } from "svelte-navigator";
   import { onMount } from "svelte";
-  import user from "../stores/authState";
+  import user from "../stores/authStore";
   import api from "../utils/api";
   import NavSidebar from "../components/general/Sidebar.svelte";
 
