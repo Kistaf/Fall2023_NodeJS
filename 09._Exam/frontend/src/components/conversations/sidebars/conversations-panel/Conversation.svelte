@@ -6,7 +6,7 @@
     KeyEventDiv,
     Message,
   } from "../../../../utils/types";
-  import { otherConvParty } from "../../../../utils/utils";
+  import { extractOtherPartKey } from "../../../../utils/utils";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   dayjs.extend(relativeTime);
@@ -26,12 +26,6 @@
     conversationsStore.setSelectedConversation(conversation);
   };
 
-  const handleKeyDown = (event: KeyEventDiv) => {
-    if (event.code === "Enter") {
-      handleSetSelectedConversation();
-    }
-  };
-
   $: isSelected = () => {
     if (!$conversationsStore.selectedConversation) return false;
     if ($conversationsStore.selectedConversation.id === conversation.id)
@@ -42,21 +36,21 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<div
-  class={`w-full flex flex-row justify-between items-center px-2 py-1 cursor-pointer ${
+<button
+  class={`w-full text-left flex flex-row justify-between hover:bg-message-inputField hover:rounded-md items-center px-2 py-1 cursor-pointer ${
     isSelected() ? "bg-message-inputField rounded-md" : ""
   }`}
-  role={"button"}
-  tabindex={0}
   on:click={handleSetSelectedConversation}
-  on:keydown={(event) => handleKeyDown(event)}
 >
   <div class="flex flex-row items-center space-x-2">
     <div class="w-10 h-10 bg-primary rounded-full flex-none" />
     <div class="flex flex-col text-sm">
       <h3 class="text-message-username line-clamp-1">
         {conversation[
-          otherConvParty(conversation.participantAId, $authStore.userId ?? "")
+          extractOtherPartKey(
+            conversation.participantAId,
+            $authStore.userId ?? "",
+          )
         ].email}
       </h3>
       <p class="text-message-content line-clamp-1">
@@ -67,4 +61,4 @@
   <p class="text-xs text-message-date flex-none">
     {formattedTime()}
   </p>
-</div>
+</button>

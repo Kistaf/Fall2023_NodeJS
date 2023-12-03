@@ -1,16 +1,18 @@
 <script lang="ts">
-  import { PenSquare } from "lucide-svelte";
   import conversationsStore from "../../../../stores/conversationsStore";
   import Conversation from "./Conversation.svelte";
   import type { Conversation as ConversationType } from "../../../../utils/types";
   import authStore from "../../../../stores/authStore";
-  import { otherConvParty } from "../../../../utils/utils";
+  import { extractOtherPartKey } from "../../../../utils/utils";
+  import ConversationPopover from "./ConversationPopover.svelte";
 
   let filtered: ConversationType[] = [];
   let query: string = "";
 
   $: filtered = $conversationsStore.conversations.filter((conv) =>
-    conv[otherConvParty(conv.participantAId, $authStore.userId ?? "")].email
+    conv[
+      extractOtherPartKey(conv.participantAId, $authStore.userId ?? "")
+    ].email
       .toLowerCase()
       .includes(query.toLowerCase()),
   );
@@ -20,7 +22,7 @@
   <div class="space-y-2">
     <div class="flex flex-row justify-between items-center">
       <h3 class="text-white text-xl font-bold">Active chats</h3>
-      <PenSquare size={19} color={"white"} class="cursor-pointer" />
+      <ConversationPopover />
     </div>
     <input
       bind:value={query}

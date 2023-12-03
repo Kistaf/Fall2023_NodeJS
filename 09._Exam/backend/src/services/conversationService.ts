@@ -18,15 +18,20 @@ const createConversationService = () => {
 
   const createConversation = async (req: Request, res: Response) => {
     const userId = req.userId;
-    const { otherUserId } = req.body;
+    const selected: string[] = req.body.selected;
 
-    if (!otherUserId) {
-      return res
-        .status(400)
-        .send({ error: "Missing the ID of the second user" });
+    // Group functionality not yet implemented on the backend
+    // but support for it is added on the frontend
+    if (selected.length !== 1) {
+      return res.status(400).send({
+        error:
+          "You are currently only able to select one person for a conversation",
+      });
     }
 
-    const hasConversationAlready = conversationRepository.hasConversation(
+    const otherUserId = selected[0];
+
+    const hasConversationAlready = await conversationRepository.hasConversation(
       userId,
       otherUserId
     );

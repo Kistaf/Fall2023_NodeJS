@@ -73,8 +73,8 @@ const createConversationRepository = () => {
         )
       ),
     });
-    if (!conversation) return false;
-    return true;
+    if (conversation) return true;
+    return false;
   };
 
   const createConversation = async (

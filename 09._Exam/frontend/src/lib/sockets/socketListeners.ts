@@ -3,7 +3,7 @@ import toast from "svelte-french-toast";
 import { get } from "svelte/store";
 import friendsStore from "../../stores/friendsStore";
 import sectionStore from "../../stores/sectionStore";
-import type { FriendFull, Message } from "../../utils/types";
+import type { Conversation, FriendFull, Message } from "../../utils/types";
 import conversationsStore from "../../stores/conversationsStore";
 import authStore from "../../stores/authStore";
 
@@ -40,5 +40,20 @@ export function registerListeners(socket: Socket) {
     }
 
     conversationsStore.addMessage(payload);
+  });
+
+  socket.on("conversation:create", (payload: Conversation) => {
+    const userId = get(authStore).userId;
+
+    // participantA is always the creator of the conversation
+    const isCreator = payload.participantAId === userId ? true : false;
+
+    if (!isCreator) {
+      toast(
+        `A new conversation between you and ${payload.participantA.email} was started`,
+      );
+    }
+
+    conversationsStore.addConversation(payload);
   });
 }

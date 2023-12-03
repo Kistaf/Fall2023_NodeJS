@@ -22,6 +22,7 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "@rgossiaux/svelte-headlessui": "^2.0.0",
     "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.10",
     "firebase": "^10.6.0",

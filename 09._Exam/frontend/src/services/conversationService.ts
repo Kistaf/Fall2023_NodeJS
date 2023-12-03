@@ -11,8 +11,21 @@ const createConversationService = () => {
     return conversations;
   };
 
+  const createConversation = async (selected: string[]) => {
+    try {
+      const res = await api.conversations.createConversation(selected);
+      const data = await res.json();
+
+      if (!res.ok) return Promise.reject(data.error);
+      return Promise.resolve(data.success);
+    } catch (error) {
+      console.log(error);
+      return Promise.reject("Failed to create conversation");
+    }
+  };
   return {
     getConversations,
+    createConversation,
   };
 };
 

@@ -75,6 +75,13 @@ const createApi = () => {
     );
   };
 
+  const createConversation = async (selected: string[]) => {
+    return await fetch(`${import.meta.env.VITE_API_URL}/conversations`, {
+      ...apiOptions("POST"),
+      body: JSON.stringify({ selected }),
+    });
+  };
+
   const sendMessage = async (message: string, convId: string) => {
     return await fetch(`${import.meta.env.VITE_API_URL}/messages`, {
       ...apiOptions("POST"),
@@ -100,6 +107,7 @@ const createApi = () => {
     },
     conversations: {
       fetchConversations,
+      createConversation,
     },
     messages: {
       sendMessage,
