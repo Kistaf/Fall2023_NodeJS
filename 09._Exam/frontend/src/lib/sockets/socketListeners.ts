@@ -52,6 +52,8 @@ export function registerListeners(socket: Socket) {
       toast(
         `A new conversation between you and ${payload.participantA.email} was started`,
       );
+    } else {
+      conversationsStore.setSelectedConversation(payload)
     }
 
     conversationsStore.addConversation(payload);

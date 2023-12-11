@@ -4,13 +4,15 @@
     PopoverButton,
     PopoverPanel,
   } from "@rgossiaux/svelte-headlessui";
-  import { PenSquare, Check } from "lucide-svelte";
-  import { extractFriendKey } from "../../../../utils/utils";
-  import friendsStore from "../../../../stores/friendsStore";
-  import Button from "../../../general/Button.svelte";
-  import authStore from "../../../../stores/authStore";
+  import { PenSquare } from "lucide-svelte";
+  import { extractFriendKey } from "../../../../../utils/utils";
+  import friendsStore from "../../../../../stores/friendsStore";
+  import Button from "../../../../general/Button.svelte";
+  import authStore from "../../../../../stores/authStore";
   import toast from "svelte-french-toast";
-  import conversationService from "../../../../services/conversationService";
+  import conversationService from "../../../../../services/conversationService";
+  import type { FriendFull } from "../../../../../utils/types";
+  import FriendOption from "./FriendOption.svelte";
 
   const handleSelectFriend = (friendId: string) => {
     if (selectedForConversation.includes(friendId)) {
@@ -38,11 +40,24 @@
       });
   };
 
+  const setComboboxSearchFocus = () =>
+    setTimeout(() => document.getElementById("friends-search")?.focus(), 50);
+
+  // TODO: Make a generalized search store
+  let filtered: FriendFull[] = [];
+  let query: string = "";
+
+  $: filtered = $friendsStore.friends.filter((f) =>
+    f[extractFriendKey(f.senderId, $authStore.userId ?? "")].email
+      .toLowerCase()
+      .includes(query.toLowerCase()),
+  );
+
   let selectedForConversation: string[] = [];
 </script>
 
 <Popover class="relative">
-  <PopoverButton>
+  <PopoverButton on:click={setComboboxSearchFocus}>
     <PenSquare size={19} color={"white"} class="cursor-pointer" />
   </PopoverButton>
   <PopoverPanel
@@ -51,29 +66,33 @@
   >
     <div class="w-full border-b border-border">
       <input
+        bind:value={query}
+        id="friends-search"
         placeholder="Search friends..."
         class="w-full bg-primary rounded-tl-md rounded-tr-md border-b-2 border-border px-3 py-2 text-sm focus:outline-none text-white"
       />
     </div>
     <div class="flex flex-col text-message-username overflow-y-auto">
-      {#each $friendsStore.friends as friend}
-        <button
-          on:click={() =>
-            handleSelectFriend(
-              friend[extractFriendKey(friend.senderId, $authStore.userId ?? "")]
-                .id,
-            )}
-          class="px-3 py-3 cursor-pointer hover:bg-activeChats text-left flex flex-row items-center text-sm"
-        >
-          {#if selectedForConversation.includes(friend[extractFriendKey(friend.senderId, $authStore.userId ?? "")].id)}
-            <span class="pr-2">
-              <Check size={10} />
-            </span>
-          {/if}
-          {friend[extractFriendKey(friend.senderId, $authStore.userId ?? "")]
-            .email}
-        </button>
-      {/each}
+      {#if query.length === 0}
+        {#each $friendsStore.friends as friend}
+          <FriendOption
+            {handleSelectFriend}
+            {friend}
+            {selectedForConversation}
+          />
+        {/each}
+      {:else}
+        {#if filtered.length === 0}
+          <div class="text-sm px-3 py-3">No friends found</div>
+        {/if}
+        {#each filtered as friend}
+          <FriendOption
+            {handleSelectFriend}
+            {friend}
+            {selectedForConversation}
+          />
+        {/each}
+      {/if}
     </div>
     <Button
       disabled={selectedForConversation.length === 0}

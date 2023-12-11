@@ -4,8 +4,9 @@
   import type { Conversation as ConversationType } from "../../../../utils/types";
   import authStore from "../../../../stores/authStore";
   import { extractOtherPartKey } from "../../../../utils/utils";
-  import ConversationPopover from "./ConversationPopover.svelte";
+  import ConversationPopover from "./combobox/ConversationPopover.svelte";
 
+  // TODO: Make a generalized search store
   let filtered: ConversationType[] = [];
   let query: string = "";
 

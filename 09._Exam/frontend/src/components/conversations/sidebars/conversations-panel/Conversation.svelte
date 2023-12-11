@@ -1,11 +1,7 @@
 <script lang="ts">
   import authStore from "../../../../stores/authStore";
   import conversationsStore from "../../../../stores/conversationsStore";
-  import type {
-    Conversation,
-    KeyEventDiv,
-    Message,
-  } from "../../../../utils/types";
+  import type { Conversation, Message } from "../../../../utils/types";
   import { extractOtherPartKey } from "../../../../utils/utils";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";

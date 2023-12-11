@@ -1,0 +1,25 @@
+<script lang="ts">
+  import { Check } from "lucide-svelte";
+  import authStore from "../../../../../stores/authStore";
+  import type { FriendFull } from "../../../../../utils/types";
+  import { extractFriendKey } from "../../../../../utils/utils";
+
+  export let friend: FriendFull;
+  export let handleSelectFriend: (friendId: string) => void;
+  export let selectedForConversation: string[];
+</script>
+
+<button
+  on:click={() =>
+    handleSelectFriend(
+      friend[extractFriendKey(friend.senderId, $authStore.userId ?? "")].id,
+    )}
+  class="px-3 py-3 cursor-pointer hover:bg-activeChats text-left flex flex-row items-center text-sm"
+>
+  {#if selectedForConversation.includes(friend[extractFriendKey(friend.senderId, $authStore.userId ?? "")].id)}
+    <span class="pr-2">
+      <Check size={10} />
+    </span>
+  {/if}
+  {friend[extractFriendKey(friend.senderId, $authStore.userId ?? "")].email}
+</button>
