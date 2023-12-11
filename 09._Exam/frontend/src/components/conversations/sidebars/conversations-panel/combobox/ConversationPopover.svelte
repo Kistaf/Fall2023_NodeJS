@@ -74,10 +74,10 @@
     </div>
     <div class="flex flex-col text-message-username overflow-y-auto">
       {#if query.length === 0}
-        {#each $friendsStore.friends as friend}
+        {#each $friendsStore.friends as friendship}
           <FriendOption
             {handleSelectFriend}
-            {friend}
+            {friendship}
             {selectedForConversation}
           />
         {/each}
@@ -85,10 +85,10 @@
         {#if filtered.length === 0}
           <div class="text-sm px-3 py-3">No friends found</div>
         {/if}
-        {#each filtered as friend}
+        {#each filtered as friendship}
           <FriendOption
             {handleSelectFriend}
-            {friend}
+            {friendship}
             {selectedForConversation}
           />
         {/each}
