@@ -1,5 +1,8 @@
 <script lang="ts">
+  // import { socket } from "../../../../lib/sockets/sockets";
   import messageService from "../../../../services/messageService";
+  // import conversationsStore from "../../../../stores/conversationsStore";
+  // import authStore from "../../../../stores/authStore";
   import type { KeyEventInput } from "../../../../utils/types";
 
   const handleKeydown = (e: KeyEventInput) => {
@@ -8,6 +11,30 @@
     message = "";
   };
 
+  // const timeoutFunc = () => {
+  //   isTyping = false;
+  //   socket.emit("stoppedTyping", {
+  //     userId: $authStore.userId,
+  //     convId: $conversationsStore.selectedConversation?.id,
+  //   });
+  // };
+
+  // const handleTyping = () => {
+  //   if (isTyping === false) {
+  //     isTyping = true;
+  //     socket.emit("isTyping", {
+  //       userId: $authStore.userId,
+  //       convId: $conversationsStore.selectedConversation?.id,
+  //     });
+  //     timeout = setTimeout(timeoutFunc, 5000);
+  //   } else {
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(timeoutFunc, 5000);
+  //   }
+  // };
+
+  // let isTyping = false;
+  // let timeout: number;
   let message: string = "";
 </script>
 
