@@ -1,5 +1,11 @@
 import { relations } from "drizzle-orm";
-import { pgTable, varchar, timestamp, text } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  varchar,
+  timestamp,
+  text,
+  primaryKey,
+} from "drizzle-orm/pg-core";
 
 // Entities
 
@@ -14,12 +20,6 @@ export const conversations = pgTable("conversations", {
   id: varchar("id", { length: 64 }).primaryKey().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-  participantAId: varchar("participant_a_id")
-    .references(() => users.id)
-    .notNull(),
-  participantBId: varchar("participant_b_id")
-    .references(() => users.id)
-    .notNull(),
 });
 
 export const friends = pgTable("friends", {
@@ -48,11 +48,41 @@ export const messages = pgTable("messages", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const usersToConversation = pgTable(
+  "user_conversation",
+  {
+    userId: varchar("user_id")
+      .notNull()
+      .references(() => users.id),
+    convId: varchar("conv_id")
+      .notNull()
+      .references(() => conversations.id),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.convId, t.userId] }),
+  })
+);
+
 // Relations
+
+export const usersToConversationRelations = relations(
+  usersToConversation,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [usersToConversation.userId],
+      references: [users.id],
+    }),
+    conversation: one(conversations, {
+      fields: [usersToConversation.convId],
+      references: [conversations.id],
+    }),
+  })
+);
+
 export const usersRelations = relations(users, ({ many }) => ({
   friends: many(friends),
   messages: many(messages),
-  conversations: many(conversations),
+  usersToConversation: many(usersToConversation),
 }));
 
 export const messagesRelations = relations(messages, ({ one }) => ({
@@ -66,20 +96,10 @@ export const messagesRelations = relations(messages, ({ one }) => ({
   }),
 }));
 
-export const conversationsRelations = relations(
-  conversations,
-  ({ many, one }) => ({
-    messages: many(messages),
-    participantA: one(users, {
-      fields: [conversations.participantAId],
-      references: [users.id],
-    }),
-    participantB: one(users, {
-      fields: [conversations.participantBId],
-      references: [users.id],
-    }),
-  })
-);
+export const conversationsRelations = relations(conversations, ({ many }) => ({
+  messages: many(messages),
+  usersToConversation: many(usersToConversation),
+}));
 
 export const friendsRelations = relations(friends, ({ one }) => ({
   sender: one(users, {

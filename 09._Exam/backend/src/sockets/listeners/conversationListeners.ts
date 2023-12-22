@@ -1,21 +1,20 @@
 import type { Socket } from "socket.io";
-import messageRepository from "../../repositories/messageRepository.ts";
-import socketRepository from "../../repositories/socketRepository.ts";
 import { IO } from "../../types/general.ts";
 import { ChatMessagePayload } from "../../types/payload.ts";
 
 export default (socket: Socket, io: IO) => {
-  const sendMessage = async (payload: ChatMessagePayload) => {
-    // const receiver = socketRepository.connByUserId(payload.receiverId);
-    // const success = await messageRepository.saveMessage(payload);
-    // if (success) {
-    //   io.to(receiver.socketId).emit("chat:message:receive", {
-    //     publisherId: payload.publisherId,
-    //     message: payload.message,
-    //     publishedAt: payload.publishedAt,
-    //   });
-    // }
+  const isTyping = (payload: { convId: string }) => {
+    io.to(`conv-${payload.convId}`).emit("typing:ongoing", {
+      convId: payload.convId,
+    });
   };
 
-  socket.on("chat:message:sent", sendMessage);
+  const stoppedTyping = (payload: { convId: string }) => {
+    io.to(`conv-${payload.convId}`).emit("typing:stopped", {
+      convId: payload.convId,
+    });
+  };
+
+  socket.on("isTyping", isTyping);
+  socket.on("stoppedTyping", stoppedTyping);
 };

@@ -1,16 +1,6 @@
 import type { SocketConnection } from "../types/general.ts";
 
-type SocketRepository = {
-  connections: SocketConnection[];
-
-  allUsers: () => SocketConnection[];
-  connByUserId: (userId: string) => SocketConnection;
-  connBySocketId: (socketId: string) => SocketConnection;
-  addConnection: (data: SocketConnection) => SocketConnection;
-  removeConnection: (userId: string) => void;
-};
-
-const createSocketRepository = (): SocketRepository => {
+const createSocketRepository = () => {
   let connections: SocketConnection[] = [];
 
   const allUsers = () => connections;
@@ -18,14 +8,18 @@ const createSocketRepository = (): SocketRepository => {
   const connByUserId = (userId: string) =>
     connections.find((conn) => conn.userId === userId);
 
-  const connBySocketId = (socketId: string) =>
-    connections.find((conn) => conn.socketId === socketId);
-
   const addConnection = (data: SocketConnection) => {
     if (!connections.some((conn) => conn.socketId === data.socketId)) {
       connections.push(data);
       return data;
     }
+  };
+
+  const socketIdsFromUserIds = (userIds: string[]) => {
+    const socketIds = userIds
+      .map((userId) => connByUserId(userId)?.socketId)
+      .filter((entry) => entry !== undefined);
+    return socketIds;
   };
 
   const removeConnection = (socketId: string) => {
@@ -35,10 +29,10 @@ const createSocketRepository = (): SocketRepository => {
   return {
     connections,
     allUsers,
-    connBySocketId,
     connByUserId,
     removeConnection,
     addConnection,
+    socketIdsFromUserIds,
   };
 };
 

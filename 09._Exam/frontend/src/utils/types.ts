@@ -21,11 +21,12 @@ export type ConversationsStore = {
 
 export type Conversation = {
   id: string;
-  participantAId: string;
-  participantBId: string;
-  participantA: User;
-  participantB: User;
   messages: Message[];
+  usersToConversation: UsersToConversation[];
+};
+
+export type UsersToConversation = {
+  user: User;
 };
 
 export type Message = {

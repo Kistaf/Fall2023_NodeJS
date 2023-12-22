@@ -1,15 +1,54 @@
-import { and, eq, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "../lib/drizzle/db.ts";
-import { conversations } from "../lib/drizzle/schema.ts";
+import { conversations, usersToConversation } from "../lib/drizzle/schema.ts";
 import { nanoid } from "nanoid";
 
 const createConversationRepository = () => {
   const getConversationsByUserId = async (userId: string) => {
-    const convs = await db.query.conversations.findMany({
-      where: or(
-        eq(conversations.participantAId, userId),
-        eq(conversations.participantBId, userId)
-      ),
+    const queriedConversations = await db.query.usersToConversation.findMany({
+      where: eq(usersToConversation.userId, userId),
+      columns: {},
+      with: {
+        conversation: {
+          columns: {
+            id: true,
+          },
+          with: {
+            messages: {
+              with: {
+                author: {
+                  columns: {
+                    id: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+            usersToConversation: {
+              columns: {},
+              with: {
+                user: {
+                  columns: {
+                    id: true,
+                    email: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    const convs = queriedConversations.map((entry) => entry.conversation);
+    return convs;
+  };
+
+  const getConversationByConvId = async (convId: string) => {
+    const conv = await db.query.conversations.findFirst({
+      where: eq(conversations.id, convId),
+      columns: {
+        id: true,
+      },
       with: {
         messages: {
           with: {
@@ -21,94 +60,43 @@ const createConversationRepository = () => {
             },
           },
         },
-        participantA: {
-          columns: {
-            id: true,
-            email: true,
-          },
-        },
-        participantB: {
-          columns: {
-            id: true,
-            email: true,
-          },
-        },
-      },
-    });
-    return convs;
-  };
-
-  const getConversationByConvId = async (convId: string) => {
-    const conversation = await db.query.conversations.findFirst({
-      where: eq(conversations.id, convId),
-      with: {
-        messages: true,
-        participantA: {
-          columns: {
-            id: true,
-            email: true,
-          },
-        },
-        participantB: {
-          columns: {
-            id: true,
-            email: true,
+        usersToConversation: {
+          with: {
+            user: {
+              columns: {
+                id: true,
+                email: true,
+              },
+            },
           },
         },
       },
     });
-    return conversation;
+    return conv;
   };
 
-  const hasConversation = async (particpantA: string, participantB: string) => {
-    const conversation = await db.query.conversations.findFirst({
-      where: or(
-        and(
-          eq(conversations.participantAId, particpantA),
-          eq(conversations.participantBId, participantB)
-        ),
-        and(
-          eq(conversations.participantAId, participantB),
-          eq(conversations.participantBId, particpantA)
-        )
-      ),
-    });
-    if (conversation) return true;
-    return false;
-  };
-
-  const createConversation = async (
-    participantA: string,
-    participantB: string
-  ) => {
+  const createConversation = async (userIds: string[]) => {
     const conversation = await db
       .insert(conversations)
       .values({
         id: nanoid(),
-        participantAId: participantA,
-        participantBId: participantB,
       })
       .returning();
+
+    userIds.forEach(async (userId) => {
+      await db.insert(usersToConversation).values({
+        convId: conversation[0].id,
+        userId,
+      });
+    });
+
     return conversation[0].id;
   };
 
-  const deleteConversation = async (convId: string) => {
-    try {
-      const deletedConv = await db
-        .delete(conversations)
-        .where(eq(conversations.id, convId))
-        .returning();
-      return deletedConv[0];
-    } catch (error) {
-      return undefined;
-    }
-  };
   return {
     getConversationsByUserId,
     getConversationByConvId,
     createConversation,
-    hasConversation,
-    deleteConversation,
   };
 };
 

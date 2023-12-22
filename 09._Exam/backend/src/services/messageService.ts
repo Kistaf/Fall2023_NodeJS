@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import messageRepository from "../repositories/messageRepository.ts";
-import conversationRepository from "../repositories/conversationRepository.ts";
-import { findActiveReceivers } from "../utils/sockets.ts";
 import { io } from "../sockets/sockets.ts";
 
 const createMessageService = () => {
@@ -27,16 +25,8 @@ const createMessageService = () => {
     }
 
     const msg = await messageRepository.getMessageById(createdMessageId);
-    const conversation = await conversationRepository.getConversationByConvId(
-      convId
-    );
 
-    const receivers = findActiveReceivers([
-      conversation.participantAId,
-      conversation.participantBId,
-    ]);
-
-    io.to(receivers).emit("message:new", msg);
+    io.to(`conv-${convId}`).emit("message:new", msg);
   };
 
   return {

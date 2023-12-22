@@ -43,18 +43,18 @@ export function registerListeners(socket: Socket) {
   });
 
   socket.on("conversation:create", (payload: Conversation) => {
-    const userId = get(authStore).userId;
+    // const userId = get(authStore).userId;
 
     // participantA is always the creator of the conversation
-    const isCreator = payload.participantAId === userId ? true : false;
+    // const isCreator = payload.participantAId === userId ? true : false;
 
-    if (!isCreator) {
-      toast(
-        `A new conversation between you and ${payload.participantA.email} was started`,
-      );
-    } else {
-      conversationsStore.setSelectedConversation(payload)
-    }
+    // if (!isCreator) {
+    //   toast(
+    //     `A new conversation between you and ${payload.participantA.email} was started`,
+    //   );
+    // } else {
+    //   conversationsStore.setSelectedConversation(payload)
+    // }
 
     conversationsStore.addConversation(payload);
   });

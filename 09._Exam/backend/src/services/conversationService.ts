@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import conversationRepository from "../repositories/conversationRepository.ts";
-import { findActiveReceivers } from "../utils/sockets.ts";
 import { io } from "../sockets/sockets.ts";
+import socketRepository from "../repositories/socketRepository.ts";
 
 const createConversationService = () => {
   const getConversations = async (req: Request, res: Response) => {
@@ -20,43 +20,21 @@ const createConversationService = () => {
     const userId = req.userId;
     const selected: string[] = req.body.selected;
 
-    // Group functionality not yet implemented on the backend
-    // but support for it is added on the frontend
-    if (selected.length !== 1) {
-      return res.status(400).send({
-        error:
-          "You are currently only able to select one person for a conversation",
-      });
-    }
+    selected.push(userId);
 
-    const otherUserId = selected[0];
-
-    const hasConversationAlready = await conversationRepository.hasConversation(
-      userId,
-      otherUserId
-    );
-
-    if (hasConversationAlready) {
-      return res
-        .status(400)
-        .send({ error: "You already have a conversation with this person" });
-    }
-
-    const convId = await conversationRepository.createConversation(
-      userId,
-      otherUserId
-    );
+    const convId = await conversationRepository.createConversation(selected);
 
     const convFull = await conversationRepository.getConversationByConvId(
       convId
     );
 
-    const receivers = findActiveReceivers([
-      convFull.participantAId,
-      convFull.participantBId,
-    ]);
+    const connIds = socketRepository.socketIdsFromUserIds(selected);
 
-    io.to(receivers).emit("conversation:create", convFull);
+    connIds.forEach((connId) =>
+      io.sockets.sockets.get(connId).join(`conv-${convId}`)
+    );
+
+    io.to(`conv-${convId}`).emit("conversation:create", convFull);
 
     res.send({ success: "Successfully created conversation", data: convFull });
   };

@@ -11,11 +11,9 @@
   let query: string = "";
 
   $: filtered = $conversationsStore.conversations.filter((conv) =>
-    conv[
-      extractOtherPartKey(conv.participantAId, $authStore.userId ?? "")
-    ].email
-      .toLowerCase()
-      .includes(query.toLowerCase()),
+    conv.usersToConversation.some((entry) =>
+      entry.user.email.toLowerCase().includes(query.toLowerCase()),
+    ),
   );
 </script>
 

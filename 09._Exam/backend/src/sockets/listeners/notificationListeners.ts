@@ -1,5 +1,5 @@
 import type { Socket } from "socket.io";
-import { IO } from "../../types/general";
+import { IO } from "../../types/general.ts";
 
 export default (socket: Socket, io: IO) => {
   const sendFriendNotification = (payload: string) => {
