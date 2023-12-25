@@ -5,27 +5,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "rgb(var(--background))",
-        border: "rgb(var(--border))",
-        avatar: "rgb(var(--avatar))",
-        message: {
-          inputField: "rgb(var(--message-input-field))",
-          inputText: "rgb(var(--message-input-text))",
-          username: "rgb(var(--message-username))",
-          content: "rgb(var(--message-content))",
-          date: "rgb(var(--message-date))",
-        },
-        button: {
-          primary: "rgb(var(--button))",
-          "primary-hover": "rgb(var(--button-hover))",
-          "primary-dark": "rgb(var(--button-dark))",
-          "primary-dark-hover": "rgb(var(--button-dark-hover))",
-        },
-        sidebar: "rgb(var(--background-sidebar))",
-        activeChats: "rgb(var(--background-active-chats))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        avatar: "hsl(var(--avatar))",
+        input: "hsl(var(--input))",
+        border: "hsl(var(--border))",
         primary: {
-          DEFAULT: "rgb(var(--primary))",
-          foreground: "rgb(var(--primary-text))",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          foreground: "hsl(var(--sidebar-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
       },
     },

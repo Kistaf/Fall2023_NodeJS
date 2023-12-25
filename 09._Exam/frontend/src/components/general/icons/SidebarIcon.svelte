@@ -17,7 +17,9 @@
     <div
       class="absolute w-4 h-4 rounded-full bg-red-600/90 left-10 top-3 flex justify-center items-center"
     >
-      <div class=" text-white text-xs px-2 font-bold">{notifications}</div>
+      <div class="text-xs px-2 font-bold text-white">
+        {notifications}
+      </div>
     </div>
   {/if}
 </button>

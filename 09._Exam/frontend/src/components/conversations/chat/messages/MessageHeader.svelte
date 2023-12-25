@@ -16,10 +16,10 @@
 </script>
 
 <div class="flex flex-row items-center space-x-2">
-  <h3 class="text-message-username text-sm font-bold">
+  <h3 class="text-secondary-foreground text-sm font-bold">
     {publisherUsername}
   </h3>
-  <p class="text-xs text-message-date font-medium">
+  <p class="text-xs text-muted-foreground font-medium">
     {formattedDate()}
   </p>
 </div>

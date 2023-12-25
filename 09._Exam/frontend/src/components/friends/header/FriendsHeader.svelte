@@ -26,15 +26,15 @@
 <div class="mb-6">
   <div class="space-y-4 mb-6">
     <div>
-      <h1 class="uppercase text-message-username font-medium">Add Friend</h1>
-      <p class="text-sm text-message-content">
+      <h1 class="uppercase text-foreground font-medium">Add Friend</h1>
+      <p class="text-sm text-secondary-foreground">
         Add a new friend with their email
       </p>
     </div>
     <input
       bind:value={email}
       on:keydown={handleKeyDown}
-      class="w-full bg-message-inputField flex-none rounded-md text-message-inputText px-6 py-3 focus:outline-none placeholder:text-primary-foreground"
+      class="w-full bg-input flex-none rounded-md text-foreground px-6 py-3 focus:outline-none border border-border"
       placeholder="emilie@gmail.com"
     />
   </div>

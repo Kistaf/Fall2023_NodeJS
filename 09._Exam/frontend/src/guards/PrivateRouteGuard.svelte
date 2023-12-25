@@ -44,7 +44,7 @@
 </script>
 
 {#if !isChecking && $user.loggedIn}
-  <div class="dark bg-background w-screen h-screen flex flex-row">
+  <div class="bg-background w-screen h-screen flex flex-row">
     <NavSidebar />
     <div class="flex-1">
       <slot {registerFocus} />

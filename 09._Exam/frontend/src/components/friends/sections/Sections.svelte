@@ -73,7 +73,7 @@
           createdDate={friend.createdAt}
         >
           <MoreVertical
-            class="text-button-primary hover:text-button-primary-hover cursor-not-allowed"
+            class="text-primary hover:text-button-primary-hover cursor-not-allowed"
           />
         </FriendCard>
       {/each}

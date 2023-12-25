@@ -58,18 +58,18 @@
 
 <Popover class="relative">
   <PopoverButton on:click={setComboboxSearchFocus}>
-    <PenSquare size={19} color={"white"} class="cursor-pointer" />
+    <PenSquare size={19} class="cursor-pointer text-primary" />
   </PopoverButton>
   <PopoverPanel
     let:close
-    class="absolute z-10 w-[200px] h-auto max-h-[200px] bg-primary border-2 rounded-md border-border right-0 flex flex-col"
+    class="absolute z-10 w-[200px] h-auto max-h-[200px] bg-popover border rounded-md border-border right-0 flex flex-col"
   >
     <div class="w-full border-b border-border">
       <input
         bind:value={query}
         id="friends-search"
         placeholder="Search friends..."
-        class="w-full bg-primary rounded-tl-md rounded-tr-md border-b-2 border-border px-3 py-2 text-sm focus:outline-none text-white"
+        class="w-full bg-popover rounded-tl-md rounded-tr-md border-b-1 border-border px-3 py-2 text-sm text-popover-foreground focus:outline-none text-white"
       />
     </div>
     <div class="flex flex-col text-message-username overflow-y-auto">
@@ -83,7 +83,9 @@
         {/each}
       {:else}
         {#if filtered.length === 0}
-          <div class="text-sm px-3 py-3">No friends found</div>
+          <div class="text-sm px-3 py-3 text-popover-foreground">
+            No friends found
+          </div>
         {/if}
         {#each filtered as friendship}
           <FriendOption
@@ -96,7 +98,7 @@
     </div>
     <Button
       disabled={selectedForConversation.length === 0}
-      class={`rounded-br-md rounded-bl-md rounded-t-none text-sm ${
+      class={`bg-primary text-primary-foreground rounded-br-md rounded-bl-md rounded-t-none text-sm ${
         selectedForConversation.length === 0 ? "cursor-not-allowed" : null
       }`}
       on:click={() => handleCreateConversation(() => close(null))}

@@ -14,7 +14,7 @@
 
 <button
   on:click={() => handleSelectFriend(friend.id)}
-  class="px-3 py-3 cursor-pointer hover:bg-activeChats text-left flex flex-row items-center text-sm"
+  class="px-3 py-3 cursor-pointer hover:bg-sidebar text-left flex flex-row items-center text-sm text-popover-foreground"
 >
   {#if selectedForConversation.includes(friend.id)}
     <span class="pr-2">

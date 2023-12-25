@@ -19,29 +19,53 @@
     display: none;
   }
 
+  /*  Shadcn colorscheme  */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --sidebar: 216 10% 90%;
+    --sidebar-foreground: 0 0% 19%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --avatar: 0 0% 86%;
+  }
   .dark {
-    --background: 19, 19, 19;
-    --background-sidebar: 23, 23, 24;
-    --background-active-chats: 19, 19, 19;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
 
-    --border: 32, 32, 32;
-    --avatar: 39, 39, 42;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
 
-    --message-input-field: 39, 38, 38;
-    --message-input-text: 200, 200, 200;
-    --message-username: 175, 175, 175;
-    --message-date: 78, 77, 77;
-    --message-content: 126, 126, 126;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
 
-    --primary: 23, 23, 23;
-    --primary-text: 126, 126, 126;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --primary: 23, 23, 23;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
 
-    --button: 225, 225, 225;
-    --button-hover: 190, 190, 202;
+    --sidebar: 240 2% 9%;
+    --sidebar-foreground: 240 0% 100%;
 
-    --button-dark: 32, 32, 41;
-    --button-dark-hover: 20, 20, 22;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --avatar: 240 3% 9%;
   }
 }

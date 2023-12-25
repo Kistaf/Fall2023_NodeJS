@@ -22,8 +22,14 @@
   });
 </script>
 
-<div class="flex-1 overflow-y-auto hide-native-scrollbar" bind:this={element}>
-  <div class="w-full h-full flex flex-col-reverse justify-start">
+<div class="flex-1 overflow-y-scroll hide-native-scrollbar" bind:this={element}>
+  <div
+    class={`w-full h-full flex flex-col-reverse ${
+      ($conversationsStore.selectedConversation?.messages.length ?? 0) < 12
+        ? "justify-start"
+        : "justify-end"
+    }`}
+  >
     <div class="space-y-4">
       {#each $conversationsStore?.selectedConversation?.messages ?? [] as message}
         <Message {message} />

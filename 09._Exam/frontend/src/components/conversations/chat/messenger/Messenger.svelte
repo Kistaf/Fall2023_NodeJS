@@ -4,10 +4,14 @@
   import conversationsStore from "../../../../stores/conversationsStore";
   import type { KeyEventInput } from "../../../../utils/types";
 
-  const handleKeydown = (e: KeyEventInput) => {
+  const handleKeyUp = (e: KeyEventInput) => {
     if (e.code !== "Enter" || !message) return;
     messageService.sendMessage(message);
     message = "";
+    isTyping = false;
+    socket.emit("stoppedTyping", {
+      convId: $conversationsStore.selectedConversation?.id,
+    });
   };
 
   const timeoutFunc = () => {
@@ -48,16 +52,18 @@
   let convsActive: string[] = [];
 </script>
 
-<div class="justify-end">
-  <div class="flex flex-col space-y-2">
+<div class="h-[70px]">
+  <div class="h-full flex justify-end flex-col space-y-2">
     {#if selectedActive()}
-      <p class="text-xs text-message-content">Someone is typing...</p>
+      <p class="text-xs flex-1 text-secondary-foreground">
+        Someone is typing...
+      </p>
     {/if}
     <input
       bind:value={message}
-      on:keydown={handleKeydown}
-      on:keyup={handleTyping}
-      class="w-full h-[53px] bg-message-inputField flex-none rounded-lg text-message-inputText px-6 focus:outline-none placeholder:text-primary-foreground"
+      on:keyup={handleKeyUp}
+      on:keydown={handleTyping}
+      class="w-full h-[53px] bg-input border text-foreground border-border flex-none rounded-lg px-6 focus:outline-none"
       placeholder="Send message"
     />
   </div>

@@ -20,12 +20,12 @@
 <div class="flex flex-col w-[300px] h-screen flex-none px-5 py-5 space-y-6">
   <div class="space-y-2">
     <div class="flex flex-row justify-between items-center">
-      <h3 class="text-white text-xl font-bold">Active chats</h3>
+      <h3 class="text-foreground text-xl font-bold">Active chats</h3>
       <ConversationPopover />
     </div>
     <input
       bind:value={query}
-      class="w-full bg-message-inputField rounded-md border border-border px-3 py-2 text-sm focus:outline-none text-white"
+      class="w-full bg-input rounded-md border border-border px-3 py-2 text-sm focus:outline-none text-foreground"
       placeholder="Search active conversations..."
     />
   </div>
