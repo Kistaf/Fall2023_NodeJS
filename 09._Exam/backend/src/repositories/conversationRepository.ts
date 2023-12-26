@@ -12,6 +12,7 @@ const createConversationRepository = () => {
         conversation: {
           columns: {
             id: true,
+            convName: true,
           },
           with: {
             messages: {
@@ -22,6 +23,12 @@ const createConversationRepository = () => {
                     email: true,
                   },
                 },
+              },
+            },
+            creator: {
+              columns: {
+                id: true,
+                email: true,
               },
             },
             usersToConversation: {
@@ -48,6 +55,7 @@ const createConversationRepository = () => {
       where: eq(conversations.id, convId),
       columns: {
         id: true,
+        convName: true,
       },
       with: {
         messages: {
@@ -58,6 +66,12 @@ const createConversationRepository = () => {
                 email: true,
               },
             },
+          },
+        },
+        creator: {
+          columns: {
+            id: true,
+            email: true,
           },
         },
         usersToConversation: {
@@ -75,11 +89,23 @@ const createConversationRepository = () => {
     return conv;
   };
 
-  const createConversation = async (userIds: string[]) => {
+  const editConvName = async (convId: string, convName: string) => {
+    const conversation = await db
+      .update(conversations)
+      .set({
+        convName: convName ?? "",
+      })
+      .where(eq(conversations.id, convId))
+      .returning();
+    return conversation[0];
+  };
+
+  const createConversation = async (userIds: string[], creatorId: string) => {
     const conversation = await db
       .insert(conversations)
       .values({
         id: nanoid(),
+        creatorId,
       })
       .returning();
 
@@ -97,6 +123,7 @@ const createConversationRepository = () => {
     getConversationsByUserId,
     getConversationByConvId,
     createConversation,
+    editConvName,
   };
 };
 

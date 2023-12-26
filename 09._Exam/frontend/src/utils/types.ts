@@ -22,6 +22,8 @@ export type ConversationsStore = {
 export type Conversation = {
   id: string;
   messages: Message[];
+  creator: User;
+  convName: string;
   usersToConversation: UsersToConversation[];
 };
 

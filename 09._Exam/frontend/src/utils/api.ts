@@ -82,6 +82,16 @@ const createApi = () => {
     });
   };
 
+  const updateConversationTitle = async (convId: string, title: string) => {
+    return await fetch(
+      `${import.meta.env.VITE_API_URL}/conversations/${convId}`,
+      {
+        ...apiOptions("PATCH"),
+        body: JSON.stringify({ convName: title }),
+      },
+    );
+  };
+
   const sendMessage = async (message: string, convId: string) => {
     return await fetch(`${import.meta.env.VITE_API_URL}/messages`, {
       ...apiOptions("POST"),
@@ -108,6 +118,7 @@ const createApi = () => {
     conversations: {
       fetchConversations,
       createConversation,
+      updateConversationTitle,
     },
     messages: {
       sendMessage,

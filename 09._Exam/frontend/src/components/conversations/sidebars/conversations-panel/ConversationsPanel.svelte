@@ -2,19 +2,20 @@
   import conversationsStore from "../../../../stores/conversationsStore";
   import Conversation from "./Conversation.svelte";
   import type { Conversation as ConversationType } from "../../../../utils/types";
-  import authStore from "../../../../stores/authStore";
-  import { extractOtherPartKey } from "../../../../utils/utils";
   import ConversationPopover from "./combobox/ConversationPopover.svelte";
 
   // TODO: Make a generalized search store
   let filtered: ConversationType[] = [];
   let query: string = "";
 
-  $: filtered = $conversationsStore.conversations.filter((conv) =>
-    conv.usersToConversation.some((entry) =>
+  $: filtered = $conversationsStore.conversations.filter((conv) => {
+    if (conv.convName.toLowerCase().includes(query.toLowerCase())) {
+      return conv.convName;
+    }
+    return conv.usersToConversation.some((entry) =>
       entry.user.email.toLowerCase().includes(query.toLowerCase()),
-    ),
-  );
+    );
+  });
 </script>
 
 <div class="flex flex-col w-[300px] h-screen flex-none px-5 py-5 space-y-6">

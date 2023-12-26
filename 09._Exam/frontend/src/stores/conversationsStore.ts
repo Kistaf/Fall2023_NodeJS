@@ -2,13 +2,14 @@ import { writable } from "svelte/store";
 import type { Conversation, ConversationsStore, Message } from "../utils/types";
 
 const createConversationsStore = () => {
-  const { subscribe, update } = writable<ConversationsStore>({
+  const { subscribe, update, set } = writable<ConversationsStore>({
     conversations: [],
     selectedConversation: null,
   });
 
   return {
     subscribe,
+    set,
     setConversations: (conversations: Conversation[]) =>
       update((prev) => {
         return {
@@ -43,6 +44,19 @@ const createConversationsStore = () => {
         return {
           ...prev,
           selectedConversation: conversation,
+        };
+      }),
+
+    updateTitle: (convId: string, title: string) =>
+      update((prev) => {
+        const idx = prev.conversations.findIndex((conv) => conv.id === convId);
+
+        const convs = prev.conversations;
+        convs[idx].convName = title
+
+        return {
+          ...prev,
+          conversations: [...convs],
         };
       }),
   };

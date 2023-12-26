@@ -41,10 +41,14 @@
     <div class="w-10 h-10 bg-avatar rounded-full flex-none" />
     <div class="flex flex-col text-sm">
       <h3 class="text-primary line-clamp-1">
-        {conversationTitle(
-          conversation.usersToConversation,
-          $authStore.userId ?? "",
-        )}
+        {#if conversation.convName}
+          {conversation.convName}
+        {:else}
+          {conversationTitle(
+            conversation.usersToConversation,
+            $authStore.userId ?? "",
+          )}
+        {/if}
       </h3>
       <p class="text-muted-foreground line-clamp-1">
         {latestMessage()?.content ?? "No message"}

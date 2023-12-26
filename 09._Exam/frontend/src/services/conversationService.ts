@@ -19,13 +19,28 @@ const createConversationService = () => {
       if (!res.ok) return Promise.reject(data.error);
       return Promise.resolve(data.success);
     } catch (error) {
-      console.log(error);
       return Promise.reject("Failed to create conversation");
+    }
+  };
+
+  const updateConversationTitle = async (convId: string, title: string) => {
+    try {
+      const res = await api.conversations.updateConversationTitle(
+        convId,
+        title,
+      );
+      const data = await res.json();
+
+      if (!res.ok) return Promise.reject(data.error);
+      return Promise.resolve(data.success);
+    } catch (error) {
+      return Promise.reject("Failed to update title");
     }
   };
   return {
     getConversations,
     createConversation,
+    updateConversationTitle,
   };
 };
 

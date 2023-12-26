@@ -9,7 +9,15 @@ router.get("/conversations", isAuth, async (req: Request, res: Response) => {
 });
 
 router.post("/conversations", isAuth, async (req: Request, res: Response) => {
-  return await conversationService.createConversation(req, res)
-})
+  return await conversationService.createConversation(req, res);
+});
+
+router.patch(
+  "/conversations/:id",
+  isAuth,
+  async (req: Request, res: Response) => {
+    return await conversationService.editConvName(req, res);
+  }
+);
 
 export default router;

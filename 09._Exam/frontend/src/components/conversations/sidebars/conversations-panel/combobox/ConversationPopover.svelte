@@ -69,7 +69,7 @@
         bind:value={query}
         id="friends-search"
         placeholder="Search friends..."
-        class="w-full bg-popover rounded-tl-md rounded-tr-md border-b-1 border-border px-3 py-2 text-sm text-popover-foreground focus:outline-none text-white"
+        class="w-full bg-popover rounded-tl-md rounded-tr-md border-b-1 border-border px-3 py-2 text-sm text-popover-foreground focus:outline-none"
       />
     </div>
     <div class="flex flex-col text-message-username overflow-y-auto">

@@ -42,6 +42,13 @@ export function registerListeners(socket: Socket) {
     conversationsStore.addMessage(payload);
   });
 
+  socket.on(
+    "conversation:title:update",
+    (payload: { convId: string; title: string }) => {
+      conversationsStore.updateTitle(payload.convId, payload.title);
+    },
+  );
+
   socket.on("conversation:create", (payload: Conversation) => {
     // const userId = get(authStore).userId;
 

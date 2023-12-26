@@ -20,6 +20,10 @@ export const conversations = pgTable("conversations", {
   id: varchar("id", { length: 64 }).primaryKey().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  creatorId: varchar("creator_id", { length: 64 })
+    .references(() => users.id)
+    .notNull(),
+  convName: varchar("conv_name", { length: 64 }),
 });
 
 export const friends = pgTable("friends", {
@@ -82,6 +86,7 @@ export const usersToConversationRelations = relations(
 export const usersRelations = relations(users, ({ many }) => ({
   friends: many(friends),
   messages: many(messages),
+  createdConversations: many(conversations),
   usersToConversation: many(usersToConversation),
 }));
 
@@ -96,10 +101,17 @@ export const messagesRelations = relations(messages, ({ one }) => ({
   }),
 }));
 
-export const conversationsRelations = relations(conversations, ({ many }) => ({
-  messages: many(messages),
-  usersToConversation: many(usersToConversation),
-}));
+export const conversationsRelations = relations(
+  conversations,
+  ({ many, one }) => ({
+    messages: many(messages),
+    usersToConversation: many(usersToConversation),
+    creator: one(users, {
+      fields: [conversations.creatorId],
+      references: [users.id],
+    }),
+  })
+);
 
 export const friendsRelations = relations(friends, ({ one }) => ({
   sender: one(users, {
