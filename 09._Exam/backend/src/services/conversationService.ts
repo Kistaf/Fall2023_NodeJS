@@ -4,6 +4,19 @@ import { io } from "../sockets/sockets.ts";
 import socketRepository from "../repositories/socketRepository.ts";
 
 const createConversationService = () => {
+  const getConversation = async (req: Request, res: Response) => {
+    const convId = req.params.id;
+
+    const conversation = await conversationRepository.getConversationByConvId(
+      convId
+    );
+
+    res.send({
+      success: "Successfully queried conversation",
+      data: conversation,
+    });
+  };
+
   const getConversations = async (req: Request, res: Response) => {
     const userId = req.userId;
     const conversations = await conversationRepository.getConversationsByUserId(
@@ -96,6 +109,7 @@ const createConversationService = () => {
   };
 
   return {
+    getConversation,
     getConversations,
     createConversation,
     editConvName,

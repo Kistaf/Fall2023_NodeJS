@@ -57,7 +57,11 @@ export type Friend = {
 
 export type FriendFull = Friend & { sender: User; receiver: User };
 
-export type PageState = "conversations" | "friends" | "settings";
+export type PageState =
+  | "/dashboard/friends"
+  | "/dashboard/404"
+  | "/dashboard/conversations"
+  | `/dashboard/conversations/${string}`;
 
 export type KeyEventInput = KeyboardEvent & {
   currentTarget: EventTarget & HTMLInputElement;

@@ -46,13 +46,21 @@ const createConversationsStore = () => {
           selectedConversation: conversation,
         };
       }),
-
+    setSelectedConversationById: (convId: string) => {
+      update((prev) => {
+        const conv = prev.conversations.find((c) => c.id === convId);
+        return {
+          ...prev,
+          selectedConversation: conv ?? null,
+        };
+      });
+    },
     updateTitle: (convId: string, title: string) =>
       update((prev) => {
         const idx = prev.conversations.findIndex((conv) => conv.id === convId);
 
         const convs = prev.conversations;
-        convs[idx].convName = title
+        convs[idx].convName = title;
 
         return {
           ...prev,

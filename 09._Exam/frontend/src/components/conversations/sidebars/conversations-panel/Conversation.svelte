@@ -1,6 +1,7 @@
 <script lang="ts">
   import authStore from "../../../../stores/authStore";
   import conversationsStore from "../../../../stores/conversationsStore";
+  import sectionStore from "../../../../stores/sectionStore";
   import type { Conversation, Message } from "../../../../utils/types";
   import { conversationTitle } from "../../../../utils/utils";
   import dayjs from "dayjs";
@@ -17,9 +18,13 @@
   const handleSetSelectedConversation = () => {
     if ($conversationsStore.selectedConversation?.id === conversation.id) {
       conversationsStore.setSelectedConversation(null);
+      sectionStore.setPageAndNavigate(`/dashboard/conversations`);
       return;
     }
     conversationsStore.setSelectedConversation(conversation);
+    sectionStore.setPageAndNavigate(
+      `/dashboard/conversations/${conversation.id}`,
+    );
   };
 
   $: isSelected = () => {

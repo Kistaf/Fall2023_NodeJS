@@ -8,7 +8,6 @@
   import sectionStore from "../../stores/sectionStore";
   import Conversations from "../../components/conversations/Conversations.svelte";
   import Friends from "../../components/friends/Friends.svelte";
-  import Settings from "../../components/settings/Settings.svelte";
   import NotFound from "../../components/notFound/NotFound.svelte";
   import { onMount } from "svelte";
   import friendService from "../../services/friendService";
@@ -30,21 +29,36 @@
   });
 
   $: {
-    const searchParams = new URLSearchParams($location.search);
-    const pathname = $location.pathname.split("/")[1];
-    if (searchParams.has("section") && pathname === "chatting") {
-      const pageSection = searchParams.get("section") as PageState;
-      sectionStore.setSection(pageSection);
+    const pathname = $location.pathname.split("/").slice(1);
+    const page = $location.pathname as PageState;
+
+    if (pathname.includes("conversations")) {
+      if (pathname.length === 2) {
+        const curr = $conversationsStore.selectedConversation ?? null;
+        conversationsStore.setSelectedConversation(curr);
+        curr
+          ? sectionStore.setPageAndNavigate(
+              `/dashboard/conversations/${curr.id}`,
+            )
+          : sectionStore.setPage("/dashboard/conversations");
+      } else if (pathname.length > 2) {
+        conversationsStore.setSelectedConversationById(pathname[2]);
+        $conversationsStore.selectedConversation
+          ? sectionStore.setPage(
+              `/dashboard/conversations/${$conversationsStore.selectedConversation.id}`,
+            )
+          : sectionStore.setPage("/dashboard/conversations");
+      }
+    } else {
+      sectionStore.setPage(page);
     }
   }
 </script>
 
-{#if $sectionStore === "conversations"}
+{#if $sectionStore.includes("/dashboard/conversations")}
   <Conversations />
-{:else if $sectionStore === "friends"}
+{:else if $sectionStore === "/dashboard/friends"}
   <Friends />
-{:else if $sectionStore === "settings"}
-  <Settings />
-{:else}
+{:else if $sectionStore === "/dashboard/404"}
   <NotFound />
 {/if}

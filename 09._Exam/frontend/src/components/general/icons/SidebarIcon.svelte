@@ -8,9 +8,9 @@
 
 <button
   class={`flex justify-center hover:bg-background relative py-5 ${
-    section === $pageState ? "bg-background" : ""
+    $pageState.includes(section) ? "bg-background" : ""
   }`}
-  on:click={() => pageState.setSectionAndURL(section)}
+  on:click={() => pageState.setPageAndNavigate(section)}
 >
   <slot />
   {#if notifications}

@@ -8,6 +8,14 @@ router.get("/conversations", isAuth, async (req: Request, res: Response) => {
   return await conversationService.getConversations(req, res);
 });
 
+router.get(
+  "/conversations/:id",
+  isAuth,
+  async (req: Request, res: Response) => {
+    return await conversationService.getConversation(req, res);
+  }
+);
+
 router.post("/conversations", isAuth, async (req: Request, res: Response) => {
   return await conversationService.createConversation(req, res);
 });
