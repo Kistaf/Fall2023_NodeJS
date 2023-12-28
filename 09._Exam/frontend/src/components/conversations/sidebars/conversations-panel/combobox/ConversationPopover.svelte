@@ -7,7 +7,7 @@
   import { PenSquare } from "lucide-svelte";
   import { extractFriendKey } from "../../../../../utils/utils";
   import friendsStore from "../../../../../stores/friendsStore";
-  import Button from "../../../../general/Button.svelte";
+  import Button from "../../../../ui/Button.svelte";
   import authStore from "../../../../../stores/authStore";
   import toast from "svelte-french-toast";
   import conversationService from "../../../../../services/conversationService";

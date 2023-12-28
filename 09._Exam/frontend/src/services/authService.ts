@@ -26,7 +26,7 @@ const createAuthService = (): AuthService => {
         return result.user.getIdToken().then(async (idToken) => {
           const response = await api.auth.fetchSessionLogin(idToken);
           if (response.ok) {
-            return navigate("/dashboard/conversations", {
+            return navigate("/conversations", {
               replace: true,
             });
           }
@@ -51,7 +51,7 @@ const createAuthService = (): AuthService => {
       const res = await api.auth.fetchSessionLogin(idToken);
       if (!res.ok) return Promise.reject("Failed to signin");
 
-      navigate("/dashboard/conversations", {
+      navigate("/conversations", {
         replace: true,
       });
 

@@ -3,15 +3,29 @@
   import SignIn from "./pages/_non-authorized/SignIn.svelte";
   import SignUp from "./pages/_non-authorized/SignUp.svelte";
   import PrivateRoute from "./routes/auth/PrivateRoute.svelte";
-  import Dashboard from "./pages/_authorized/Dashboard.svelte";
   import { Toaster } from "svelte-french-toast";
+  import Conversations from "./pages/_authorized/Conversations.svelte";
+  import Conversation from "./pages/_authorized/Conversation.svelte";
+  import Friends from "./pages/_authorized/Friends.svelte";
+  import FriendsLoading from "./components/general/loading/FriendsLoading.svelte";
+  import ConversationsLoading from "./components/general/loading/ConversationsLoading.svelte";
 </script>
 
 <Router>
   <Toaster />
   <Route component={SignIn} />
   <Route path="/signup" component={SignUp} />
-  <PrivateRoute path="/dashboard/*">
-    <Dashboard />
+  <PrivateRoute path="/conversations" loading={ConversationsLoading}>
+    <Conversations />
+  </PrivateRoute>
+  <PrivateRoute
+    path="/conversations/:id"
+    loading={ConversationsLoading}
+    let:params
+  >
+    <Conversation id={params.id} />
+  </PrivateRoute>
+  <PrivateRoute path="/friends" loading={FriendsLoading}>
+    <Friends />
   </PrivateRoute>
 </Router>

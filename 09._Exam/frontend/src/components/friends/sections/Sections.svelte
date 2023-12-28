@@ -3,7 +3,7 @@
   import friendService from "../../../services/friendService";
   import authStore from "../../../stores/authStore";
   import friendsStore from "../../../stores/friendsStore";
-  import Button from "../../general/Button.svelte";
+  import Button from "../../ui/Button.svelte";
   import FriendCard from "../cards/FriendCard.svelte";
   import Section from "./Section.svelte";
   import toast from "svelte-french-toast";

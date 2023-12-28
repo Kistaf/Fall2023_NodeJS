@@ -1,4 +1,7 @@
-import type { User, UsersToConversation } from "./types";
+import type { ClassValue } from "clsx";
+import type { UsersToConversation } from "./types";
+import { twMerge } from "tailwind-merge";
+import clsx from "clsx";
 
 export const extractOtherPartKey = (participantAId: string, userId: string) =>
   participantAId === userId ? "participantB" : "participantA";
@@ -20,4 +23,8 @@ export const conversationTitle = (
     }
   });
   return joinedEntries;
+};
+
+export const cn = (...inputs: ClassValue[]) => {
+  return twMerge(clsx(inputs));
 };

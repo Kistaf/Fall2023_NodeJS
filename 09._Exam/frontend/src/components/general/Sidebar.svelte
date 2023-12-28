@@ -10,11 +10,11 @@
   class="w-[70px] h-screen bg-sidebar flex flex-col justify-between pt-8 pb-8 flex-none"
 >
   <div class="flex w-full flex-col justify-center text-sidebar-foreground">
-    <SidebarIcon section="/dashboard/conversations" notifications={2}>
+    <SidebarIcon section="/conversations" notifications={2}>
       <MessagesSquare size={24} />
     </SidebarIcon>
     <SidebarIcon
-      section="/dashboard/friends"
+      section="/friends"
       notifications={$friendsStore.received.length}
     >
       <User size={24} />

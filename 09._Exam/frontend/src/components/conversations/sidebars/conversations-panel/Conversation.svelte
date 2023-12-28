@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { useNavigate } from "svelte-navigator";
   import authStore from "../../../../stores/authStore";
   import conversationsStore from "../../../../stores/conversationsStore";
   import sectionStore from "../../../../stores/sectionStore";
@@ -7,6 +8,8 @@
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   dayjs.extend(relativeTime);
+
+  const navigate = useNavigate();
 
   $: latestMessage = (): Message | undefined => {
     if (conversation.messages.length === 0) return undefined;
@@ -18,13 +21,11 @@
   const handleSetSelectedConversation = () => {
     if ($conversationsStore.selectedConversation?.id === conversation.id) {
       conversationsStore.setSelectedConversation(null);
-      sectionStore.setPageAndNavigate(`/dashboard/conversations`);
+      navigate("/conversations");
       return;
     }
     conversationsStore.setSelectedConversation(conversation);
-    sectionStore.setPageAndNavigate(
-      `/dashboard/conversations/${conversation.id}`,
-    );
+    navigate(`/conversations/${conversation.id}`);
   };
 
   $: isSelected = () => {
