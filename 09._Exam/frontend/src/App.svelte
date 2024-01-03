@@ -7,8 +7,8 @@
   import Conversations from "./pages/_authorized/Conversations.svelte";
   import Conversation from "./pages/_authorized/Conversation.svelte";
   import Friends from "./pages/_authorized/Friends.svelte";
-  import FriendsLoading from "./components/general/loading/FriendsLoading.svelte";
-  import ConversationsLoading from "./components/general/loading/ConversationsLoading.svelte";
+  import FriendsLoading from "./components/loading/FriendsLoading.svelte";
+  import ConversationsLoading from "./components/loading/ConversationsLoading.svelte";
 </script>
 
 <Router>

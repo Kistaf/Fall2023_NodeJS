@@ -1,5 +1,5 @@
 <script>
-  import Skeleton from "../../ui/Skeleton.svelte";
+  import Skeleton from "../ui/Skeleton.svelte";
 </script>
 
 <div class="flex flex-row w-full h-screen">

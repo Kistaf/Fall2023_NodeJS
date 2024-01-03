@@ -1,5 +1,5 @@
 <script>
-  import Skeleton from "../../ui/Skeleton.svelte";
+  import Skeleton from "../ui/Skeleton.svelte";
 </script>
 
 <div class="w-full h-screen px-16 py-12 overflow-y-auto">

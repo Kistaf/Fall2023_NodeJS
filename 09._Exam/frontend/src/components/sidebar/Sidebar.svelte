@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { MessagesSquare, User, Settings, LogOut } from "lucide-svelte";
-  import SidebarIcon from "./icons/SidebarIcon.svelte";
+  import { MessagesSquare, User, LogOut } from "lucide-svelte";
+  import SidebarIcon from "./buttons/SidebarIcon.svelte";
   import authService from "../../services/authService";
   import friendsStore from "../../stores/friendsStore";
-  import ThemeSwitcher from "./ThemeSwitcher.svelte";
+  import ThemeSwitcher from "./buttons/ThemeSwitcher.svelte";
 </script>
 
 <div

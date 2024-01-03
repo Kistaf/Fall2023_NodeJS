@@ -3,7 +3,7 @@
   import { onMount, type ComponentType } from "svelte";
   import user from "../stores/authStore";
   import api from "../utils/api";
-  import NavSidebar from "../components/general/Sidebar.svelte";
+  import NavSidebar from "../components/sidebar/Sidebar.svelte";
   import friendService from "../services/friendService";
   import type { Conversation, FriendsStore } from "../utils/types";
   import friendsStore from "../stores/friendsStore";

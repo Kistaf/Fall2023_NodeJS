@@ -1,7 +1,7 @@
 <script lang="ts">
   import conversationsStore from "../../../../stores/conversationsStore";
   import authStore from "../../../../stores/authStore";
-  import InPlaceEdit from "../../../general/InPlaceEdit.svelte";
+  import InPlaceEdit from "../../InPlaceEdit.svelte";
   import toast from "svelte-french-toast";
   import conversationService from "../../../../services/conversationService";
 
