@@ -5,3 +5,7 @@ export const admin = firebaseAdmin.initializeApp({
     "./src/lib/firebase/service_account.json"
   ),
 });
+
+export const bucket = admin
+  .storage()
+  .bucket(process.env.FIREBASE_STORAGEBUCKET);

@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { admin } from "../lib/firebase/firebase.ts";
 import userRepository from "../repositories/userRepository.ts";
 import { nanoid } from "nanoid";
+import { generateUserAvatarBlob, saveUserAvatar } from "./avatarService.ts";
 
 export type AuthService = {
   registerCredentials: (request: Request, response: Response) => void;
@@ -24,9 +25,13 @@ const createAuthService = (): AuthService => {
         password: password,
       });
 
+      const avatarBlob = await generateUserAvatarBlob(userRecord.uid);
+      const avatarURL = await saveUserAvatar(avatarBlob, userRecord.uid);
+
       const user = await userRepository.createUser(
         userRecord.uid,
-        userRecord.email
+        userRecord.email,
+        avatarURL
       );
 
       if (!user) {

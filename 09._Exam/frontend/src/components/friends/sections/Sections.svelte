@@ -32,7 +32,7 @@
   {#if $friendsStore.received.length > 0}
     <Section sectionName="Received friend requests">
       {#each $friendsStore.received as friend}
-        <FriendCard email={friend.sender.email} createdDate={friend.createdAt}>
+        <FriendCard {friend} email={friend.sender.email}>
           <Button on:click={() => handleAcceptFriendRequest(friend.id)}>
             Accept
           </Button>
@@ -50,10 +50,7 @@
   {#if $friendsStore.sent.length > 0}
     <Section sectionName="Sent friend requests">
       {#each $friendsStore.sent as friend}
-        <FriendCard
-          email={friend.receiver.email}
-          createdDate={friend.createdAt}
-        >
+        <FriendCard {friend} email={friend.receiver.email}>
           <Button
             intent={"action"}
             on:click={() => handleDeleteFriendRequest(friend.id)}
@@ -69,8 +66,8 @@
     <Section sectionName="Friends">
       {#each $friendsStore.friends as friend}
         <FriendCard
+          {friend}
           email={friend[filterSenderReceiver(friend.senderId)].email}
-          createdDate={friend.createdAt}
         >
           <MoreVertical
             class="text-primary hover:text-button-primary-hover cursor-not-allowed"

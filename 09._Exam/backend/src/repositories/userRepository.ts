@@ -10,7 +10,8 @@ import { eq } from "drizzle-orm";
 const createUserRepository = () => {
   const createUser = async (
     uid: string,
-    email: string
+    email: string,
+    avatarURL: string
   ): Promise<User | undefined> => {
     try {
       const user = await db
@@ -18,6 +19,7 @@ const createUserRepository = () => {
         .values({
           id: uid,
           email: email,
+          avatarURL,
         })
         .returning();
       if (!user) return undefined;

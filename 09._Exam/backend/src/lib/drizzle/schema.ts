@@ -14,6 +14,7 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 32 }).unique().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  avatarURL: varchar("avatar_url").notNull(),
 });
 
 export const conversations = pgTable("conversations", {

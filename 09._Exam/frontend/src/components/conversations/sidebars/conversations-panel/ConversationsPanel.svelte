@@ -9,8 +9,10 @@
   let query: string = "";
 
   $: filtered = $conversationsStore.conversations.filter((conv) => {
-    if (conv.convName.toLowerCase().includes(query.toLowerCase())) {
-      return conv.convName;
+    if (conv.convName) {
+      if (conv.convName.toLowerCase().includes(query.toLowerCase())) {
+        return conv.convName;
+      }
     }
     return conv.usersToConversation.some((entry) =>
       entry.user.email.toLowerCase().includes(query.toLowerCase()),

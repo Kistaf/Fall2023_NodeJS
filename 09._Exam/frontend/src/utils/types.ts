@@ -44,6 +44,7 @@ export type Message = {
 export type User = {
   id: string;
   email: string;
+  avatarURL: string;
 };
 
 export type Friend = {

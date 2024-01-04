@@ -29,6 +29,7 @@ const createMessageRepository = () => {
           columns: {
             id: true,
             email: true,
+            avatarURL: true,
           },
         },
       },

@@ -7,6 +7,7 @@
   import { conversationTitle } from "../../../../utils/utils";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
+  import Avatar from "../../../ui/Avatar.svelte";
   dayjs.extend(relativeTime);
 
   const navigate = useNavigate();
@@ -44,7 +45,10 @@
   on:click={handleSetSelectedConversation}
 >
   <div class="flex flex-row items-center space-x-2">
-    <div class="w-10 h-10 bg-avatar rounded-full flex-none" />
+    <Avatar
+      url={conversation.usersToConversation[0].user.avatarURL}
+      class="flex-none"
+    />
     <div class="flex flex-col text-sm">
       <h3 class="text-primary line-clamp-1">
         {#if conversation.convName}

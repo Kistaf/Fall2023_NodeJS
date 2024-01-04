@@ -10,6 +10,8 @@ declare global {
       ALLOWED_URL: string;
       PORT: string;
       REDIS_URL: string;
+      FIREBASE_STORAGEBUCKET: string;
+      FIREBASE_STORAGEURL: string;
     }
   }
 }

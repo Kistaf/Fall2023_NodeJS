@@ -12,6 +12,7 @@ export type User = {
   email: string;
   createdAt: Date;
   updatedAt: Date;
+  avatarURL: string;
 };
 
 export type Message = {

@@ -15,12 +15,14 @@ const createFriendRepository = () => {
               columns: {
                 id: true,
                 email: true,
+                avatarURL: true,
               },
             },
             receiver: {
               columns: {
                 id: true,
                 email: true,
+                avatarURL: true,
               },
             },
           },

@@ -21,6 +21,7 @@ const createConversationRepository = () => {
                   columns: {
                     id: true,
                     email: true,
+                    avatarURL: true,
                   },
                 },
               },
@@ -29,6 +30,7 @@ const createConversationRepository = () => {
               columns: {
                 id: true,
                 email: true,
+                avatarURL: true,
               },
             },
             usersToConversation: {
@@ -38,6 +40,7 @@ const createConversationRepository = () => {
                   columns: {
                     id: true,
                     email: true,
+                    avatarURL: true,
                   },
                 },
               },
@@ -64,6 +67,7 @@ const createConversationRepository = () => {
               columns: {
                 id: true,
                 email: true,
+                avatarURL: true,
               },
             },
           },
@@ -72,6 +76,7 @@ const createConversationRepository = () => {
           columns: {
             id: true,
             email: true,
+            avatarURL: true,
           },
         },
         usersToConversation: {
@@ -80,6 +85,7 @@ const createConversationRepository = () => {
               columns: {
                 id: true,
                 email: true,
+                avatarURL: true,
               },
             },
           },
