@@ -34,8 +34,16 @@
   const isLastMessage = () => {
     const messages = $conversationsStore.selectedConversation?.messages;
     const lastMessage = messages?.at(messages.length - 1);
-    if (message.id === lastMessage?.id) return "-top-[5.2rem]";
-    return "top-4";
+    if (message.id !== lastMessage?.id) return "top-4";
+
+    if (
+      $authStore.userId === message.authorId ||
+      $conversationsStore.selectedConversation?.creator.id === $authStore.userId
+    ) {
+      return "-top-[5.2rem]";
+    }
+
+    return "-top-[2.9rem]";
   };
 
   const toggleDeleteDialog = () => (openDeleteDialog = !openDeleteDialog);
