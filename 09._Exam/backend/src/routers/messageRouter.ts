@@ -8,4 +8,8 @@ router.post("/messages", isAuth, async (req: Request, res: Response) => {
   return messageService.saveMessage(req, res);
 });
 
+router.delete("/messages/:id", isAuth, async (req: Request, res: Response) => {
+  return messageService.deleteMessage(req, res);
+});
+
 export default router;

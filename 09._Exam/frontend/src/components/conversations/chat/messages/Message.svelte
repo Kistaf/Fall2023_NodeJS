@@ -4,6 +4,7 @@
   import MessageBody from "./MessageBody.svelte";
   import MessageContent from "./MessageContent.svelte";
   import MessageHeader from "./MessageHeader.svelte";
+  import MessageOptions from "./MessageOptions.svelte";
 
   const handleMouseEnter = () => (open = true);
   const handleMouseLeave = () => (open = false);
@@ -17,7 +18,7 @@
   tabindex="0"
   on:mouseenter={handleMouseEnter}
   on:mouseleave={handleMouseLeave}
-  class="flex flex-row w-full space-x-4 hover:bg-secondary hover:rounded-md"
+  class="flex flex-row w-full space-x-4 hover:bg-secondary hover:rounded-md relative"
 >
   <Avatar url={message.author.avatarURL} />
   <MessageBody>
@@ -26,8 +27,8 @@
       publisherUsername={message.author.email}
     />
     <MessageContent content={message.content} />
-    {#if open}
-      <div>Hello world</div>
-    {/if}
   </MessageBody>
+  {#if open}
+    <MessageOptions {message} />
+  {/if}
 </div>

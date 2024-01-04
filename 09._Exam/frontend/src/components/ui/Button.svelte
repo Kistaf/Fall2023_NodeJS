@@ -6,10 +6,8 @@
   const button = cva("transition-colors duration-200 rounded-md", {
     variants: {
       intent: {
-        default:
-          "text-primary bg-button-primary hover:bg-button-primary-hover ",
-        action:
-          "text-white bg-button-primary-dark hover:bg-button-primary-dark-hover",
+        default: "text-primary-foreground bg-primary hover:bg-primary/80",
+        action: "text-secondary-foreground bg-secondary hover:bg-secondary/80",
       },
       size: {
         default: "px-3 py-1",

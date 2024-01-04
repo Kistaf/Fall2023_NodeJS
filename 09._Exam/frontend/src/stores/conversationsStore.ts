@@ -39,6 +39,23 @@ const createConversationsStore = () => {
         };
       });
     },
+    deleteMessage: (message: Message) => {
+      update((prev) => {
+        const idx = prev.conversations.findIndex(
+          (conv) => conv.id === message.conversationId,
+        );
+
+        const convs = prev.conversations;
+        convs[idx].messages = convs[idx].messages.filter(
+          (msg) => msg.id !== message.id,
+        );
+
+        return {
+          ...prev,
+          conversations: [...convs],
+        };
+      });
+    },
     setSelectedConversation: (conversation: Conversation | null) =>
       update((prev) => {
         return {

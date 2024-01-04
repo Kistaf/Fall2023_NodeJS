@@ -109,6 +109,15 @@ const createApi = () => {
     });
   };
 
+  const deleteMessage = async (messageId: string) => {
+    return await fetch(
+      `${import.meta.env.VITE_API_URL}/messages/${messageId}`,
+      {
+        ...apiOptions("DELETE"),
+      },
+    );
+  };
+
   return {
     auth: {
       signInCredentials,
@@ -130,6 +139,7 @@ const createApi = () => {
     },
     messages: {
       sendMessage,
+      deleteMessage,
     },
   };
 };

@@ -10,7 +10,7 @@ import authStore from "../../stores/authStore";
 export function registerListeners(socket: Socket) {
   socket.on("friend:request", (payload: FriendFull) => {
     const currentSection = get(sectionStore);
-    if (currentSection !== "friends") {
+    if (currentSection !== "/friends") {
       toast("New friend request", {
         icon: "🙋🏼‍♂️",
       });
@@ -40,6 +40,10 @@ export function registerListeners(socket: Socket) {
     }
 
     conversationsStore.addMessage(payload);
+  });
+
+  socket.on("message:delete", (payload: Message) => {
+    conversationsStore.deleteMessage(payload);
   });
 
   socket.on(

@@ -38,9 +38,19 @@ const createMessageRepository = () => {
     return message;
   };
 
+  const deleteMessage = async (id: string) => {
+    const deletedMessage = await db
+      .delete(messages)
+      .where(eq(messages.id, id))
+      .returning();
+
+    return deletedMessage[0];
+  };
+
   return {
     saveMessage,
     getMessageById,
+    deleteMessage,
   };
 };
 
